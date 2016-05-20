@@ -1,1 +1,3 @@
-# .Dot
+# Dotfiles
+
+nuff said

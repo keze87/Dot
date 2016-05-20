@@ -1,0 +1,218 @@
+# i3 config file (v4)
+#
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+set $mod Mod4
+
+# Foco
+set $color #4080FB
+
+# Sin Foco
+set $color2 #454749
+
+# Foco en Espacio sin foco
+set $color3 #353638
+
+# Texto
+set $blanco #ffffff
+
+# Inactivo
+set $negro #000000
+
+# Urgente
+set $rojo #900000
+
+# Fondo
+set $transparente #00000000
+
+font pango:Cantarell Regular 9
+
+smart_gaps on
+smart_borders on
+
+gaps inner 4
+gaps outer 4
+
+for_window [class="^.*"] border pixel 1
+for_window [class="Main.py"] floating enable
+for_window [class="wplotsp.exe"] floating enable
+for_window [title="Steam Keyboard"] floating enable
+for_window [title="Nitrogen"] floating enable
+#for_window [class="Viewnior"] floating enable
+#for_window [class="mpv"] floating enable
+#for_window [class="Onboard"] floating enable
+#for_window [class="Onboard"] border none
+#for_window [class="qmmp"] floating enable
+#for_window [class="org-geogebra-desktop-GeoGebra3D"] border none
+#for_window [class="sun-awt-X11-XFramePeer"] border none
+#for_window [class="Lariza"] border none
+
+exec --no-startup-id sh /home/keze/.mouse.sh
+exec --no-startup-id guake
+exec --no-startup-id compton --config /home/keze/.compton.conf
+exec --no-startup-id /usr/lib/mate-polkit/polkit-mate-authentication-agent-1
+exec --no-startup-id nitrogen --restore
+exec --no-startup-id numlockx
+exec --no-startup-id mate-volume-control-applet
+#exec --no-startup-id volumeicon
+
+bindsym Mod1+Up exec --no-startup-id "amixer set Master 5%+"
+bindsym Mod1+Down exec --no-startup-id "amixer set Master 5%-"
+
+bindsym $mod+w exec --no-startup-id chromium
+bindsym Mod1+w exec --no-startup-id firefox
+bindsym $mod+n exec --no-startup-id sh .config/i3/invert.sh
+bindsym $mod+l exec --no-startup-id sh .config/i3/lariza.sh
+bindsym $mod+e exec --no-startup-id pcmanfm
+bindsym $mod+g exec --no-startup-id geany
+bindsym $mod+q exec --no-startup-id sh .config/i3/apagar.sh
+bindsym $mod+t exec --no-startup-id compton-trans `zenity --scale --text="Cuan opaco?" --value=80`
+bindsym $mod+o exec --no-startup-id setxkbmap latam && killall kvkbd || kvkbd
+bindsym $mod+s exec --no-startup-id spotify
+bindsym Mod1+Tab exec --no-startup-id sh .config/i3/tab.sh
+bindsym F4 exec --no-startup-id guake --show
+bindsym $mod+F4 exec --no-startup-id guake --hide
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier Mod1
+
+# start a terminal
+bindsym $mod+Return exec terminator
+
+# kill focused window
+bindsym Mod1+F4 kill
+
+# start dmenu (a program launcher)
+bindsym Mod1+d exec --no-startup-id dmenu_run
+# There also is the (new) i3-dmenu-desktop which only displays applications
+# shipping a .desktop file. It is a wrapper around dmenu, so you need that
+# installed.
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+# change focus
+bindsym $mod+Shift+Left focus left
+bindsym $mod+Shift+Down focus down
+bindsym $mod+Shift+Up focus up
+bindsym $mod+Shift+Right focus right
+
+# move focused window
+bindsym $mod+Left move left
+bindsym $mod+Down move down
+bindsym $mod+Up move up
+bindsym $mod+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+#bindsym $mod+s layout stacking
+bindsym $mod+z layout tabbed
+bindsym $mod+x layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Vieja queres salir?' -b 'Me puse pillo' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+		# These bindings trigger as soon as you enter the resize mode
+
+		# Pressing left will shrink the window’s width.
+		# Pressing right will grow the window’s width.
+		# Pressing up will shrink the window’s height.
+		# Pressing down will grow the window’s height.
+		bindsym j resize shrink width 10 px or 10 ppt
+		bindsym k resize grow height 10 px or 10 ppt
+		bindsym l resize shrink height 10 px or 10 ppt
+		bindsym ntilde resize grow width 10 px or 10 ppt
+
+		# same bindings, but for the arrow keys
+		bindsym Left resize shrink width 10 px or 10 ppt
+		bindsym Down resize grow height 10 px or 10 ppt
+		bindsym Up resize shrink height 10 px or 10 ppt
+		bindsym Right resize grow width 10 px or 10 ppt
+
+		# back to normal: Enter or Escape
+		bindsym Return mode "default"
+		bindsym Escape mode "default"
+
+}
+
+bindsym $mod+r mode "resize"
+
+# Start i3bar to display a workspace bar
+
+bindsym $mod+b bar mode toggle
+
+bar {
+
+	i3bar_command i3bar -t
+	position top
+	status_command sh .config/i3/i3status.sh "$color"
+	separator_symbol "|"
+	font pango:DejaVu Sans Mono Regular 9
+
+	bindsym button3 exec --no-startup-id sh ~/.config/i3/work.sh
+	bindsym button2 kill
+
+	colors {
+		separator $color
+		background $transparente
+		statusline $blanco
+		focused_workspace $color $color $blanco
+		active_workspace $color2 $color2 $blanco
+		inactive_workspace $transparente $transparente $blanco
+		urgent_workspace $rojo $rojo $blanco
+	}
+
+}
+
+client.focused $color $color $blanco $color
+client.focused_inactive $color3 $color3 $blanco $color2
+client.unfocused $color2 $color2 $blanco $color2
+client.urgent $rojo $rojo $blanco $rojo

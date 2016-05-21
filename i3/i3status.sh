@@ -54,8 +54,6 @@ do
 
 		nvidia=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
 
-		wifi=$(iwgetid -r)
-
 		disco=$(df | grep sdb1 | awk '{print $5}')
 		disco2=$(df | grep sda1 | awk '{print $5}')
 
@@ -133,9 +131,9 @@ do
 			echo -e "{
 						\"color\":\"#FFFFFF\","
 
-			if [[ $wifi ]]; then
+			if [[ $timesdown == 0 ]]; then
 
-				echo -e "\"full_text\":\" WIFI: `sh .config/i3/speed.sh "wlp7s0"` (${wifi}) ($timesdown) \"
+				echo -e "\"full_text\":\" NET: `sh .config/i3/speed.sh "eno1"` \"
 					 },"
 
 			else
@@ -148,16 +146,9 @@ do
 
 		else
 
-			echo -e "{
-						\"color\":\"#FF0000\",
-						\"full_text\":\" Sin Internet ($timesdown) \"
-					 },"
-
 			time=$(awk '{print $0/60;}' /proc/uptime)
 
 			if [[ ${time%.*} > 1 ]]; then
-
-				#( sh -c "nmcli dev wifi connect Keze password #nerfed > /dev/null &" & )  #nerfed
 
 				if [[ $up ]]; then
 
@@ -170,6 +161,11 @@ do
 				fi
 
 			fi
+
+			echo -e "{
+						\"color\":\"#FF0000\",
+						\"full_text\":\" Sin Internet ($timesdown) \"
+					 },"
 
 		fi
 

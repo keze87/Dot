@@ -3,7 +3,7 @@
 if ps -fC compton | grep -q invert; then
 
 	pkill compton
-	compton --config /home/keze/.compton.conf
+	compton --config ~/.compton.conf
 
 else
 
@@ -13,6 +13,6 @@ else
 	CLASS=$(xprop -id "$ID"  | grep "WM_CLASS" | awk '{print $4}')
 	COND="class_g=${CLASS}"
 
-	compton --config /home/keze/.compton.conf --invert-color-include "$COND" &
+	compton --config ~/.compton.conf --invert-color-include "$COND" &
 
 fi

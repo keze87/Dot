@@ -20,7 +20,8 @@ source $ZSH/oh-my-zsh.sh
 alias col='colorize_via_pygmentize'
 alias cpu='watch grep \"cpu MHz\" /proc/cpuinfo'
 alias actualizar='pacaur -Syu'
-alias dpi='cd && sudo sh .dpi.sh'
+alias dpi='sudo sh ~/.dpi.sh'
+alias yt-aria='sh ~/.yt.sh'
 
 alias logcat='
 	while true; do

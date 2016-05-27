@@ -8,13 +8,18 @@ mkdir $olddir
 ### Home ###
 
 cd $dir/Home/
-files="compton.conf zshrc dpi.sh mouse.sh pop.sh conkyrc"
+files="compton.conf zshrc dpi.sh mouse.sh pop.sh conkyrc yt.sh"
 
 mkdir $olddir/Home
 
 for file in $files; do
 
-	mv ~/.$file $olddir/Home/
+	if [ -f ~/.$file ]; then
+
+		mv ~/.$file $olddir/Home/
+
+	fi
+
 	ln -s $dir/Home/$file ~/.$file
 
 done

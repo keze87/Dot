@@ -9,11 +9,11 @@ if [[ $1 ]]; then s=$1; else s="eno1"; fi
 # path to store the old results in
 path="/dev/shm/measure-net-speed"
 
-# grabbing data for each adapter. 
+# grabbing data for each adapter.
 # You can find the paths to your adapters using
-#  find /sys/devices -name statistics
+# find /sys/devices -name statistics
 # If you have more (or less) than two adapters, simply adjust the script here
-# and in the next block. 
+# and in the next block.
 
 wlan0="/sys/class/net/$s/statistics"
 read wlan0_rx < "${wlan0}/rx_bytes"

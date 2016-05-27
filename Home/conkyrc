@@ -104,10 +104,10 @@ ${alignr}$font < ${tcp_portmon 32768 61000 rhost 0} ${alignr} ${tcp_portmon 3276
 ${alignr}$font < ${tcp_portmon 32768 61000 rhost 1} ${alignr} ${tcp_portmon 32768 61000 rservice 1} > --|    |          
 ${alignr}$font < ${tcp_portmon 32768 61000 rhost 2} ${alignr} ${tcp_portmon 32768 61000 rservice 2} > --'    |          
 ${alignr}$font |          
-${alignr}$font < ${upspeed wlp7s0} > Subida --|          
-#${alignr}$font < ${upspeedgraph wlp7s0 8,168 8b2132 fe8608} > --'    |          
-${alignr}$font < ${upspeedgraph wlp7s0 8,168 000000 000000} > --'    |          
-${alignr}$font < ${downspeed wlp7s0} > Bajada --'          
-#${alignr}$font < ${downspeedgraph wlp7s0 8,168 8b2132 fe8608} > --'               
-${alignr}$font < ${downspeedgraph wlp7s0 8,168 000000 000000} > --'               
+${alignr}$font < ${upspeed eno1} > Subida --|          
+#${alignr}$font < ${upspeedgraph eno1 8,168 8b2132 fe8608} > --'    |          
+${alignr}$font < ${upspeedgraph eno1 8,168 000000 000000} > --'    |          
+${alignr}$font < ${downspeed eno1} > Bajada --'          
+#${alignr}$font < ${downspeedgraph eno1 8,168 8b2132 fe8608} > --'               
+${alignr}$font < ${downspeedgraph eno1 8,168 000000 000000} > --'               
 #${rss https://www.archlinux.org/feeds/packages/ 15 item_titles 3 }

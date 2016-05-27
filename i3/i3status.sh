@@ -28,8 +28,6 @@ do
 
 		fi
 
-		player="" #nerfed
-
 		if [[ $player ]]; then
 
 			artist=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | egrep -A 2 "artist" | egrep -v "artist" | egrep -v "array" | cut -b 27- | tr '"' "'" | egrep -v ^$)

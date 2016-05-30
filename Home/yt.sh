@@ -1,12 +1,46 @@
 #!/bin/sh
 
-if [[ $1 ]]; then
+#set -x
 
-	link=$1;
+if [[ $2 ]]; then
+
+	link=$2;
+
+	if [[ $1 = *[[:digit:]]* && $1 -le 9999 ]]; then
+
+		maxres=$1;
+
+	else
+
+		exit 5;
+
+	fi
 
 else
 
-	link=$(xclip -o);
+	if [[ $1 ]]; then
+
+		if [[ $1 = *[[:digit:]]* && $1 -le 9999 ]]; then #$1 numero?
+
+			maxres=$1;
+
+			link=$(xclip -o);
+
+		else
+
+			link=$1
+
+			maxres=1080
+
+		fi
+
+	else
+
+		link=$(xclip -o);
+
+		maxres=1080
+
+	fi
 
 fi
 
@@ -20,13 +54,20 @@ else
 
 fi
 
-#set -x
-
 tmp="$HOME/.cache"
 
 audio="$(youtube-dl -f bestaudio --get-url $link)"
-video="$(youtube-dl -f "bestvideo[height<=?1080]" --get-url $link)"
 title="$(youtube-dl --get-filename $link)"
+
+if [[ $maxres == 0 ]]; then
+
+	video="$(youtube-dl -f bestvideo --get-url $link)"
+
+else
+
+	video="$(youtube-dl -f "bestvideo[height<=?$maxres]" --get-url $link)"
+
+fi
 
 if [[ $audio == "" && $video == "" ]]; then
 
@@ -36,9 +77,23 @@ if [[ $audio == "" && $video == "" ]]; then
 
 fi
 
+if [[ $video == "" ]]; then
+
+	zenity --question --text="Sin direccion de video. Continuar?" --ok-label="Yup" --cancel-label="Nope"
+
+	case $? in
+
+		1) exit 3;;
+
+		*) echo OK;;
+
+	esac
+
+fi
+
 if [[ $audio ]]; then
 
-	aria2c --allow-overwrite=true -c --file-allocation=none --log-level=error -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=60 -t5 --dir="$tmp" --out="audio$title" "$audio"&
+	aria2c --auto-file-renaming=false --allow-overwrite=false -c --file-allocation=none --log-level=error -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=60 -t5 --dir="$tmp" --out="audio$title" "$audio"&
 
 else
 
@@ -56,19 +111,7 @@ fi
 
 if [[ $video ]]; then
 
-	aria2c --allow-overwrite=true -c --file-allocation=none --log-level=error -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=60 -t5 --dir="$tmp" --out="video$title" "$video"
-
-else
-
-	zenity --question --text="Sin direccion de video. Continuar?" --ok-label="Yup" --cancel-label="Nope"
-
-	case $? in
-
-		1) exit 3;;
-
-		*) echo OK;;
-
-	esac
+	aria2c --auto-file-renaming=false --allow-overwrite=false -c --file-allocation=none --log-level=error -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=60 -t5 --dir="$tmp" --out="video$title" "$video"
 
 fi
 
@@ -100,8 +143,8 @@ if [[ $? == 0 ]]; then
 
 	if [[ $? != 0 ]]; then
 
-		gvfs-trash "$tmp/audio$title"
-		gvfs-trash "$tmp/video$title"
+		rm "$tmp/audio$title"
+		rm "$tmp/video$title"
 
 		exit
 
@@ -124,13 +167,13 @@ else
 
 	if [[ -f "$tmp/audio$title" ]]; then
 
-		mv "$tmp/audio$title" "$tmp/$title"
+		mv "$tmp/audio$title" "$tmp/$title.mkv"
 
 	fi
 
 	if [[ -f "$tmp/video$title" ]]; then
 
-		mv "$tmp/video$title" "$tmp/$title"
+		mv "$tmp/video$title" "$tmp/$title.mkv"
 
 	fi
 
@@ -144,6 +187,8 @@ if [[ $ruta ]]; then
 
 else
 
-	echo "Queda en cache"
+	gvfs-trash "$tmp/$title"
+
+	echo "Queda en papelera"
 
 fi

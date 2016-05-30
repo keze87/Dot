@@ -53,8 +53,8 @@ exec --no-startup-id compton --config ~/.compton.conf
 exec --no-startup-id /usr/lib/mate-polkit/polkit-mate-authentication-agent-1
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id numlockx
-exec --no-startup-id mate-volume-control-applet
-#exec --no-startup-id volumeicon
+#exec --no-startup-id mate-volume-control-applet
+exec --no-startup-id volctl
 
 bindsym Mod1+Up exec --no-startup-id "amixer set Master 5%+"
 bindsym Mod1+Down exec --no-startup-id "amixer set Master 5%-"
@@ -70,8 +70,8 @@ bindsym $mod+t exec --no-startup-id compton-trans `zenity --scale --text="Cuan o
 bindsym $mod+o exec --no-startup-id setxkbmap latam && killall kvkbd || kvkbd
 bindsym $mod+s exec --no-startup-id spotify
 bindsym Mod1+Tab exec --no-startup-id sh .config/i3/tab.sh
-bindsym F4 exec --no-startup-id guake --show
-bindsym $mod+F4 exec --no-startup-id guake --hide
+#bindsym F4 exec --no-startup-id guake --show
+#bindsym $mod+F4 exec --no-startup-id guake --hide
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier Mod1

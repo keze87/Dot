@@ -1,12 +1,13 @@
 #!/bin/bash
 
+set -x
+
 dir=~/.Dot/Common
 olddir=~/Dot_Old
 
 ### Home ###
 
-cd $dir/Home/
-files="compton.conf zshrc dpi.sh mouse.sh pop.sh conkyrc yt.sh"
+files="compton.conf zshrc mouse.sh pop.sh yt.sh"
 
 mkdir $olddir/Home
 
@@ -22,13 +23,40 @@ for file in $files; do
 
 done
 
-### Config ###
+### i3 ###
 
-folders="i3 mpv"
+files="volumen.sh invert.sh tab.sh work.sh apagar.sh speed.sh trans.sh"
 
-for folder in $folders; do
+mkdir $olddir/i3
+mkdir ~/.config/i3
 
-	mv ~/.config/$folder $olddir/
-	ln -s $dir/$folder ~/.config/$folder
+for file in $files; do
+
+	if [ -f ~/.config/i3/$file ]; then
+
+		mv ~/.config/i3/$file $olddir/i3/
+
+	fi
+
+	ln -s $dir/i3/$file ~/.config/i3/$file
+
+done
+
+### mpv ###
+
+files="mpv.conf mvtools.vpy input.conf"
+
+mkdir $olddir/mpv
+mkdir ~/.config/mpv
+
+for file in $files; do
+
+	if [ -f ~/.config/mpv/$file ]; then
+
+		mv ~/.config/mpv/$file $olddir/mpv/
+
+	fi
+
+	ln -s $dir/mpv/$file ~/.config/mpv/$file
 
 done

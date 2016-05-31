@@ -15,8 +15,6 @@ dependiendo del tamaño de pantalla." 10 50 2 \
 			  Desktop "24 Pulgadas" \
 			  Laptop "13 Pulgadas")
 
-clear
-
 if [[ $? == 0 ]]; then
 
 	if [ -d $olddir ]; then
@@ -38,3 +36,4 @@ if [[ $? == 0 ]]; then
 
 fi
 
+clear

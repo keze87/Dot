@@ -1,14 +1,13 @@
 #!/bin/bash
 
+set -x
+
 dir=~/.Dot/Desktop
 olddir=~/Dot_Old
 
 ### Home ###
 
-cd $dir/Home/
-files="compton.conf zshrc dpi.sh mouse.sh pop.sh conkyrc yt.sh"
-
-mkdir $olddir/Home
+files="dpi.sh conkyrc"
 
 for file in $files; do
 
@@ -22,13 +21,18 @@ for file in $files; do
 
 done
 
-### Config ###
+### i3 ###
 
-folders="i3 mpv"
+files="lariza.sh i3status.sh key.sh config"
 
-for folder in $folders; do
+for file in $files; do
 
-	mv ~/.config/$folder $olddir/
-	ln -s $dir/$folder ~/.config/$folder
+	if [ -f ~/.config/i3/$file ]; then
+
+		mv ~/.config/i3/$file $olddir/i3/
+
+	fi
+
+	ln -s $dir/i3/$file ~/.config/i3/$file
 
 done

@@ -1,0 +1,90 @@
+---------------------------------
+------   Modified by: Yo   ------
+---------------------------------
+
+conky.config = {
+	double_buffer = true,
+	background = true,
+	use_xft = true,
+	font = 'DejaVu Sans Mono Book:size=9',
+	update_interval = 2,
+	own_window_class = 'conky',
+	own_window = true,
+	own_window_type = 'override',
+	own_window_transparent = true,
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+	draw_shades = true,
+	draw_outline = false,
+	draw_borders = false,
+	draw_graph_borders = false,
+	stippled_borders = 0,
+	border_width = 0,
+	default_color = 'white',
+	default_shade_color = 'black',
+	default_outline_color = 'black',
+	alignment = 'top_right',
+	gap_x = 8,
+	gap_y = 32,
+	no_buffers = true,
+	cpu_avg_samples = 2, --1
+	net_avg_samples = 2,
+	override_utf8_locale = true,
+	use_spacer = 'none'
+	--minimum_size 500 800
+	--maximum_width 1200
+}
+
+conky.text = [[
+${alignr}$font < $sysname-$kernel > Sistema --|     
+${alignr}$font |    |     
+${alignr}$font < ${cpu cpu0}% > CPU --|    |     
+${alignr}$font < ${freq_g 1} ${cpubar cpu1 5,168 } > --|    |    |     
+${alignr}$font < ${freq_g 2} ${cpubar cpu2 5,168 } > --|    |    |     
+${alignr}$font < ${freq_g 3} ${cpubar cpu3 5,168 } > --|    |    |     
+${alignr}$font < ${freq_g 4} ${cpubar cpu4 5,168 } > --|    |    |     
+${alignr}$font < ${top name 1}  ${top cpu 1} > --|    |    |     
+${alignr}$font < ${top name 2}  ${top cpu 2} > --|    |    |     
+${alignr}$font < ${top name 3}  ${top cpu 3} > --|    |    |     
+${alignr}$font < ${top name 4}  ${top cpu 4} > --'    |    |     
+${alignr}$font |    |     
+${alignr}$font Procesos --|    |     
+${alignr}$font < $processes > Total --|    |    |     
+${alignr}$font < $running_processes > Corriendo --'    |    |     
+${alignr}$font |    |     
+${alignr}$font Temperatura --|    |     
+${alignr}$font < ${acpitemp} > acpi --|    |    |     
+${alignr}$font < ${hwmon temp 1} > tmp1 --'    |    |     
+${alignr}$font |    |     
+${alignr}$font Bateria --|    |     
+${alignr}$font < ${battery_percent BAT0}% ${battery_bar 5,168 BAT0} > --'    |    |     
+${alignr}$font |    |     
+${alignr}$font < $mem/ $memmax > RAM --|    |     
+${alignr}$font < $memperc% ${membar 5,168 /} > --|    |    |     
+${alignr}$font < ${top_mem name 1}  ${top mem 1} > --|    |    |     
+${alignr}$font < ${top_mem name 2}  ${top mem 2} > --|    |    |     
+${alignr}$font < ${top_mem name 3}  ${top mem 3} > --|    |    |     
+${alignr}$font < ${top_mem name 4}  ${top mem 4} > --'    |    |     
+${alignr}$font |    |     
+${alignr}$font Almacenamiento --'    |     
+${alignr}$font < Raiz ${fs_used_perc /}% ${fs_bar 5,168 /} > --|         |     
+${alignr}$font < Home ${fs_used_perc /home}% ${fs_bar 5,168 /home} > --'         |     
+${alignr}$font |     
+${alignr}$font Internet --'     
+${alignr}$font |          
+${alignr}$font < ${tcp_portmon 1 65535 count} > Conecciones --|          
+${alignr}$font |          
+${alignr}$font < ${tcp_portmon 1 32767 count} > entrada / local --|          
+${alignr}$font < ${tcp_portmon 1 32767 rhost 0} ${tcp_portmon 1 32767 lservice 0} > --|    |          
+${alignr}$font < ${tcp_portmon 1 32767 rhost 1} ${tcp_portmon 1 32767 lservice 1} > --|    |          
+${alignr}$font < ${tcp_portmon 1 32767 rhost 2} ${tcp_portmon 1 32767 lservice 2} > --'    |          
+${alignr}$font |          
+${alignr}$font < ${tcp_portmon 32768 61000 count} > salida / remota --|          
+${alignr}$font < ${tcp_portmon 32768 61000 rhost 0} ${alignr} ${tcp_portmon 32768 61000 rservice 0} > --|    |          
+${alignr}$font < ${tcp_portmon 32768 61000 rhost 1} ${alignr} ${tcp_portmon 32768 61000 rservice 1} > --|    |          
+${alignr}$font < ${tcp_portmon 32768 61000 rhost 2} ${alignr} ${tcp_portmon 32768 61000 rservice 2} > --'    |          
+${alignr}$font |          
+${alignr}$font < ${upspeed wlp2s0} > Subida --|          
+${alignr}$font < ${upspeedgraph wlp2s0 8,168 ffffff ffffff} > --'    |          
+${alignr}$font < ${downspeed wlp2s0} > Bajada --'          
+${alignr}$font < ${downspeedgraph wlp2s0 8,168 ffffff ffffff} > --'               
+]]

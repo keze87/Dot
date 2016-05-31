@@ -1,36 +1,40 @@
 #!/bin/bash
 
+set -x
+
 dir=~/.Dot
 olddir=~/Dot_Old
 
-mkdir $olddir
+### Menu ###
 
-### Home ###
+menu=$(dialog --clear --output-fd 1 \
+			  --backtitle "Keze87 DotFiles" \
+			  --title "Instalación" \
+			  --menu "Selecciona la configuracion a instalar,\n\
+dependiendo del tamaño de pantalla." 10 50 2 \
+			  Desktop "24 Pulgadas" \
+			  Laptop "13 Pulgadas")
 
-cd $dir/Home/
-files="compton.conf zshrc dpi.sh mouse.sh pop.sh conkyrc yt.sh"
+clear
 
-mkdir $olddir/Home
+if [[ $? == 0 ]]; then
 
-for file in $files; do
+	if [ -d $olddir ]; then
 
-	if [ -f ~/.$file ]; then
-
-		mv ~/.$file $olddir/Home/
+		gvfs-trash $olddir
 
 	fi
 
-	ln -s $dir/Home/$file ~/.$file
+	mkdir $olddir
 
-done
+	sh ${dir}/Common/Common.sh
 
-### Config ###
+	case $menu in
 
-folders="i3 mpv mpv2"
+		Desktop) sh ${dir}/Desktop/Desktop.sh;;
+		Laptop) sh ${dir}/Laptop/Laptop.sh;;
 
-for folder in $folders; do
+	esac
 
-	mv ~/.config/$folder $olddir/
-	ln -s $dir/$folder ~/.config/$folder
+fi
 
-done

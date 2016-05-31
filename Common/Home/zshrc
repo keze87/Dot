@@ -9,7 +9,7 @@ ZSH_THEME="bira"
 
 DISABLE_AUTO_UPDATE="true"
 
-plugins=(thefuck chucknorris colored-man colorize nyan)
+plugins=(chucknorris colored-man colorize nyan)
 
 # User configuration
 

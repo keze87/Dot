@@ -54,22 +54,40 @@ else
 
 fi
 
-tmp="$HOME/.cache"
+tmp="${HOME}/.cache"
 
-audio="$(youtube-dl -f bestaudio --get-url $link)"
-title="$(youtube-dl --get-filename $link)"
+youtube-dl -f bestaudio --get-url $link > "${tmp}/audio" &
+youtube-dl --get-filename $link > "${tmp}/title" &
 
 if [[ $maxres == 0 ]]; then
 
-	video="$(youtube-dl -f bestvideo --get-url $link)"
+	youtube-dl -f bestvideo --get-url $link > "${tmp}/video" &
 
 else
 
-	video="$(youtube-dl -f "bestvideo[height<=?$maxres]" --get-url $link)"
+	youtube-dl -f "bestvideo[height<=?$maxres]" --get-url $link > "${tmp}/video" &
 
 fi
 
-if [[ $audio == "" && $video == "" ]]; then
+youtube-dl --list-subs $link > "${tmp}/subs"
+
+if cat "${tmp}/subs" | grep -q "video doesn't have subtitles"; then
+
+	rm "${tmp}/subs"
+
+fi
+
+wait
+
+audio="$(cat ${tmp}/audio)"
+title="$(cat ${tmp}/title)"
+video="$(cat ${tmp}/video)"
+
+sub=""
+
+rm "${tmp}/audio"; rm "${tmp}/title"; rm "${tmp}/video";
+
+if [[ ${audio} == "" && ${video} == "" ]]; then
 
 	echo "Nada que descargar"
 
@@ -77,7 +95,7 @@ if [[ $audio == "" && $video == "" ]]; then
 
 fi
 
-if [[ $video == "" ]]; then
+if [[ ${video} == "" ]]; then
 
 	zenity --question --text="Sin direccion de video. Continuar?" --ok-label="Yup" --cancel-label="Nope"
 
@@ -91,17 +109,13 @@ if [[ $video == "" ]]; then
 
 fi
 
-if [[ $audio ]]; then
-
-	aria2c --auto-file-renaming=false --allow-overwrite=false -c --file-allocation=none --log-level=error -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=60 -t5 --dir="$tmp" --out="audio$title" "$audio"&
-
-else
+if [[ ${audio} == "" ]]; then
 
 	zenity --question --text="Sin direccion de audio. Continuar?" --ok-label="Yup" --cancel-label="Nope"
 
 	case $? in
 
-		1) exit 2;;
+		1) exit 3;;
 
 		*) echo OK;;
 
@@ -109,31 +123,59 @@ else
 
 fi
 
-if [[ $video ]]; then
+if [[ -f "${tmp}/subs" ]]; then
 
-	aria2c --auto-file-renaming=false --allow-overwrite=false -c --file-allocation=none --log-level=error -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=60 -t5 --dir="$tmp" --out="video$title" "$video"
+	rm "${tmp}/subs"
+
+	youtube-dl --write-sub --skip-download -o "${tmp}/%(title)s-ytsub-%(id)s.%(ext)s" $link
+
+	sub=$(find ${tmp} -name '*-ytsub-*' -type f -printf '%f\n' -quit)
 
 fi
+
+if [[ ${audio} ]]; then
+
+	aria2c --auto-file-renaming=false --allow-overwrite=false -c --file-allocation=none --log-level=error -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=60 -t5 --dir="${tmp}" --out="audio${title}" "${audio}"&
+
+fi
+
+if [[ ${video} ]]; then
+
+	aria2c --auto-file-renaming=false --allow-overwrite=false -c --file-allocation=none --log-level=error -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=60 -t5 --dir="${tmp}" --out="video${title}" "${video}"
+
+fi
+
+wait
 
 zenity --question --text="Descarga completa. Reproducir?" --ok-label="Yup" --cancel-label="Nope"
 
 if [[ $? == 0 ]]; then
 
-	if [[ -f "$tmp/audio$title" && -f "$tmp/video$title" ]]; then
+	if [[ ${sub} ]]; then
 
-		mpv --audio-file="$tmp/audio$title" "$tmp/video$title"
+		args="${tmp}/${sub}"
 
 	else
 
-		if [[ -f "$tmp/audio$title" ]]; then
+		args="null://"
 
-			mpv "$tmp/audio$title"
+	fi
+
+	if [[ -f "${tmp}/audio${title}" && -f "${tmp}/video${title}" ]]; then
+
+		mpv --sub-file="${args}" --audio-file="${tmp}/audio${title}" "${tmp}/video${title}"
+
+	else
+
+		if [[ -f "${tmp}/audio${title}" ]]; then
+
+			mpv  --sub-file="${args}" "${tmp}/audio${title}"
 
 		fi
 
-		if [[ -f "$tmp/video$title" ]]; then
+		if [[ -f "${tmp}/video${title}" ]]; then
 
-			mpv "$tmp/video$title"
+			mpv  --sub-file="${args}" "${tmp}/video${title}"
 
 		fi
 
@@ -143,8 +185,14 @@ if [[ $? == 0 ]]; then
 
 	if [[ $? != 0 ]]; then
 
-		rm "$tmp/audio$title"
-		rm "$tmp/video$title"
+		rm "${tmp}/audio${title}"
+		rm "${tmp}/video${title}"
+
+		if [[ ${sub} ]]; then
+
+			rm "${tmp}/${sub}"
+
+		fi
 
 		exit
 
@@ -152,42 +200,54 @@ if [[ $? == 0 ]]; then
 
 fi
 
-if [[ -f "$tmp/audio$title" && -f "$tmp/video$title" ]]; then
+if [[ -f "${tmp}/audio${title}" && -f "${tmp}/video${title}" ]]; then
 
-	ffmpeg -i "$tmp/video$title" -i "$tmp/audio$title" -c copy -map 0:v:0 -map 1:a:0 "$tmp/$title.mkv"
+	ffmpeg -i "${tmp}/video${title}" -i "${tmp}/audio${title}" -c copy -map 0:v:0 -map 1:a:0 "${tmp}/${title}.mkv"
 
 	if [[ $? == 0 ]]; then
 
-		rm "$tmp/audio$title"
-		rm "$tmp/video$title"
+		rm "${tmp}/audio${title}"
+		rm "${tmp}/video${title}"
 
 	fi
 
 else
 
-	if [[ -f "$tmp/audio$title" ]]; then
+	if [[ -f "${tmp}/audio${title}" ]]; then
 
-		mv "$tmp/audio$title" "$tmp/$title.mkv"
+		mv "${tmp}/audio${title}" "${tmp}/${title}.mkv"
 
 	fi
 
-	if [[ -f "$tmp/video$title" ]]; then
+	if [[ -f "${tmp}/video${title}" ]]; then
 
-		mv "$tmp/video$title" "$tmp/$title.mkv"
+		mv "${tmp}/video${title}" "${tmp}/${title}.mkv"
 
 	fi
 
 fi
 
-ruta=$(zenity --file-selection --save --confirm-overwrite --filename="$title.mkv");
+ruta=$(zenity --file-selection --save --confirm-overwrite --filename="${title}.mkv");
 
-if [[ $ruta ]]; then
+if [[ ${ruta} ]]; then
 
-	mv "$tmp/$title.mkv" "$ruta"
+	mv "${tmp}/${title}.mkv" "${ruta}"
+
+	if [[ ${sub} ]]; then
+
+		mv "${tmp}/${sub}" "${ruta}.sub"
+
+	fi
 
 else
 
-	gvfs-trash "$tmp/$title"
+	gvfs-trash "${tmp}/${title}"
+
+	if [[ ${sub} ]]; then
+
+		gvfs-trash "${tmp}/${sub}"
+
+	fi
 
 	echo "Queda en papelera"
 

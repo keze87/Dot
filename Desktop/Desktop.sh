@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+#set -x
 
 dir=~/.Dot/Desktop
 olddir=~/Dot_Old
@@ -34,5 +34,24 @@ for file in $files; do
 	fi
 
 	ln -s $dir/i3/$file ~/.config/i3/$file
+
+done
+
+### mpv ###
+
+files="mpv.conf mvtools.vpy input.conf"
+
+mkdir $olddir/mpv
+mkdir ~/.config/mpv
+
+for file in $files; do
+
+	if [ -f ~/.config/mpv/$file ]; then
+
+		mv ~/.config/mpv/$file $olddir/mpv/
+
+	fi
+
+	ln -s $dir/mpv/$file ~/.config/mpv/$file
 
 done

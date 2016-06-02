@@ -52,7 +52,7 @@ do
 
 		nvidia=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
 
-		disco=$(df | grep sdb1 | awk '{print $5}')
+		disco1=$(df | grep sdb1 | awk '{print $5}')
 		disco2=$(df | grep sda1 | awk '{print $5}')
 
 		ram=$(free -h | grep Mem | awk '{print $3}');
@@ -131,12 +131,12 @@ do
 
 			if [[ $timesdown == 0 ]]; then
 
-				echo -e "\"full_text\":\" NET: `sh .config/i3/speed.sh "eno1"` \"
+				echo -e "\"full_text\":\" NET: `sh ~/.config/i3/speed.sh "eno1"` \"
 					 },"
 
 			else
 
-				echo -e "\"full_text\":\" NET: `sh .config/i3/speed.sh "eno1"` ($timesdown) \"
+				echo -e "\"full_text\":\" NET: `sh ~/.config/i3/speed.sh "eno1"` ($timesdown) \"
 					 },"
 			fi
 
@@ -150,7 +150,7 @@ do
 
 				if [[ $up ]]; then
 
-					mpv2 --really-quiet /usr/share/sounds/freedesktop/stereo/dialog-information.oga
+					mpv --really-quiet /usr/share/sounds/freedesktop/stereo/dialog-information.oga
 
 					up=""
 
@@ -193,7 +193,7 @@ do
 
 		echo -e "{
 					\"color\":\"#FFFFFF\",
-					\"full_text\":\" ROOT: ${disco} \"
+					\"full_text\":\" ROOT: ${disco1} \"
 				 },"
 
 		### Home ###

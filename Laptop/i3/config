@@ -30,24 +30,21 @@ font pango:DejaVu Sans Mono Regular 8
 smart_gaps on
 smart_borders on
 
-for_window [class="^.*"] border pixel 1
-for_window [class="Main.py"] floating enable
-for_window [class="mpv"] floating enable
-for_window [class="albert"] floating enable
-for_window [class="org-geogebra-desktop-GeoGebra3D"] border none
-for_window [class="sun-awt-X11-XFramePeer"] border none
-for_window [class="Main.py"] floating enable
-
-
 gaps inner 2
 gaps outer 2
 
-exec --no-startup-id sh ~/.mouse.sh &
-exec --no-startup-id guake&
-exec --no-startup-id compton --config ~/.compton.conf&
-exec --no-startup-id /usr/lib/mate-polkit/polkit-mate-authentication-agent-1&
-#exec --no-startup-id mate-volume-control-applet
+for_window [class="^.*"] border pixel 1
+for_window [class="Main.py"] floating enable
+for_window [class="albert"] floating enable
+#for_window [class="mpv"] floating enable
+
+
+exec --no-startup-id sh ~/.mouse.sh
+exec --no-startup-id guake
+exec --no-startup-id compton --config ~/.compton.conf
+exec --no-startup-id /usr/lib/mate-polkit/polkit-mate-authentication-agent-1
 exec --no-startup-id nitrogen --restore
+#exec --no-startup-id mate-volume-control-applet
 
 exec --no-startup-id synclient TapButton2=3
 exec --no-startup-id synclient TapButton3=2
@@ -66,15 +63,14 @@ bindsym Mod1+Down exec --no-startup-id sh ~/config/i3/volumen.sh
 bindsym XF86MonBrightnessUp exec --no-startup-id sudo sh ~/.config/i3/brillo.sh
 bindsym XF86MonBrightnessDown exec --no-startup-id sudo sh ~/.config/i3/brillo.sh
 
-bindsym $mod+n exec --no-startup-id sh ~/.config/i3/invert.sh
-bindsym $mod+t exec --no-startup-id compton-trans `zenity --scale --text="Cuan opaco?" --value=80`
-
 bindsym $mod+w exec chromium
 bindsym $mod+e exec pcmanfm
-bindsym $mod+s exec spotify
 bindsym $mod+g exec geany
-bindsym $mod+q exec sh .config/i3/apagar.sh
-bindsym Mod1+Tab exec --no-startup-id sh .config/i3/tab.sh
+bindsym $mod+s exec spotify
+bindsym $mod+q exec sh ~/.config/i3/apagar.sh
+bindsym $mod+n exec --no-startup-id sh ~/.config/i3/invert.sh
+bindsym Mod1+Tab exec --no-startup-id sh ~/.config/i3/tab.sh
+bindsym $mod+t exec --no-startup-id compton-trans `zenity --scale --text="Cuan opaco?" --value=80`
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier Mod1
@@ -83,7 +79,6 @@ floating_modifier Mod1
 bindsym $mod+Return exec terminator
 
 # kill focused window
-#bindsym $mod+Shift+q kill
 bindsym Mod1+F4 kill
 
 # start dmenu (a program launcher)
@@ -106,10 +101,10 @@ bindsym $mod+Up move up
 bindsym $mod+Right move right
 
 # split in horizontal orientation
-#bindsym $mod+h split h
+bindsym $mod+h split h
 
 # split in vertical orientation
-#bindsym $mod+v split v
+bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -197,7 +192,7 @@ bar {
 
 	i3bar_command i3bar -t
 	position top
-	status_command sh .config/i3/i3status.sh "$color"
+	status_command sh ~/.config/i3/i3status.sh "$color"
 	separator_symbol "|"
 
 	bindsym button3 exec --no-startup-id sh ~/.config/i3/work.sh

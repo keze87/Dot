@@ -18,7 +18,7 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/g
 source $ZSH/oh-my-zsh.sh
 
 alias copy='rsync -r -v --progress'
-
+alias sortsize='expac -H M "%011m\t%-20n\t%10d" $(comm -23 <(pacman -Qqen | sort) <(pacman -Qqg base base-devel | sort)) | sort -n'
 alias col='colorize_via_pygmentize'
 alias cpu='watch grep \"cpu MHz\" /proc/cpuinfo'
 alias actualizar='pacaur -Syu'

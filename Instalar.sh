@@ -1,6 +1,8 @@
 #!/bin/bash
 
-set -x
+#set -x
+
+# dialog rsync pygmentize expac rtmpdump
 
 dir=~/.Dot
 olddir=~/Dot_Old

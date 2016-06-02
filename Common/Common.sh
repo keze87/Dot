@@ -28,15 +28,16 @@ done
 files="volumen.sh invert.sh tab.sh work.sh apagar.sh speed.sh trans.sh"
 
 mkdir $olddir/i3
+
+if [ -d ~/.config/i3 ]; then
+
+	mv ~/.config/i3/ $olddir/
+
+fi
+
 mkdir ~/.config/i3
 
 for file in $files; do
-
-	if [ -f ~/.config/i3/$file ]; then
-
-		mv ~/.config/i3/$file $olddir/i3/
-
-	fi
 
 	ln -s $dir/i3/$file ~/.config/i3/$file
 

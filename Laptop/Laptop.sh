@@ -42,15 +42,16 @@ done
 files="mpv.conf mvtools.vpy input.conf"
 
 mkdir $olddir/mpv
+
+if [ -d ~/.config/mpv ]; then
+
+	mv ~/.config/mpv/ $olddir/
+
+fi
+
 mkdir ~/.config/mpv
 
 for file in $files; do
-
-	if [ -f ~/.config/mpv/$file ]; then
-
-		mv ~/.config/mpv/$file $olddir/mpv/
-
-	fi
 
 	ln -s $dir/mpv/$file ~/.config/mpv/$file
 

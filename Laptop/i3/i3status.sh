@@ -177,7 +177,7 @@ do
 
 			speed=$(sh ~/.config/i3/speed.sh wlp2s0)
 
-			if [[ $speed == "0 K↓ 0 K↓" ]]; then
+			if [[ $speed == "0 K↓ 0 K↑" ]]; then
 
 				speed=("")
 

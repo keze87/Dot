@@ -70,5 +70,5 @@ if [[ "${time_diff}" -gt 0 ]]; then
     echo -n "${tx_kib} K↑"
   fi
 else
-  echo -n "0 K↓ 0 K↓"
+  echo -n "0 K↓ 0 K↑"
 fi

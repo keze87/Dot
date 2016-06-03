@@ -55,7 +55,7 @@ else
 fi
 
 tmp="${HOME}/.cache"
-args='--allow-overwrite=true -c --file-allocation=none --log-level=error \
+args='--allow-overwrite=true -c --file-allocation=none --log-level=error
 -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=0 -t5'
 
 if [[ $maxres == 0 ]]; then
@@ -136,7 +136,8 @@ if [[ $? == 0 ]]; then
 
 fi
 
-ruta=$(zenity --file-selection --save --confirm-overwrite --filename="${title}");
+ruta=$(zenity --file-selection --save --confirm-overwrite \
+--filename="$(youtube-dl -e ${link}).${title: -3}");
 
 if [[ ${ruta} ]]; then
 
@@ -144,7 +145,7 @@ if [[ ${ruta} ]]; then
 
 	if [[ ${sub} ]]; then
 
-		mv "${sub}" "${ruta}.sub"
+		mv "${sub}" "${ruta::-4}.${sub: -3}"
 
 	fi
 

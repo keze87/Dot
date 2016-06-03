@@ -36,7 +36,7 @@ gaps outer 2
 for_window [class="^.*"] border pixel 1
 for_window [class="Main.py"] floating enable
 for_window [class="albert"] floating enable
-#for_window [class="mpv"] floating enable
+for_window [class="mpv"] floating enable
 
 
 exec --no-startup-id sh ~/.mouse.sh

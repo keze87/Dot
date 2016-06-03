@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+#set -x
 
 dir=~/.Dot/Laptop
 olddir=~/Dot_Old

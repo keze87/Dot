@@ -17,7 +17,7 @@ echo -e "{\"version\":1}\n["
 
 brillomax=$(cat /sys/class/backlight/intel_backlight/max_brightness)
 
-while : do
+while true; do
 
 	if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify \
 	/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \

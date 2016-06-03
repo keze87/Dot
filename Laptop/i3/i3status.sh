@@ -1,6 +1,14 @@
 #!/bin/sh
 
-if [[ $1 ]]; then s=$1; else s="#FFFFFF"; fi
+if [[ $1 ]]; then
+
+	s=$1;
+
+else
+
+	s="#FFFFFF";
+
+fi
 
 up="y"
 timesdown=0
@@ -9,132 +17,112 @@ echo -e "{\"version\":1}\n["
 
 brillomax=$(cat /sys/class/backlight/intel_backlight/max_brightness)
 
-while :
-do
+while : do
 
-		if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify \
+	if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify \
+	/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
+	string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | \
+	grep -q Playing; then
+
+		player="spotify"
+
+	else
+
+		if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.audacious \
 		/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
-		string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | \
-		grep -q Playing; then
+		string:'org.mpris.MediaPlayer2.Player' \
+		string:'PlaybackStatus' | grep -q Playing; then
 
-			player="spotify"
+			player="audacious"
 
 		else
 
-			if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.audacious \
-			/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
-			string:'org.mpris.MediaPlayer2.Player' \
-			string:'PlaybackStatus' | grep -q Playing; then
-
-				player="audacious"
-
-			else
-
-				player=""
-
-			fi
+			player=""
 
 		fi
 
-		if [[ $player ]]; then
+	fi
 
-			artist=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player \
-			/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
-			string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | \
-			egrep -A 2 "artist" | egrep -v "artist" | egrep -v "array" | \
-			cut -b 27- | tr '"' "'" | egrep -v ^$)
+	if [[ $player ]]; then
 
-			title=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player \
-			/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
-			string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | \
-			egrep -A 1 "title" | egrep -v "title" | cut -b 44- | tr '"' "'" | \
-			egrep -v ^$)
+		artist=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player \
+		/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
+		string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | \
+		egrep -A 2 "artist" | egrep -v "artist" | egrep -v "array" | \
+		cut -b 27- | tr '"' "'" | egrep -v ^$)
 
-			album=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player \
-			/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
-			string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | \
-			egrep -A 1 "album" | egrep -v "album" | cut -b 44- | tr '"' "'" | \
-			egrep -v ^$)
+		title=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player \
+		/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
+		string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | \
+		egrep -A 1 "title" | egrep -v "title" | cut -b 44- | tr '"' "'" | \
+		egrep -v ^$)
 
-			if [[ $artist ]]; then
-				artist=${artist::-1}
-			fi
+		album=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player \
+		/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
+		string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | \
+		egrep -A 1 "album" | egrep -v "album" | cut -b 44- | tr '"' "'" | \
+		egrep -v ^$)
 
-			if [[ $album ]]; then
-				album=${album::-1}
-			fi
+		if [[ $artist ]]; then
 
-			if [[ $title ]]; then
-				title=${title::-1}
-			fi
+			artist=${artist::-1}
 
 		fi
 
-		#brillo=$(xbacklight -get);
-		brillo=$(cat /sys/class/backlight/intel_backlight/actual_brightness)
-		brillo=$(echo "$brillo * 100 / $brillomax" | bc -l)
+		if [[ $album ]]; then
 
-		bateria1=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | \
-		grep perce | awk '{print $2}' | tr -d '%')
-		bateria2=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | \
-		grep state | awk '{print $2}')
+			album=${album::-1}
 
-		wifi=$(iwgetid -r)
+		fi
 
-		volumen=$(amixer get Master | grep Right: | awk {"print \$5"} | tr -d "[]");
+		if [[ $title ]]; then
 
-		disco1=$(df | grep sdb3 | awk '{print $5}')
-		disco2=$(df | grep sda3 | awk '{print $5}')
+			title=${title::-1}
 
-		ram=$(free -h | grep Mem | awk '{print $3}');
+		fi
 
-		cpu=$(cat /sys/devices/platform/coretemp.0/hwmon/*/temp1_input | cut -c1-2)
+	fi
 
-		fecha=$(date +"%A %d-%m %H:%M:%S")
+	brillo=$(cat /sys/class/backlight/intel_backlight/actual_brightness)
+	brillo=$(echo "$brillo * 100 / $brillomax" | bc -l)
 
-		echo -e "["
+	bateria1=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | \
+	grep perce | awk '{print $2}' | tr -d '%')
+	bateria2=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | \
+	grep state | awk '{print $2}')
 
-		### Spotify ###
+	wifi=$(iwgetid -r)
 
-		if [[ $player ]]; then
+	volumen=$(amixer get Master | grep Right: | awk {"print \$5"} | tr -d "[]");
 
+	disco1=$(df | grep sdb3 | awk '{print $5}')
+	disco2=$(df | grep sda3 | awk '{print $5}')
+
+	ram=$(free -h | grep Mem | awk '{print $3}');
+
+	cpu=$(cat /sys/devices/platform/coretemp.0/hwmon/*/temp1_input | cut -c1-2)
+
+	fecha=$(date +"%A %d-%m %H:%M:%S")
+
+	echo -e "["
+
+	### Spotify ###
+
+	if [[ $player ]]; then
+
+		if [[ $artist ]]; then
+
+			echo -e "{
+						\"color\":\"#FFFFFF\",
+						\"separator\": false,
+						\"separator_block_width\": 0,
+						\"full_text\":\" ${artist} \"
+					 },"
+
+		fi
+
+		if [[ $album || $title ]]; then
 			if [[ $artist ]]; then
-
-				echo -e "{
-							\"color\":\"#FFFFFF\",
-							\"separator\": false,
-							\"separator_block_width\": 0,
-							\"full_text\":\" ${artist} \"
-						 },"
-
-			fi
-
-			if [[ $album || $title ]]; then
-				if [[ $artist ]]; then
-
-					echo -e "{
-								\"color\":\"$s\",
-								\"separator\": false,
-								\"separator_block_width\": 0,
-								\"full_text\":\"--\"
-							 },"
-
-				fi
-			fi
-
-			if [[ $album ]]; then
-
-				echo -e "{
-							\"color\":\"#FFFFFF\",
-							\"separator\": false,
-							\"separator_block_width\": 0,
-							\"short_text\":\" N/A \",
-							\"full_text\":\" ${album} \"
-						 },"
-
-			fi
-
-			if [[ $album && $title ]]; then
 
 				echo -e "{
 							\"color\":\"$s\",
@@ -144,47 +132,81 @@ do
 						 },"
 
 			fi
+		fi
+
+		if [[ $album ]]; then
 
 			echo -e "{
 						\"color\":\"#FFFFFF\",
-						\"full_text\":\" ${title} \"
+						\"separator\": false,
+						\"separator_block_width\": 0,
+						\"short_text\":\" N/A \",
+						\"full_text\":\" ${album} \"
 					 },"
 
 		fi
 
-		### Brillo ###
+		if [[ $album && $title ]]; then
 
-		if [[ $brillo ]]; then
-
-			if [ ${brillo%.*} -eq "100" ]; then
-
-				brillo=("")
-
-			else
-
-				echo -e "{
-							\"color\":\"#FFFFFF\",
-							\"full_text\":\" BRILLO: ${brillo%.*} \"
-						 },"
-
-			fi
+			echo -e "{
+						\"color\":\"$s\",
+						\"separator\": false,
+						\"separator_block_width\": 0,
+						\"full_text\":\"--\"
+					 },"
 
 		fi
 
-		### WiFi ###
+		echo -e "{
+					\"color\":\"#FFFFFF\",
+					\"full_text\":\" ${title} \"
+				 },"
 
-		if [[ $wifi ]]; then
+	fi
 
-			speed=$(sh ~/.config/i3/speed.sh wlp2s0)
+	### Brillo ###
 
-			if [[ $speed == "0 K↓ 0 K↑" ]]; then
+	if [[ $brillo ]]; then
 
-				speed=("")
+		if [ ${brillo%.*} -eq "100" ]; then
+
+			brillo=("")
+
+		else
+
+			echo -e "{
+						\"color\":\"#FFFFFF\",
+						\"full_text\":\" BRILLO: ${brillo%.*} \"
+					 },"
+
+		fi
+
+	fi
+
+	### WiFi ###
+
+	if [[ $wifi ]]; then
+
+		speed=$(sh ~/.config/i3/speed.sh wlp2s0)
+
+		echo -e "{
+					\"color\":\"#FFFFFF\","
+
+		if [[ $speed == "0 K↓ 0 K↑" ]]; then
+
+			if [[ $timesdown == 0 ]]; then
+
+				echo -e "\"full_text\":\" WiFi: (${wifi}) \"
+					 },"
+
+			else
+
+				echo -e "\"full_text\":\" WiFi: (${wifi}) ($timesdown) \"
+					 },"
 
 			fi
 
-			echo -e "{
-						\"color\":\"#FFFFFF\","
+		else
 
 			if [[ $timesdown == 0 ]]; then
 
@@ -195,126 +217,129 @@ do
 
 				echo -e "\"full_text\":\" WiFi: ${speed} (${wifi}) ($timesdown) \"
 					 },"
-			fi
-
-			up="y"
-
-		else
-
-			time=$(awk '{print $0/60;}' /proc/uptime)
-
-			if [[ ${time%.*} > 1 ]]; then
-
-				if [[ $up ]]; then
-
-					mpv --really-quiet /usr/share/sounds/freedesktop/stereo/dialog-information.oga
-
-					up=""
-
-					timesdown=$(($timesdown + 1))
-
-				fi
-
-			fi
-
-			echo -e "{
-						\"color\":\"#FF0000\",
-						\"full_text\":\" Sin Internet ($timesdown) \"
-					 },"
-
-		fi
-
-		### Volumen ###
-
-		echo -e "{
-					\"color\":\"#FFFFFF\",
-					\"full_text\":\" S: ${volumen} \"
-				 },"
-
-		### Root ###
-
-		echo -e "{
-					\"color\":\"#FFFFFF\",
-					\"short_text\":\"\",
-					\"full_text\":\" ROOT: ${disco1} \"
-				 },"
-
-		### Home ###
-
-		echo -e "{
-					\"color\":\"#FFFFFF\",
-					\"short_text\":\"\",
-					\"full_text\":\" HOME: ${disco2} \"
-				 },"
-
-		### RAM ###
-
-		echo -e "{
-					\"color\":\"#FFFFFF\",
-					\"full_text\":\" RAM: ${ram} \"
-				 },"
-
-		### CPU ###
-
-		if [[ $cpu < 60 ]]; then
-
-			echo -e "{ \"color\":\"#FFFFFF\","
-
-		else
-
-			if [[ $cpu < 80 ]]; then
-
-				echo -e "{ \"color\":\"#FFA500\","
-
-			else
-
-				echo -e "{ \"color\":\"#FF0000\","
 
 			fi
 
 		fi
 
-		echo -e "\"full_text\":\" T: ${cpu}°C \" },"
+		up="y"
 
-		### Bateria ##
+	else
 
-		if [ $bateria1 -gt 50 ]; then
+		time=$(awk '{print $0/60;}' /proc/uptime)
 
-			echo -e "{\"color\":\"#FFFFFF\","
+		if [[ ${time%.*} > 1 ]]; then
 
-		else
+			if [[ $up ]]; then
 
-			if [[ $bateria1 -gt 20 ]]; then
+				mpv --really-quiet /usr/share/sounds/freedesktop/stereo/dialog-information.oga
 
-				echo -e "{\"color\":\"#FFA500\","
+				up=""
 
-			else
-
-				echo -e "{\"color\":\"#FF0000\","
+				timesdown=$(($timesdown + 1))
 
 			fi
 
 		fi
 
-		if [ $bateria2 = "discharging" ]; then
+		echo -e "{
+					\"color\":\"#FF0000\",
+					\"full_text\":\" Sin Internet ($timesdown) \"
+				 },"
 
-			echo -e "\"full_text\":\"BAT: ${bateria1}% \"},"
+	fi
+
+	### Volumen ###
+
+	echo -e "{
+				\"color\":\"#FFFFFF\",
+				\"full_text\":\" S: ${volumen} \"
+			 },"
+
+	### Root ###
+
+	echo -e "{
+				\"color\":\"#FFFFFF\",
+				\"short_text\":\"\",
+				\"full_text\":\" ROOT: ${disco1} \"
+			 },"
+
+	### Home ###
+
+	echo -e "{
+				\"color\":\"#FFFFFF\",
+				\"short_text\":\"\",
+				\"full_text\":\" HOME: ${disco2} \"
+			 },"
+
+	### RAM ###
+
+	echo -e "{
+				\"color\":\"#FFFFFF\",
+				\"full_text\":\" RAM: ${ram} \"
+			 },"
+
+	### CPU ###
+
+	if [[ $cpu < 60 ]]; then
+
+		echo -e "{ \"color\":\"#FFFFFF\","
+
+	else
+
+		if [[ $cpu < 80 ]]; then
+
+			echo -e "{ \"color\":\"#FFA500\","
 
 		else
 
-			echo -e "\"full_text\":\"AC: ${bateria1}% \"},"
+			echo -e "{ \"color\":\"#FF0000\","
 
 		fi
 
-		### Fecha ###
+	fi
 
-		echo -e "{
-					\"color\":\"#FFFFFF\",
-					\"full_text\":\" ${fecha} \"
-				 }"
+	echo -e "\"full_text\":\" T: ${cpu}°C \" },"
 
-		echo -e "],"
+	### Bateria ##
 
-		sleep 2
+	if [ $bateria1 -gt 50 ]; then
+
+		echo -e "{\"color\":\"#FFFFFF\","
+
+	else
+
+		if [[ $bateria1 -gt 20 ]]; then
+
+			echo -e "{\"color\":\"#FFA500\","
+
+		else
+
+			echo -e "{\"color\":\"#FF0000\","
+
+		fi
+
+	fi
+
+	if [ $bateria2 = "discharging" ]; then
+
+		echo -e "\"full_text\":\"BAT: ${bateria1}% \"},"
+
+	else
+
+		echo -e "\"full_text\":\"AC: ${bateria1}% \"},"
+
+	fi
+
+	### Fecha ###
+
+	echo -e "{
+				\"color\":\"#FFFFFF\",
+				\"full_text\":\" ${fecha} \"
+			 }"
+
+	echo -e "],"
+
+	sleep 2
 
 done

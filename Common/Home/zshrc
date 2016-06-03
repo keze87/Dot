@@ -13,12 +13,15 @@ plugins=(chucknorris colored-man-pages colorize nyan)
 
 # User configuration
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin:/usr/bin/core_perl:/usr/bin/vendor_perl"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:\
+/usr/local/games:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:\
+/usr/lib/jvm/java-8-oracle/jre/bin:/usr/bin/core_perl:/usr/bin/vendor_perl"
 
 source $ZSH/oh-my-zsh.sh
 
 alias copy='rsync -r -v --progress'
-alias sortsize='expac -H M "%011m\t%-20n\t%10d" $(comm -23 <(pacman -Qqen | sort) <(pacman -Qqg base base-devel | sort)) | sort -n'
+alias sortsize='expac -H M "%011m\t%-20n\t%10d" $(comm -23 <(pacman -Qqen | \
+sort) <(pacman -Qqg base base-devel | sort)) | sort -n'
 alias col='colorize_via_pygmentize'
 alias cpu='watch grep \"cpu MHz\" /proc/cpuinfo'
 alias actualizar='pacaur -Syu'
@@ -38,7 +41,8 @@ alias pop2='
 		'
 alias pop='
 	while true; do
-		mpv2 rtmp://popradio.stweb.tv:1935/popradio/live --cache-initial=1100 --cache-pause --cache-secs=30;
+		mpv2 rtmp://popradio.stweb.tv:1935/popradio/live \
+		--cache-initial=1100 --cache-pause --cache-secs=30;
 	done
 		'
 alias yt='
@@ -50,7 +54,8 @@ alias yt='
 	if [[ $url2 ]]; then
 		url=$url2
 		url2=""
-		youtube-dl -e --get-description --get-format $url && mpv "--ytdl" "--ytdl-format=bestvideo[height<=?1080]+bestaudio/best" ${url}
+		youtube-dl -e --get-description --get-format $url && \
+		mpv "--ytdl" "--ytdl-format=bestvideo[height<=?1080]+bestaudio/best" ${url}
 	fi
 		'
 alias yt720='
@@ -62,12 +67,14 @@ alias yt720='
 	if [[ $url2 ]]; then
 		url=$url2
 		url2=""
-		youtube-dl -e --get-description --get-format $url && mpv "--ytdl" "--ytdl-format=bestvideo[height<=?720]+bestaudio/best" ${url}
+		youtube-dl -e --get-description --get-format $url && \
+		mpv "--ytdl" "--ytdl-format=bestvideo[height<=?720]+bestaudio/best" ${url}
 	fi
 		'
 alias aria='
 	echo `xclip -o`;
-	aria2c --allow-overwrite=true -c --file-allocation=none --log-level=error -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=60 -t5 `xclip -o`
+	aria2c --allow-overwrite=true -c --file-allocation=none --log-level=error \
+	-m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=60 -t5 `xclip -o`
 		'
 alias bleach='
 	cd;

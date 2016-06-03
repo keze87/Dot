@@ -1,6 +1,8 @@
 #!/bin/sh
 
-ACTION=`zenity --width=90 --height=220 --list --radiolist --text="Que hago vieja?" --title="Salir" --column "Eleccion" --column "" TRUE Apagar FALSE Salir FALSE Reiniciar FALSE Suspender`
+ACTION=`zenity --width=90 --height=220 --list --radiolist --text="Que hago vieja?" \
+--title="Salir" --column "Eleccion" --column "" \
+TRUE Apagar FALSE Salir FALSE Reiniciar FALSE Suspender`
 
 if [ -n "${ACTION}" ];then
   case $ACTION in

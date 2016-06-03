@@ -55,15 +55,20 @@ else
 fi
 
 tmp="${HOME}/.cache"
-args='--allow-overwrite=true -c --file-allocation=none --log-level=error -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=0 -t5'
+args='--allow-overwrite=true -c --file-allocation=none --log-level=error \
+-m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=0 -t5'
 
 if [[ $maxres == 0 ]]; then
 
-	youtube-dl -q --no-playlist -f "bestvideo+bestaudio/best" --exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" -o "${tmp}/%(title)s-%(id)s.%(ext)s" $link
+	youtube-dl -q --no-playlist -f "bestvideo+bestaudio/best" --exec "echo {} > ${tmp}/title" \
+	--external-downloader "aria2c" --external-downloader-args "${args}" \
+	-o "${tmp}/%(title)s-%(id)s.%(ext)s" $link
 
 else
 
-	youtube-dl -q --no-playlist -f "bestvideo[height<=?$maxres]+bestaudio/best[height<=?$maxres]/best" --exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" -o "${tmp}/%(title)s-%(id)s.%(ext)s" $link
+	youtube-dl -q --no-playlist -f "bestvideo[height<=?$maxres]+bestaudio/best[height<=?$maxres]/best" \
+	--exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" \
+	-o "${tmp}/%(title)s-%(id)s.%(ext)s" $link
 
 fi
 
@@ -87,7 +92,8 @@ if [[ -f "${tmp}/subs" ]]; then
 
 	rm "${tmp}/subs"
 
-	youtube-dl --write-sub --skip-download -o "${tmp}/%(title)s-ytsub-%(id)s.%(ext)s" $link
+	youtube-dl --write-sub --skip-download \
+	-o "${tmp}/%(title)s-ytsub-%(id)s.%(ext)s" $link
 
 	sub=$(ls ${tmp} | grep 'ytsub-')
 	sub="${tmp}/${sub}"
@@ -96,7 +102,8 @@ fi
 
 rm "${tmp}/title"
 
-zenity --question --text="Descarga completa. Reproducir?" --ok-label="Yup" --cancel-label="Nope"
+zenity --question --text="Descarga completa. Reproducir?" \
+--ok-label="Yup" --cancel-label="Nope"
 
 if [[ $? == 0 ]]; then
 
@@ -110,7 +117,8 @@ if [[ $? == 0 ]]; then
 
 	fi
 
-	zenity --question --text="Guardar" --ok-label="Yup" --cancel-label="Nope"
+	zenity --question --text="Guardar" \
+	--ok-label="Yup" --cancel-label="Nope"
 
 	if [[ $? != 0 ]]; then
 

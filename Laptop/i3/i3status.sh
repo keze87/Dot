@@ -12,13 +12,19 @@ brillomax=$(cat /sys/class/backlight/intel_backlight/max_brightness)
 while :
 do
 
-		if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | grep -q Playing; then
+		if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify \
+		/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
+		string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | \
+		grep -q Playing; then
 
 			player="spotify"
 
 		else
 
-			if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.audacious /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | grep -q Playing; then
+			if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.audacious \
+			/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
+			string:'org.mpris.MediaPlayer2.Player' \
+			string:'PlaybackStatus' | grep -q Playing; then
 
 				player="audacious"
 
@@ -32,11 +38,23 @@ do
 
 		if [[ $player ]]; then
 
-			artist=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | egrep -A 2 "artist" | egrep -v "artist" | egrep -v "array" | cut -b 27- | tr '"' "'" | egrep -v ^$)
+			artist=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player \
+			/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
+			string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | \
+			egrep -A 2 "artist" | egrep -v "artist" | egrep -v "array" | \
+			cut -b 27- | tr '"' "'" | egrep -v ^$)
 
-			title=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | egrep -A 1 "title" | egrep -v "title" | cut -b 44- | tr '"' "'" | egrep -v ^$)
+			title=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player \
+			/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
+			string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | \
+			egrep -A 1 "title" | egrep -v "title" | cut -b 44- | tr '"' "'" | \
+			egrep -v ^$)
 
-			album=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | egrep -A 1 "album" | egrep -v "album" | cut -b 44- | tr '"' "'" | egrep -v ^$)
+			album=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player \
+			/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
+			string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | \
+			egrep -A 1 "album" | egrep -v "album" | cut -b 44- | tr '"' "'" | \
+			egrep -v ^$)
 
 			if [[ $artist ]]; then
 				artist=${artist::-1}
@@ -56,8 +74,10 @@ do
 		brillo=$(cat /sys/class/backlight/intel_backlight/actual_brightness)
 		brillo=$(echo "$brillo * 100 / $brillomax" | bc -l)
 
-		bateria1=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep perce | awk '{print $2}' | tr -d '%')
-		bateria2=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep state | awk '{print $2}')
+		bateria1=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | \
+		grep perce | awk '{print $2}' | tr -d '%')
+		bateria2=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | \
+		grep state | awk '{print $2}')
 
 		wifi=$(iwgetid -r)
 

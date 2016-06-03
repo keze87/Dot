@@ -55,21 +55,25 @@ else
 fi
 
 tmp="${HOME}/.cache"
-args='--allow-overwrite=true -c --file-allocation=none --log-level=error -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=60 -t5'
-
-youtube-dl -e $link > "${tmp}/title" &
+args='--allow-overwrite=true -c --file-allocation=none --log-level=error -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=0 -t5'
 
 if [[ $maxres == 0 ]]; then
 
-	youtube-dl -f "bestvideo+bestaudio/best" --external-downloader "aria2c" --external-downloader-args "${args}" -o "${tmp}/%(title)s-%(id)s.%(ext)s" $link
+	youtube-dl -q --no-playlist -f "bestvideo+bestaudio/best" --exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" -o "${tmp}/%(title)s-%(id)s.%(ext)s" $link
 
 else
 
-	youtube-dl -f "bestvideo[height<=?$maxres]+bestaudio/best[height<=?$maxres]/best" --external-downloader "aria2c" --external-downloader-args "${args}" -o "${tmp}/%(title)s-%(id)s.%(ext)s" $link
+	youtube-dl -q --no-playlist -f "bestvideo[height<=?$maxres]+bestaudio/best[height<=?$maxres]/best" --exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" -o "${tmp}/%(title)s-%(id)s.%(ext)s" $link
 
 fi
 
-youtube-dl --list-subs $link > "${tmp}/subs"
+if [[ $? != 0 ]]; then
+
+	exit 1;
+
+fi
+
+youtube-dl --list-subs $link &> "${tmp}/subs"
 
 if cat "${tmp}/subs" | grep -q "video doesn't have subtitles"; then
 
@@ -77,9 +81,7 @@ if cat "${tmp}/subs" | grep -q "video doesn't have subtitles"; then
 
 fi
 
-wait
-
-title=$(find ${tmp} -name "$(cat ${tmp}/title)*" -type f -printf '%f\n' -quit)
+title=$(cat ${tmp}/title)
 
 if [[ -f "${tmp}/subs" ]]; then
 
@@ -87,7 +89,8 @@ if [[ -f "${tmp}/subs" ]]; then
 
 	youtube-dl --write-sub --skip-download -o "${tmp}/%(title)s-ytsub-%(id)s.%(ext)s" $link
 
-	sub=$(find ${tmp} -name "$(cat ${tmp}/title)-ytsub-*" -type f -printf '%f\n' -quit)
+	sub=$(ls ${tmp} | grep 'ytsub-')
+	sub="${tmp}/${sub}"
 
 fi
 
@@ -99,11 +102,11 @@ if [[ $? == 0 ]]; then
 
 	if [[ ${sub} ]]; then
 
-		mpv --sub-file="${tmp}/${sub}" "${tmp}/${title}"
+		mpv --no-terminal --sub-file="${sub}" "${title}"
 
 	else
 
-		mpv "${tmp}/${title}"
+		mpv --no-terminal "${title}"
 
 	fi
 
@@ -111,11 +114,11 @@ if [[ $? == 0 ]]; then
 
 	if [[ $? != 0 ]]; then
 
-		rm "${tmp}/${title}"
+		rm "${title}"
 
 		if [[ ${sub} ]]; then
 
-			rm "${tmp}/${sub}"
+			rm "${sub}"
 
 		fi
 
@@ -129,21 +132,21 @@ ruta=$(zenity --file-selection --save --confirm-overwrite --filename="${title}")
 
 if [[ ${ruta} ]]; then
 
-	mv "${tmp}/${title}" "${ruta}"
+	mv "${title}" "${ruta}"
 
 	if [[ ${sub} ]]; then
 
-		mv "${tmp}/${sub}" "${ruta}.sub"
+		mv "${sub}" "${ruta}.sub"
 
 	fi
 
 else
 
-	gvfs-trash "${tmp}/${title}"
+	gvfs-trash "${title}"
 
 	if [[ ${sub} ]]; then
 
-		gvfs-trash "${tmp}/${sub}"
+		gvfs-trash "${sub}"
 
 	fi
 

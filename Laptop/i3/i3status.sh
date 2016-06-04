@@ -140,7 +140,7 @@ while true; do
 						\"color\":\"#FFFFFF\",
 						\"separator\": false,
 						\"separator_block_width\": 0,
-						\"short_text\":\" N/A \",
+						\"short_text\":\"\",
 						\"full_text\":\" ${album} \"
 					 },"
 
@@ -152,6 +152,7 @@ while true; do
 						\"color\":\"$s\",
 						\"separator\": false,
 						\"separator_block_width\": 0,
+						\"short_text\":\"\",
 						\"full_text\":\"--\"
 					 },"
 

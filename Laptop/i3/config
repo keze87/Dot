@@ -23,7 +23,7 @@ set $negro #000000
 set $rojo #900000
 
 # Fondo
-set $transparente #000000CC
+set $transparente #00000000
 
 font pango:DejaVu Sans Mono Regular 8
 

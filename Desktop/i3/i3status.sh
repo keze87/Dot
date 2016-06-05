@@ -78,6 +78,8 @@ while true; do
 
 	fi
 
+	memo=$(tr -s "\n" " " < ${HOME}/memo)
+
 	nvidia=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
 
 	disco1=$(df | grep sdb1 | awk '{print $5}')
@@ -149,6 +151,21 @@ while true; do
 
 	fi
 
+	### El Memo ###
+
+	if [[ -f ${HOME}/memo ]]; then
+
+		if [[ ${memo} ]]; then
+
+			echo -e "{
+						\"color\":\"#FFFFFF\",
+						\"full_text\":\" ${memo::-1} \"
+					},"
+
+		fi
+
+	fi
+
 	### Internet ###
 
 	if true; then
@@ -156,7 +173,7 @@ while true; do
 		echo -e "{
 					\"color\":\"#FFFFFF\",
 					\"full_text\":\" NET: $(sh ~/.config/i3/speed.sh "eno1") \"
-					 },"
+				 },"
 
 	fi
 

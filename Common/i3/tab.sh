@@ -8,7 +8,10 @@
 # ================================================================================== #
 
 ws=$(i3-msg -t get_workspaces | jq "map(select(.focused))[]|.name")
-windows=$(i3-msg -t get_tree | jq ".nodes|map(.nodes[])|map(.nodes[])|map(select(.type==\"workspace\" and .name==${ws}))[0].nodes|map(recurse(.nodes[]))|map(.window)|.[]|values")
+
+windows=$(i3-msg -t get_tree | \
+jq ".nodes|map(.nodes[])|map(.nodes[])|map(select(.type==\"workspace\" and .name==${ws}))[0].nodes|map(recurse(.nodes[]))|map(.window)|.[]|values")
+
 current=$(i3-msg -t get_tree | jq "recurse(.nodes[])|select(.focused)|.window")
 
 if [ "x${current}" != "xnull" ]; then

@@ -10,8 +10,6 @@ else
 
 fi
 
-up="y"
-
 echo -e "{\"version\":1}\n["
 
 while true; do
@@ -157,20 +155,20 @@ while true; do
 
 		echo -e "{
 					\"color\":\"#FFFFFF\",
-					\"full_text\":\" NET: `sh ~/.config/i3/speed.sh "eno1"` \"
+					\"full_text\":\" NET: $(sh ~/.config/i3/speed.sh "eno1") \"
 					 },"
 
 	fi
 
 	### Nvidia ###
 
-	if [[ $nvidia < 60 ]]; then
+	if [[ $nvidia -lt 60 ]]; then
 
 		echo -e "{ \"color\":\"#FFFFFF\","
 
 	else
 
-		if [[ $nvidia < 80 ]]; then
+		if [[ $nvidia -lt 80 ]]; then
 
 			echo -e "{ \"color\":\"#FFA500\","
 
@@ -207,13 +205,13 @@ while true; do
 
 	### CPU ###
 
-	if [[ $cpu < 60 ]]; then
+	if [[ $cpu -lt 60 ]]; then
 
 		echo -e "{ \"color\":\"#FFFFFF\","
 
 	else
 
-		if [[ $cpu < 80 ]]; then
+		if [[ $cpu -lt 80 ]]; then
 
 			echo -e "{ \"color\":\"#FFA500\","
 

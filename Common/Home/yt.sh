@@ -46,7 +46,7 @@ fi
 
 if [[ ${link} ]]; then
 
-	echo ${link}; echo
+	echo -e "${link}\n"
 
 else
 
@@ -62,13 +62,13 @@ if [[ ${maxres} == 0 ]]; then
 
 	youtube-dl -q --no-playlist -f "bestvideo+bestaudio/best" --exec "echo {} > ${tmp}/title" \
 	--external-downloader "aria2c" --external-downloader-args "${args}" \
-	-o "${tmp}/%(title)s-%(id)s.%(ext)s" ${link}
+	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}"
 
 else
 
-	youtube-dl -q --no-playlist -f "bestvideo[height<=?$maxres]+bestaudio/best[height<=?$maxres]/best" \
+	youtube-dl -q --no-playlist -f "bestvideo[height<=?${maxres}]+bestaudio/best[height<=?{$maxres}]/best" \
 	--exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" \
-	-o "${tmp}/%(title)s-%(id)s.%(ext)s" ${link}
+	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}"
 
 fi
 
@@ -78,24 +78,24 @@ if [[ $? != 0 ]]; then
 
 fi
 
-youtube-dl --list-subs ${link} &> "${tmp}/subs"
+youtube-dl --list-subs "${link}" &> "${tmp}/subs"
 
-if cat "${tmp}/subs" | grep -q "video doesn't have subtitles"; then
+if grep -q "video doesn't have subtitles" "${tmp}/subs"; then
 
 	rm "${tmp}/subs"
 
 fi
 
-title=$(cat ${tmp}/title)
+title=$(cat "${tmp}"/title)
 
 if [[ -f "${tmp}/subs" ]]; then
 
 	rm "${tmp}/subs"
 
 	youtube-dl --write-sub --skip-download \
-	-o "${tmp}/%(title)s-ytsub-%(id)s.%(ext)s" ${link}
+	-o "${tmp}/%(title)s-ytsub-%(id)s.%(ext)s" "${link}"
 
-	sub=$(ls ${tmp} | grep 'ytsub-')
+	sub=$(ls "${tmp}" | grep 'ytsub-')
 	sub="${tmp}/${sub}"
 
 fi
@@ -137,7 +137,7 @@ if [[ $? == 0 ]]; then
 fi
 
 ruta=$(zenity --file-selection --save --confirm-overwrite \
---filename="$(youtube-dl -e ${link}).${title: -3}");
+--filename="$(youtube-dl -e \"${link}\").${title: -3}");
 
 if [[ ${ruta} ]]; then
 

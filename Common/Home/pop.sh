@@ -1,6 +1,6 @@
 #/bin/bash
 
-cd POP;
+cd POP || exit
 
 while true; do
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if ps -fC zenity | grep -q olumen; then
+if pgrep -a zenity | grep -q Volumen; then
 
 	exit
 
@@ -24,19 +24,19 @@ sh_pid=$!
 
 tmp2="70000"
 
-while ps -p $sh_pid > /dev/null; do
+while ps -p ${sh_pid} > /dev/null; do
 
-	tmp=$(cat .volumen | tail -1)
+	tmp=$(tail -1 < .volumen)
 
-	if [[ $tmp ]]; then
+	if [[ ${tmp} ]]; then
 
-		if [[ $tmp != $tmp2  ]]; then
+		if [[ "${tmp}" != "${tmp2}"  ]]; then
 
-			amixer set Master $tmp
+			amixer set Master ${tmp}
 
 		fi
 
-		tmp2=$tmp
+		tmp2=${tmp}
 
 	fi
 
@@ -46,10 +46,10 @@ done
 
 rm .volumen
 
-wait $sh_pid
+wait ${sh_pid}
 
 if [[ $? != 0 ]]; then
 
-	amixer set Master $volumen
+	amixer set Master ${volumen}
 
 fi

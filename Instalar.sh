@@ -5,8 +5,8 @@
 # dialog rsync pygmentize expac rtmpdump
 # youtube-dl aria2c mpv
 
-dir=~/.Dot
-olddir=~/Dot_Old
+dir="${HOME}/.Dot"
+olddir="${HOME}/Dot_Old"
 
 ### Menu ###
 
@@ -20,20 +20,29 @@ dependiendo del tamaño de pantalla." 10 50 2 \
 
 if [[ $? == 0 ]]; then
 
-	if [ -d $olddir ]; then
+	if [ -d "${olddir}" ]; then
 
-		gvfs-trash $olddir
+		gvfs-trash "${olddir}"
 
 	fi
 
-	mkdir $olddir
+	mkdir "${olddir}"
 
-	sh ${dir}/Common/Common.sh
+	sh "${dir}"/Common/Common.sh
 
 	case $menu in
 
-		Desktop) sh ${dir}/Desktop/Desktop.sh;;
-		Laptop) sh ${dir}/Laptop/Laptop.sh;;
+		Desktop)
+
+			sh "${dir}"/Desktop/Desktop.sh
+
+		;;
+
+		Laptop)
+
+			sh "${dir}"/Laptop/Laptop.sh
+
+		;;
 
 	esac
 

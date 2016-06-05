@@ -2,22 +2,22 @@
 
 #set -x
 
-dir=~/.Dot/Laptop
-olddir=~/Dot_Old
+dir="${HOME}/.Dot/Laptop"
+olddir="${HOME}/Dot_Old"
 
 ### Home ###
 
 files="conkyrc"
 
-for file in $files; do
+for file in ${files}; do
 
-	if [ -f ~/.$file ]; then
+	if [ -f ~/.${file} ]; then
 
-		mv ~/.$file $olddir/Home/
+		mv ~/.${file} "${olddir}"/Home/
 
 	fi
 
-	ln -s $dir/Home/$file ~/.$file
+	ln -s "${dir}"/Home/"${file}" ~/."${file}"
 
 done
 
@@ -25,15 +25,15 @@ done
 
 files="brillo.sh i3status.sh config"
 
-for file in $files; do
+for file in ${files}; do
 
-	if [ -f ~/.config/i3/$file ]; then
+	if [ -f ~/.config/i3/"${file}" ]; then
 
-		mv ~/.config/i3/$file $olddir/i3/
+		mv ~/.config/i3/"${file}" "${olddir}"/i3/
 
 	fi
 
-	ln -s $dir/i3/$file ~/.config/i3/$file
+	ln -s "${dir}"/i3/"${file}" ~/.config/i3/"${file}"
 
 done
 
@@ -41,18 +41,18 @@ done
 
 files="mpv.conf mvtools.vpy input.conf"
 
-mkdir $olddir/mpv
+mkdir "${olddir}"/mpv
 
 if [ -d ~/.config/mpv ]; then
 
-	mv ~/.config/mpv/ $olddir/
+	mv ~/.config/mpv/ "${olddir}"/
 
 fi
 
 mkdir ~/.config/mpv
 
-for file in $files; do
+for file in ${files}; do
 
-	ln -s $dir/mpv/$file ~/.config/mpv/$file
+	ln -s "${dir}"/mpv/"${file}" ~/.config/mpv/"${file}"
 
 done

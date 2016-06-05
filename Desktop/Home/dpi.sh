@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd /etc/X11/
+cd /etc/X11/ || exit
 
 if ls | grep -q 144; then
 

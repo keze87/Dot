@@ -166,11 +166,11 @@ while true; do
 
 	### Brillo ###
 
-	if [[ $brillo ]]; then
+	if [[ ${brillo} ]]; then
 
-		if [ ${brillo%.*} -eq "100" ]; then
+		if [ "${brillo%.*}" -eq "100" ]; then
 
-			brillo=("")
+			brillo=""
 
 		else
 
@@ -210,9 +210,9 @@ while true; do
 
 		time=$(awk '{print $0/60;}' /proc/uptime)
 
-		if [[ ${time%.*} > 1 ]]; then
+		if [[ ${time%.*} -gt 1 ]]; then
 
-			if [[ $up ]]; then
+			if [[ ${up} ]]; then
 
 				mpv --really-quiet /usr/share/sounds/freedesktop/stereo/dialog-information.oga
 
@@ -261,13 +261,13 @@ while true; do
 
 	### CPU ###
 
-	if [[ $cpu < 60 ]]; then
+	if [[ ${cpu} -lt 60 ]]; then
 
 		echo -e "{ \"color\":\"#FFFFFF\","
 
 	else
 
-		if [[ $cpu < 80 ]]; then
+		if [[ ${cpu} -lt 80 ]]; then
 
 			echo -e "{ \"color\":\"#FFA500\","
 
@@ -283,7 +283,7 @@ while true; do
 
 	### Bateria ##
 
-	if [ $bateria1 -gt 50 ]; then
+	if [ "${bateria1}" -gt 50 ]; then
 
 		echo -e "{\"color\":\"#FFFFFF\","
 
@@ -301,7 +301,7 @@ while true; do
 
 	fi
 
-	if [ $bateria2 = "discharging" ]; then
+	if [ "${bateria2}" = "discharging" ]; then
 
 		echo -e "\"full_text\":\"BAT: ${bateria1}% \"},"
 

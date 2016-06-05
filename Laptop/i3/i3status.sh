@@ -11,7 +11,6 @@ else
 fi
 
 up="y"
-timesdown=0
 
 echo -e "{\"version\":1}\n["
 
@@ -195,31 +194,13 @@ while true; do
 
 		if [[ $speed == "0 K↓ 0 K↑" ]]; then
 
-			if [[ $timesdown == 0 ]]; then
-
-				echo -e "\"full_text\":\" WiFi: (${wifi}) \"
-					 },"
-
-			else
-
-				echo -e "\"full_text\":\" WiFi: (${wifi}) ($timesdown) \"
-					 },"
-
-			fi
+			echo -e "\"full_text\":\" WiFi: (${wifi}) \"
+				 },"
 
 		else
 
-			if [[ $timesdown == 0 ]]; then
-
-				echo -e "\"full_text\":\" WiFi: ${speed} (${wifi}) \"
-					 },"
-
-			else
-
-				echo -e "\"full_text\":\" WiFi: ${speed} (${wifi}) ($timesdown) \"
-					 },"
-
-			fi
+			echo -e "\"full_text\":\" WiFi: ${speed} (${wifi}) \"
+				 },"
 
 		fi
 
@@ -237,15 +218,13 @@ while true; do
 
 				up=""
 
-				timesdown=$(($timesdown + 1))
-
 			fi
 
 		fi
 
 		echo -e "{
 					\"color\":\"#FF0000\",
-					\"full_text\":\" Sin Internet ($timesdown) \"
+					\"full_text\":\" Sin Internet \"
 				 },"
 
 	fi

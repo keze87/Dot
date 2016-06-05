@@ -11,7 +11,6 @@ else
 fi
 
 up="y"
-timesdown=0
 
 echo -e "{\"version\":1}\n["
 

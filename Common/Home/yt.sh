@@ -66,7 +66,7 @@ if [[ ${maxres} == 0 ]]; then
 
 else
 
-	youtube-dl -q --no-playlist -f "bestvideo[height<=?${maxres}]+bestaudio/best[height<=?{$maxres}]/best" \
+	youtube-dl -q --no-playlist -f "bestvideo[height<=?${maxres}]+bestaudio/best[height<=?${maxres}]/best" \
 	--exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" \
 	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}"
 

@@ -44,7 +44,9 @@ else
 
 fi
 
-if [[ ${link} ]]; then
+name=$(youtube-dl -e "${link}")
+
+if [[ $? == 0 ]]; then
 
 	echo -e "${link}\n"
 
@@ -60,15 +62,21 @@ args='--allow-overwrite=true -c --file-allocation=none --log-level=error
 
 if [[ ${maxres} == 0 ]]; then
 
-	youtube-dl -q --no-playlist -f "bestvideo+bestaudio/best" --exec "echo {} > ${tmp}/title" \
+	stdbuf -o0 youtube-dl -q --no-playlist -f "bestvideo+bestaudio/best" --exec "echo {} > ${tmp}/title" \
 	--external-downloader "aria2c" --external-downloader-args "${args}" \
-	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}"
+	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" | \
+	grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
+	zenity --progress --title="Download" --text="${name}" \
+	--percentage=0 --auto-close --no-cancel
 
 else
 
-	youtube-dl -q --no-playlist -f "bestvideo[height<=?${maxres}]+bestaudio/best[height<=?${maxres}]/best" \
+	stdbuf -o0 youtube-dl -q --no-playlist -f "bestvideo[height<=?${maxres}]+bestaudio/best[height<=?${maxres}]/best" \
 	--exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" \
-	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}"
+	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" | \
+	grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
+	zenity --progress --title="Download" --text="${name}" \
+	--percentage=0 --auto-close --no-cancel
 
 fi
 
@@ -137,7 +145,7 @@ if [[ $? == 0 ]]; then
 fi
 
 ruta=$(zenity --file-selection --save --confirm-overwrite \
---filename="$(youtube-dl -e \"${link}\").${title: -3}");
+--filename="${name}.${title: -3}");
 
 if [[ ${ruta} ]]; then
 

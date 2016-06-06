@@ -64,7 +64,7 @@ if [[ -f "${tmp}"/ytlog ]]; then
 
 fi
 
-touch  tee -a "${tmp}"/ytlog
+touch "${tmp}"/ytlog
 
 args='--allow-overwrite=true -c --file-allocation=none --log-level=error
 -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=0 -t5'
@@ -112,7 +112,7 @@ if [[ -f "${tmp}/subs" ]]; then
 	youtube-dl --write-sub --skip-download \
 	-o "${tmp}/%(title)s-ytsub-%(id)s.%(ext)s" "${link}"
 
-	sub=$(ls "${tmp}" | grep 'ytsub-')
+	sub=$(ls "${tmp}" | grep -- -ytsub-)
 	sub="${tmp}/${sub}"
 
 fi

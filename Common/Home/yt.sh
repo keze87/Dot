@@ -57,6 +57,15 @@ else
 fi
 
 tmp="${HOME}/.cache"
+
+if [[ -f "${tmp}"/ytlog ]]; then
+
+	rm "${tmp}"/ytlog
+
+fi
+
+touch  tee -a "${tmp}"/ytlog
+
 args='--allow-overwrite=true -c --file-allocation=none --log-level=error
 -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=0 -t5'
 
@@ -64,18 +73,18 @@ if [[ ${maxres} == 0 ]]; then
 
 	stdbuf -o0 youtube-dl -q --no-playlist -f "bestvideo+bestaudio/best" --exec "echo {} > ${tmp}/title" \
 	--external-downloader "aria2c" --external-downloader-args "${args}" \
-	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" | \
+	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" 2>&1 | tee -a "${tmp}"/ytlog | \
 	grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
-	zenity --progress --title="Download" --text="${name}" \
+	zenity --progress --title="Download" --text="${name}\n" \
 	--percentage=0 --auto-close --no-cancel
 
 else
 
 	stdbuf -o0 youtube-dl -q --no-playlist -f "bestvideo[height<=?${maxres}]+bestaudio/best[height<=?${maxres}]/best" \
 	--exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" \
-	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" | \
+	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" 2>&1 | tee -a "${tmp}"/ytlog |\
 	grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
-	zenity --progress --title="Download" --text="${name}" \
+	zenity --progress --title="Download" --text="${name}\n" \
 	--percentage=0 --auto-close --no-cancel
 
 fi

@@ -78,7 +78,11 @@ while true; do
 
 	fi
 
-	memo=$(tr -s "\n" " " < ${HOME}/memo)
+	if [[ -f ${HOME}/memo ]]; then
+
+		memo=$(tr -s "\n" " " < ${HOME}/memo)
+
+	fi
 
 	nvidia=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
 
@@ -153,16 +157,14 @@ while true; do
 
 	### El Memo ###
 
-	if [[ -f ${HOME}/memo ]]; then
+	if [[ ${memo} ]]; then
 
-		if [[ ${memo} ]]; then
+		echo -e "{
+					\"color\":\"#FFFFFF\",
+					\"full_text\":\" ${memo::-1} \"
+				 },"
 
-			echo -e "{
-						\"color\":\"#FFFFFF\",
-						\"full_text\":\" ${memo::-1} \"
-					},"
-
-		fi
+		memo=""
 
 	fi
 

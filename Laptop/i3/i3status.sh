@@ -82,7 +82,11 @@ while true; do
 
 	fi
 
-	memo=$(tr -s "\n" " " < ${HOME}/memo)
+	if [[ -f ${HOME}/memo ]]; then
+
+		memo=$(tr -s "\n" " " < ${HOME}/memo)
+
+	fi
 
 	brillo=$(cat /sys/class/backlight/intel_backlight/actual_brightness)
 	brillo=$(echo "$brillo * 100 / $brillomax" | bc -l)
@@ -168,16 +172,14 @@ while true; do
 
 	### El Memo ###
 
-	if [[ -f ${HOME}/memo ]]; then
+	if [[ ${memo} ]]; then
 
-		if [[ ${memo} ]]; then
+		echo -e "{
+					\"color\":\"#FFFFFF\",
+					\"full_text\":\" ${memo::-1} \"
+				 },"
 
-			echo -e "{
-						\"color\":\"#FFFFFF\",
-						\"full_text\":\" ${memo::-1} \"
-					 },"
-
-		fi
+		memo=""
 
 	fi
 

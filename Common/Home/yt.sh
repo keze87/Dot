@@ -109,7 +109,7 @@ if [[ -f "${tmp}/subs" ]]; then
 
 	rm "${tmp}/subs"
 
-	youtube-dl --write-sub --skip-download \
+	youtube-dl -q --write-sub --skip-download \
 	-o "${tmp}/%(title)s-ytsub-%(id)s.%(ext)s" "${link}"
 
 	sub=$(ls "${tmp}" | grep -- -ytsub-)
@@ -153,8 +153,17 @@ if [[ $? == 0 ]]; then
 
 fi
 
-ruta=$(zenity --file-selection --save --confirm-overwrite \
---filename="${name}.${title: -3}");
+if echo ${title: -4} | grep -q -F "."; then
+
+	ruta=$(zenity --file-selection --save --confirm-overwrite \
+	--filename="${name}.${title: -3}");
+
+else
+
+	ruta=$(zenity --file-selection --save --confirm-overwrite \
+	--filename="${name}.${title: -4}");
+
+fi
 
 if [[ ${ruta} ]]; then
 

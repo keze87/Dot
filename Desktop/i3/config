@@ -56,7 +56,7 @@ bindsym Mod1+Down exec --no-startup-id "amixer set Master 5%-"
 bindsym $mod+w exec chromium
 bindsym Mod1+w exec firefox
 bindsym $mod+e exec pcmanfm
-bindsym $mod+g exec geany
+bindsym $mod+g exec env GTK_THEME=Adwaita:dark geany
 bindsym $mod+s exec spotify
 bindsym $mod+q exec sh ~/.config/i3/apagar.sh
 bindsym $mod+l exec sh ~/.config/i3/lariza.sh
@@ -208,4 +208,4 @@ client.focused_inactive $color3 $color3 $blanco $color2
 client.unfocused $color2 $color2 $blanco $color2
 client.urgent $rojo $rojo $blanco $rojo
 
-#vim: syntax=python
+#vim: syntax=sh

@@ -138,10 +138,14 @@ if [[ $? == 0 || ${maxres} == "1000" ]]; then
 
 	fi
 
-	zenity --question --text="Guardar" \
-	--ok-label="Yup" --cancel-label="Nope"
+	if [[ ${maxres} != "1000" ]]; then
 
-	if [[ $? != 0 ]]; then
+		zenity --question --text="Guardar" \
+		--ok-label="Yup" --cancel-label="Nope"
+
+	fi
+
+	if [[ $? != 0 || ${maxres} == "1000" ]]; then
 
 		rm "${title}"
 

@@ -19,6 +19,8 @@ source $ZSH/oh-my-zsh.sh
 alias copy='rsync -r -v --progress'
 alias sortsize='expac -H M "%011m\t%-20n\t%10d" $(comm -23 <(pacman -Qqen | \
 sort) <(pacman -Qqg base base-devel | sort)) | sort -n'
+alias orphan='expac -HM "%-20n\t%10d" $( comm -23 <(pacman -Qqt | \
+sort) <(pacman -Qqg base base-devel|sort) )'
 alias col='pygmentize -g'
 alias cpu='watch grep \"cpu MHz\" /proc/cpuinfo'
 alias actualizar='pacaur -Syu'

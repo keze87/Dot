@@ -214,3 +214,5 @@ client.focused $color $color $blanco $color
 client.focused_inactive $color3 $color3 $blanco $color2
 client.unfocused $color2 $color2 $blanco $color2
 client.urgent $rojo $rojo $blanco $rojo
+
+#vim: syntax=sh

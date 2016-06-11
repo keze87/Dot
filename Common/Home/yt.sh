@@ -48,7 +48,7 @@ name=$(youtube-dl -e "${link}")
 
 if [[ $? == 0 ]]; then
 
-	echo -e "${link}\n"
+	echo -e "${name}\n${link}\n"
 
 else
 
@@ -75,16 +75,16 @@ if [[ ${maxres} == 0 ]]; then
 	--external-downloader "aria2c" --external-downloader-args "${args}" \
 	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" 2>&1 | tee -a "${tmp}"/ytlog | \
 	grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
-	zenity --progress --title="Download" --text="${name}\n" \
+	zenity --progress --title="Yt-dl-aria2c" --text="${name}\n" \
 	--percentage=0 --auto-close --no-cancel
 
 else
 
 	stdbuf -o0 youtube-dl -q --no-playlist -f "bestvideo[height<=?${maxres}]+bestaudio/best[height<=?${maxres}]/best" \
 	--exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" \
-	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" 2>&1 | tee -a "${tmp}"/ytlog |\
+	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" 2>&1 | tee -a "${tmp}"/ytlog | \
 	grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
-	zenity --progress --title="Download" --text="${name}\n" \
+	zenity --progress --title="Yt-dl-aria2c" --text="${name}\n" \
 	--percentage=0 --auto-close --no-cancel
 
 fi
@@ -119,10 +119,14 @@ fi
 
 rm "${tmp}/title"
 
-zenity --question --text="Descarga completa. Reproducir?" \
+if [[ ${maxres} != "1000" ]]; then
+
+	zenity --question --text="Descarga completa. Reproducir?" \
 --ok-label="Yup" --cancel-label="Nope"
 
-if [[ $? == 0 ]]; then
+fi
+
+if [[ $? == 0 || ${maxres} == "1000" ]]; then
 
 	if [[ ${sub} ]]; then
 
@@ -153,7 +157,7 @@ if [[ $? == 0 ]]; then
 
 fi
 
-if echo ${title: -4} | grep -q -F "."; then
+if echo "${title: -4}" | grep -q -F "."; then
 
 	ruta=$(zenity --file-selection --save --confirm-overwrite \
 	--filename="${name}.${title: -3}");

@@ -43,7 +43,7 @@ for_window [title="Nitrogen"] floating enable
 exec --no-startup-id sh ~/.mouse.sh
 exec --no-startup-id guake
 exec --no-startup-id compton --config ~/.compton.conf
-exec --no-startup-id /usr/lib/mate-polkit/polkit-mate-authentication-agent-1
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id numlockx
 exec --no-startup-id volctl
@@ -56,7 +56,7 @@ bindsym Mod1+Down exec --no-startup-id "amixer set Master 5%-"
 bindsym $mod+w exec chromium
 bindsym Mod1+w exec firefox
 bindsym $mod+e exec pcmanfm
-bindsym $mod+g exec env GTK_THEME=Adwaita:dark geany
+bindsym $mod+g exec env GTK2_RC_FILES=/usr/share/themes/Vertex-Dark/gtk-2.0/gtkrc geany
 bindsym $mod+s exec spotify
 bindsym $mod+q exec sh ~/.config/i3/apagar.sh
 bindsym $mod+l exec sh ~/.config/i3/lariza.sh

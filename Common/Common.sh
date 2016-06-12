@@ -7,7 +7,7 @@ olddir="${HOME}/Dot_Old"
 
 ### Home ###
 
-files="compton.conf zshrc mouse.sh pop.sh yt.sh vimrc"
+files="compton.conf zshrc mouse.sh pop.sh yt.sh vimrc ss.sh"
 
 mkdir "${olddir}"/Home
 

@@ -58,6 +58,7 @@ bindsym Mod1+w exec firefox
 bindsym $mod+e exec pcmanfm
 bindsym $mod+g exec env GTK2_RC_FILES=/usr/share/themes/Vertex-Dark/gtk-2.0/gtkrc geany
 bindsym $mod+s exec spotify
+bindsym Mod1+s exec sh ~/.ss.sh
 bindsym $mod+q exec sh ~/.config/i3/apagar.sh
 bindsym $mod+l exec sh ~/.config/i3/lariza.sh
 bindsym $mod+n exec --no-startup-id sh ~/.config/i3/invert.sh

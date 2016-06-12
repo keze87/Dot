@@ -67,6 +67,7 @@ bindsym $mod+w exec chromium
 bindsym $mod+e exec pcmanfm
 bindsym $mod+g exec geany
 bindsym $mod+s exec spotify
+bindsym Mod1+s exec sh ~/.ss.sh
 bindsym $mod+q exec sh ~/.config/i3/apagar.sh
 bindsym $mod+n exec --no-startup-id sh ~/.config/i3/invert.sh
 bindsym Mod1+Tab exec --no-startup-id sh ~/.config/i3/tab.sh

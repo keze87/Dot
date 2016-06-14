@@ -1,6 +1,6 @@
 set nocompatible
 set t_Co=256
-set shell=/bin/bash
+set shell=bash
 
 call plug#begin()
 
@@ -15,26 +15,6 @@ call plug#end()
 
 set noshowmode
 set laststatus=2
-
-" .vimrc
-" See: http://vimdoc.sourceforge.net/htmldoc/options.html for details
-
-" For multi-byte character support (CJK support, for example):
-"set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,euc-kr,gb18030,latin1
-
-set tabstop=4		" Number of spaces that a <Tab> in the file counts for.
-
-set shiftwidth=4	" Number of spaces to use for each step of (auto)indent.
-
-set expandtab		" Use the appropriate number of spaces to insert a <Tab>.
-					" Spaces are used in indents with the '>' and '<' commands
-					" and when 'autoindent' is on. To insert a real tab when
-					" 'expandtab' is on, use CTRL-V <Tab>.
-
-set smarttab		" When on, a <Tab> in front of a line inserts blanks
-					" according to 'shiftwidth'. 'tabstop' is used in other
-					" places. A <BS> will delete a 'shiftwidth' worth of space
-					" at the start of the line.
 
 set showcmd         " Show (partial) command in status line.
 
@@ -95,6 +75,9 @@ set scrolloff=10	" always keep 10 lines above and below cursor
 
 set guifont=Cousine\ for\ Powerline
 
+set shiftwidth=4
+set tabstop=4
+
 filetype plugin indent on
 syntax on
 
@@ -115,4 +98,4 @@ let g:airline_powerline_fonts = 1
 "colorscheme molokai
 
 set list
-set listchars=tab:>-
+set listchars=tab:>.

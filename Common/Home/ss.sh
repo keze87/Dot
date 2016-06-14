@@ -8,6 +8,6 @@ if systemctl is-active --quiet sshd.service; then
 else
 
 	systemctl start sshd.service && \
-	zenity --warning --text="SSHD activo\n$(ifconfig | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" | head -n 1)"
+	zenity --warning --text="SSHD activo\n$(ifconfig | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}")"
 
 fi

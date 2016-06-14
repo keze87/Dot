@@ -7,18 +7,10 @@ if pgrep -a zenity | grep -q Brillo; then
 fi
 
 brillo=$(cat /sys/class/backlight/intel_backlight/actual_brightness); # Guardo por si se cancela
+brillomax=$(cat /sys/class/backlight/intel_backlight/max_brightness);
 
-sh -c "
-
-	brillomax=$(cat /sys/class/backlight/intel_backlight/max_brightness);
-	brillo=$(cat /sys/class/backlight/intel_backlight/actual_brightness);
-
-	zenity --scale --text=\"Nivel de Brillo?\" --value=${brillo} \
-	--max-value=${brillomax} --hide-value --print-partial > .brillo
-
-	exit $?
-
-"&
+zenity --scale --text="Nivel de Brillo?" --value=${brillo} \
+--max-value=${brillomax} --hide-value --print-partial > .brillo &
 
 sh_pid=$!
 

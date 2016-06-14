@@ -7,18 +7,10 @@ if pgrep -a zenity | grep -q Volumen; then
 fi
 
 volumen=$(amixer get Master | grep Right: | awk {"print \$4"});
+volumenmax=$(amixer get Master | grep Limits | awk {"print \$5"});
 
-sh -c '
-
-	volumenmax=$(amixer get Master | grep Limits | awk {"print \$5"});
-	volumen=$(amixer get Master | grep Right: | awk {"print \$4"});
-
-	zenity --scale --text="Nivel de Volumen?" --value=$volumen \
-	--max-value=$volumenmax --hide-value --print-partial > .volumen
-
-	exit $?
-
-'&
+zenity --scale --text="Nivel de Volumen?" --value=${volumen} \
+--max-value=${volumenmax} --hide-value --print-partial > .volumen &
 
 sh_pid=$!
 

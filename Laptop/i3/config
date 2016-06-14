@@ -1,4 +1,4 @@
-# i3 config file (v4)
+# i3 Laptop config file (v4)
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
@@ -24,6 +24,9 @@ set $rojo #900000
 
 # Fondo
 set $transparente #00000000
+
+# Permitir solo una instancia
+set $1 sh ~/.config/i3/instance.sh
 
 font pango:DejaVu Sans Mono Regular 8
 
@@ -55,8 +58,8 @@ exec --no-startup-id synclient HorizTwoFingerScroll=1
 bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer set Master 5%+"
 bindsym XF86AudioLowerVolume exec --no-startup-id "amixer set Master 5%-"
 
-bindsym Mod1+Up exec --no-startup-id sh ~/.config/i3/volumen.sh
-bindsym Mod1+Down exec --no-startup-id sh ~/config/i3/volumen.sh
+bindsym Mod1+Up exec --no-startup-id $1 ~/.config/i3/volumen.sh
+bindsym Mod1+Down exec --no-startup-id $1 ~/config/i3/volumen.sh
 
 #bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc 34"
 #bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 34"
@@ -65,10 +68,10 @@ bindsym XF86MonBrightnessDown exec --no-startup-id sudo sh ~/.config/i3/brillo.s
 
 bindsym $mod+w exec chromium
 bindsym $mod+e exec pcmanfm
-bindsym $mod+g exec geany
-bindsym $mod+s exec spotify
-bindsym Mod1+s exec sh ~/.ss.sh
-bindsym $mod+q exec sh ~/.config/i3/apagar.sh
+bindsym $mod+g exec $1 geany
+bindsym $mod+s exec $1 /bin/sh /usr/bin/spotify
+bindsym Mod1+s exec $1 ~/.ss.sh
+bindsym $mod+q exec $1 ~/.config/i3/apagar.sh
 bindsym $mod+n exec --no-startup-id sh ~/.config/i3/invert.sh
 bindsym Mod1+Tab exec --no-startup-id sh ~/.config/i3/tab.sh
 bindsym $mod+t exec --no-startup-id compton-trans `zenity --scale --text="Cuan opaco?" --value=80`

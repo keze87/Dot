@@ -1,4 +1,4 @@
-# i3 config file (v4)
+# i3 Desktop config file (v4)
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
@@ -24,6 +24,9 @@ set $rojo #900000
 
 # Fondo
 set $transparente #00000000
+
+# Permitir solo una instancia
+set $1 sh ~/.config/i3/instance.sh
 
 font pango:Cantarell Regular 9
 
@@ -56,10 +59,10 @@ bindsym Mod1+Down exec --no-startup-id "amixer set Master 5%-"
 bindsym $mod+w exec chromium
 bindsym Mod1+w exec firefox
 bindsym $mod+e exec pcmanfm
-bindsym $mod+g exec env GTK2_RC_FILES=/usr/share/themes/Vertex-Dark/gtk-2.0/gtkrc geany
-bindsym $mod+s exec spotify
-bindsym Mod1+s exec sh ~/.ss.sh
-bindsym $mod+q exec sh ~/.config/i3/apagar.sh
+bindsym $mod+g exec env GTK2_RC_FILES=/usr/share/themes/Vertex-Dark/gtk-2.0/gtkrc $1 geany
+bindsym $mod+s exec $1 /bin/sh /usr/bin/spotify
+bindsym Mod1+s exec $1 ~/.ss.sh
+bindsym $mod+q exec $1 ~/.config/i3/apagar.sh
 bindsym $mod+l exec sh ~/.config/i3/lariza.sh
 bindsym $mod+n exec --no-startup-id sh ~/.config/i3/invert.sh
 bindsym Mod1+Tab exec --no-startup-id sh ~/.config/i3/tab.sh

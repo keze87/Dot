@@ -63,8 +63,8 @@ bindsym Mod1+Down exec --no-startup-id $1 ~/config/i3/volumen.sh
 
 #bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc 34"
 #bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 34"
-bindsym XF86MonBrightnessUp exec --no-startup-id sudo sh ~/.config/i3/brillo.sh
-bindsym XF86MonBrightnessDown exec --no-startup-id sudo sh ~/.config/i3/brillo.sh
+bindsym XF86MonBrightnessUp exec --no-startup-id $1 sudo sh ~/.config/i3/brillo.sh
+bindsym XF86MonBrightnessDown exec --no-startup-id $1 sudo sh ~/.config/i3/brillo.sh
 
 bindsym $mod+w exec chromium
 bindsym $mod+e exec pcmanfm

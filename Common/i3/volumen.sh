@@ -1,11 +1,5 @@
 #!/bin/bash
 
-if pgrep -a zenity | grep -q Volumen; then
-
-	exit
-
-fi
-
 volumen=$(amixer get Master | grep Right: | awk {"print \$4"});
 volumenmax=$(amixer get Master | grep Limits | awk {"print \$5"});
 

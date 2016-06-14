@@ -1,11 +1,5 @@
 #!/bin/bash
 
-if pgrep -a zenity | grep -q Brillo; then
-
-	exit
-
-fi
-
 brillo=$(cat /sys/class/backlight/intel_backlight/actual_brightness);
 brillomax=$(cat /sys/class/backlight/intel_backlight/max_brightness);
 

@@ -45,27 +45,19 @@ alias pop='
 	done
 		'
 alias yt='
-	url2=""
 	url=""
+	url=$(xclip -o);
 
-	url2=$(xclip -o);
-
-	if [[ $url2 ]]; then
-		url=$url2
-		url2=""
+	if [[ $url ]]; then
 		youtube-dl -e --get-description --get-format $url && \
 		mpv "--ytdl" "--ytdl-format=bestvideo[height<=?1080]+bestaudio/best" ${url}
 	fi
 		'
 alias yt720='
-	url2=""
 	url=""
+	url=$(xclip -o);
 
-	url2=$(xclip -o);
-
-	if [[ $url2 ]]; then
-		url=$url2
-		url2=""
+	if [[ $url ]]; then
 		youtube-dl -e --get-description --get-format $url && \
 		mpv "--ytdl" "--ytdl-format=bestvideo[height<=?720]+bestaudio/best" ${url}
 	fi

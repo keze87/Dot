@@ -74,8 +74,8 @@ if [[ ${maxres} == 0 ]]; then
 	stdbuf -o0 youtube-dl -q --no-playlist -f "bestvideo+bestaudio/best" --exec "echo {} > ${tmp}/title" \
 	--external-downloader "aria2c" --external-downloader-args "${args}" \
 	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" 2>&1 | tee -a "${tmp}"/ytlog | \
-	grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
-	zenity --progress --title="Yt-dl-aria2c" --text="${name}\n" \
+	tee /dev/tty | grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
+	zenity --progress --title="Yt-dl-aria2c" --text="$(echo ${name} | tr '&' 'y')\n" \
 	--percentage=0 --auto-close --no-cancel
 
 else
@@ -83,8 +83,8 @@ else
 	stdbuf -o0 youtube-dl -q --no-playlist -f "bestvideo[height<=?${maxres}]+bestaudio/best[height<=?${maxres}]/best" \
 	--exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" \
 	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" 2>&1 | tee -a "${tmp}"/ytlog | \
-	grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
-	zenity --progress --title="Yt-dl-aria2c" --text="${name}\n" \
+	tee /dev/tty | grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
+	zenity --progress --title="Yt-dl-aria2c" --text="$(echo ${name} | tr '&' 'y')\n" \
 	--percentage=0 --auto-close --no-cancel
 
 fi

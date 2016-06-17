@@ -10,6 +10,8 @@ else
 
 fi
 
+up=true
+
 echo -e "{\"version\":1}\n["
 
 while true; do
@@ -95,8 +97,6 @@ while true; do
 
 	fecha=$(date +"%A %d-%m-%Y %H:%M:%S")
 
-#	minuto=$(date +"%M")
-
 	echo -e "["
 
 	### Spotify ###
@@ -172,51 +172,37 @@ while true; do
 
 	### Internet ###
 
-#	if [[ ${minuto} != ${minuto2} || ${internet} == false ]]; then
-#
-#		minuto2=${minuto}
-#
-#		if ping www.google.com -c 1 > /dev/null; then
-#
-#			internet=true
-#
-#		else
-#
-#			if [[ ${internet} != false ]]; then
-#
-#				sleep 1
-#
-#				if ping www.google.com -c 1 > /dev/null; then
-#
-#					internet=true
-#
-#				else
-#
-#					internet=false
-#
-#				fi
-#
-#			fi
-#
-#		fi
-#
-#	fi
-#
-#	if [[ ${internet} == true ]]; then
+	if ping -q -w 1 -c 1 $(ip r | grep default | cut -d ' ' -f 3) > /dev/null; then
 
-	echo -e "{
-				\"color\":\"#FFFFFF\",
-				\"full_text\":\" NET: $(sh ~/.config/i3/speed.sh "eno1") \"
-			 },"
+		echo -e "{
+					\"color\":\"#FFFFFF\",
+					\"full_text\":\" NET: $(sh ~/.config/i3/speed.sh "eno1") \"
+				},"
 
-#	else
-#
-#		echo -e "{
-#					\"color\":\"#FF0000\",
-#					\"full_text\":\" Sin Internet \"
-#				 },"
-#
-#	fi
+		up=true
+
+	else
+
+		time=$(awk '{print $0/60;}' /proc/uptime)
+
+		if [[ ${time%.*} -gt 1 ]]; then
+
+			if [[ ${up} == true ]]; then
+
+				mpv --really-quiet /usr/share/sounds/freedesktop/stereo/dialog-information.oga
+
+				up=false
+
+			fi
+
+		fi
+
+		echo -e "{
+					\"color\":\"#FF0000\",
+					\"full_text\":\" Sin Internet \"
+				 },"
+
+	fi
 
 	### Nvidia ###
 

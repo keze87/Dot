@@ -10,7 +10,7 @@ else
 
 fi
 
-up="y"
+up=true
 
 echo -e "{\"version\":1}\n["
 
@@ -223,7 +223,7 @@ while true; do
 
 		fi
 
-		up="y"
+		up=true
 
 	else
 
@@ -231,11 +231,11 @@ while true; do
 
 		if [[ ${time%.*} -gt 1 ]]; then
 
-			if [[ ${up} ]]; then
+			if [[ ${up} == true ]]; then
 
 				mpv --really-quiet /usr/share/sounds/freedesktop/stereo/dialog-information.oga
 
-				up=""
+				up=false
 
 			fi
 

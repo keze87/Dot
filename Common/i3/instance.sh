@@ -54,15 +54,7 @@ id=$(pgrep -a -x -f "${args}" | awk '{print $1}')
 
 if [[ ${id} ]]; then
 
-	if pgrep -P ${id}; then
-
-		ids=( $(pidtree ${id}) )
-
-	else
-
-		ids=( ${id} )
-
-	fi
+	ids=( ${id} $(pidtree ${id}) )
 
 	for id in "${ids[@]}"; do
 

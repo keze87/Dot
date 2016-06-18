@@ -3,7 +3,7 @@
 #set -x
 
 # dialog rsync pygmentize expac rtmpdump
-# youtube-dl aria2c mpv
+# youtube-dl aria2c mpv wmctrl
 
 dir="${HOME}/.Dot"
 olddir="${HOME}/Dot_Old"

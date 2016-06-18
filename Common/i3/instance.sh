@@ -1,5 +1,27 @@
 #!/bin/bash
 
+function pidtree() {
+
+	tp=( $(pgrep -P $1) )
+
+	for i in "${tp[@]}"; do
+
+		if [ -z $i ]; then
+
+			exit
+
+		else
+
+			echo "$i"
+
+			pidtree $i
+
+		fi
+
+	done
+
+}
+
 #set -x
 
 if [[ ! $1 ]]; then
@@ -28,7 +50,33 @@ if echo "$1" | grep -q -F ".sh"; then
 
 fi
 
-if pgrep -a -x -f "${args}"; then
+id=$(pgrep -a -x -f "${args}" | awk '{print $1}')
+
+if [[ ${id} ]]; then
+
+	if pgrep -P ${id}; then
+
+		ids=( $(pidtree ${id}) )
+
+	else
+
+		ids=( ${id} )
+
+	fi
+
+	for id in "${ids[@]}"; do
+
+		windowid=$(wmctrl -l -p | grep ${id} | awk '{print $1}')
+
+		if [[ ${windowid} ]]; then
+
+			i3-msg "[id=\"${windowid}\"] focus"
+
+			exit $?
+
+		fi
+
+	done
 
 	exit 2
 

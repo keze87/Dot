@@ -12,7 +12,7 @@ if [[ $2 ]]; then
 
 	else
 
-		exit 5;
+		exit 1;
 
 	fi
 
@@ -52,7 +52,7 @@ if [[ $? == 0 ]]; then
 
 else
 
-	exit 1;
+	exit 2;
 
 fi
 
@@ -66,6 +66,32 @@ fi
 
 touch "${tmp}"/ytlog
 
+if [[ ${maxres} == 1000 ]]; then
+
+	aux="aux"
+
+	while [[ ${aux} != *[[:digit:]]* ]] ; do
+
+		aux=$(zenity --entry --text='Resolucion?' --entry-text="1000")
+
+		if [[ $? != 0 ]]; then
+
+			exit 3
+
+		fi
+
+		if [[ ! ${aux} ]]; then
+
+			aux=1000
+
+		fi
+
+	done
+
+	maxres=${aux}
+
+fi
+
 args='--allow-overwrite=true -c --file-allocation=none --log-level=error
 -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=0 -t5'
 
@@ -75,7 +101,7 @@ if [[ ${maxres} == 0 ]]; then
 	--external-downloader "aria2c" --external-downloader-args "${args}" \
 	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" 2>&1 | tee -a "${tmp}"/ytlog | \
 	tee /dev/tty | grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
-	zenity --progress --title="Yt-dl-aria2c" --text="$(echo ${name} | tr '&' 'y')\n" \
+	zenity --progress --title="Yt-dl-aria2c" --text="$(echo ${name} | tr '&' 'y') \n${maxres}\n" \
 	--percentage=0 --auto-close --no-cancel
 
 else
@@ -84,14 +110,14 @@ else
 	--exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" \
 	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" 2>&1 | tee -a "${tmp}"/ytlog | \
 	tee /dev/tty | grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
-	zenity --progress --title="Yt-dl-aria2c" --text="$(echo ${name} | tr '&' 'y')\n" \
+	zenity --progress --title="Yt-dl-aria2c" --text="$(echo ${name} | tr '&' 'y') \n${maxres}\n" \
 	--percentage=0 --auto-close --no-cancel
 
 fi
 
 if [[ $? != 0 ]]; then
 
-	exit 1;
+	exit 4;
 
 fi
 
@@ -155,7 +181,7 @@ if [[ $? == 0 || ${maxres} == "1000" ]]; then
 
 		fi
 
-		exit
+		exit 0
 
 	fi
 

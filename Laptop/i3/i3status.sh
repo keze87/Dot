@@ -259,7 +259,6 @@ while true; do
 
 	echo -e "{
 				\"color\":\"#FFFFFF\",
-				\"short_text\":\"\",
 				\"full_text\":\" ROOT: ${disco1} \"
 			 },"
 
@@ -267,7 +266,6 @@ while true; do
 
 	echo -e "{
 				\"color\":\"#FFFFFF\",
-				\"short_text\":\"\",
 				\"full_text\":\" HOME: ${disco2} \"
 			 },"
 

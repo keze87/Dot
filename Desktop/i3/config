@@ -5,7 +5,7 @@
 set $mod Mod4
 
 # Foco
-set $color #4080FB
+set $color #16A085
 
 # Sin Foco
 set $color2 #454749
@@ -60,7 +60,7 @@ bindsym $mod+w exec chromium
 bindsym Mod1+w exec firefox
 bindsym $mod+e exec pcmanfm
 bindsym $mod+g exec env GTK2_RC_FILES=/usr/share/themes/Vertex-Dark/gtk-2.0/gtkrc $1 geany
-bindsym $mod+s exec $1 /bin/sh /usr/bin/spotify
+bindsym $mod+s exec $1 "/bin/sh /usr/bin/spotify"
 bindsym Mod1+s exec $1 ~/.ss.sh
 bindsym $mod+q exec $1 ~/.config/i3/apagar.sh
 bindsym $mod+l exec sh ~/.config/i3/lariza.sh

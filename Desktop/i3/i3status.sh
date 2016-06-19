@@ -113,6 +113,8 @@ while true; do
 
 	if [[ $player ]]; then
 
+		s=$(tail -n1 .config/i3/config)
+
 		if [[ $artist ]]; then
 
 			echo -e "{

@@ -116,7 +116,7 @@ while true; do
 
 			Negro)
 
-				echo '	status_command sh ~/.config/i3/i3status.sh "#16A085"'	>> ${config}
+				echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
 				echo "	colors {"												>> ${config}
 				echo '	separator #16A085'										>> ${config}
 				echo '	background #000000'										>> ${config}
@@ -130,12 +130,13 @@ while true; do
 				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> ${config}
 				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
 				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
+				echo '#16A085'													>> ${config}
 
 			;;
 
 			Spotify)
 
-				echo '	status_command sh ~/.config/i3/i3status.sh "#1ED660"'	>> ${config}
+				echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
 				echo "	colors {"												>> ${config}
 				echo '	separator #1ED660'										>> ${config}
 				echo '	background #282828'										>> ${config}
@@ -149,12 +150,13 @@ while true; do
 				echo 'client.focused #1ED660 #1ED660 #ffffff #1ED660'			>> ${config}
 				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
 				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
+				echo '#1ED660'													>> ${config}
 
 			;;
 
 			Geany)
 
-				echo '	status_command sh ~/.config/i3/i3status.sh "#3A4145"'	>> ${config}
+				echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
 				echo "	colors {"												>> ${config}
 				echo '	separator #3A4145'										>> ${config}
 				echo '	background #000000'										>> ${config}
@@ -168,12 +170,13 @@ while true; do
 				echo 'client.focused #3A4145 #3A4145 #ffffff #16A085'			>> ${config}
 				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
 				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
+				echo '#3A4145'													>> ${config}
 
 			;;
 
 			EscritorioDesktop)
 
-				echo '	status_command sh ~/.config/i3/i3status.sh "#16A085"'	>> ${config}
+				echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
 				echo "	colors {"												>> ${config}
 				echo '	separator #16A085'										>> ${config}
 				echo '	background #00000000'									>> ${config}
@@ -187,17 +190,18 @@ while true; do
 				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> ${config}
 				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
 				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
+				echo '#16A085'													>> ${config}
 
 			;;
 
 			EscritorioLaptop)
 
-				echo '	status_command sh ~/.config/i3/i3status.sh "#16A085"'	>> ${config}
+				echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
 				echo "	colors {"												>> ${config}
-				echo '	separator #16A085'										>> ${config}
+				echo '	separator #1C0C26'										>> ${config}
 				echo '	background #00000000'									>> ${config}
 				echo '	statusline #ffffff'										>> ${config}
-				echo '	focused_workspace #16A085 #16A085 #ffffff'				>> ${config}
+				echo '	focused_workspace #1C0C26 #1C0C26 #ffffff'				>> ${config}
 				echo '	active_workspace #454749 #454749 #ffffff'				>> ${config}
 				echo '	inactive_workspace #00000000 #00000000 #ffffff'			>> ${config}
 				echo '	urgent_workspace #900000 #900000 #ffffff'				>> ${config}
@@ -206,12 +210,13 @@ while true; do
 				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> ${config}
 				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
 				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
+				echo '#1C0C26'													>> ${config}
 
 			;;
 
 			*) # Transparente
 
-				echo '	status_command sh ~/.config/i3/i3status.sh "#16A085"'	>> ${config}
+				echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
 				echo "	colors {"												>> ${config}
 				echo '	separator #16A085'										>> ${config}
 				echo '	background #00000000'									>> ${config}
@@ -225,6 +230,7 @@ while true; do
 				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> ${config}
 				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
 				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
+				echo '#16A085'													>> ${config}
 
 			;;
 

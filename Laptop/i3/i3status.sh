@@ -1,5 +1,7 @@
 #!/bin/sh
 
+sh ~/.config/i3/barcolor.sh > /dev/null &
+
 if [[ $1 ]]; then
 
 	s=$1;

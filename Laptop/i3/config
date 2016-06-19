@@ -4,27 +4,6 @@
 
 set $mod Mod4
 
-# Foco
-set $color #00BCD4
-
-# Sin Foco
-set $color2 #2A373E
-
-# Foco en Espacio sin foco
-set $color3 #1F282E
-
-# Texto
-set $blanco #ffffff
-
-# Inactivo
-set $negro #000000
-
-# Urgente
-set $rojo #900000
-
-# Fondo
-set $transparente #00000000
-
 # Permitir solo una instancia
 set $1 sh ~/.config/i3/instance.sh
 
@@ -59,7 +38,7 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer set Master 5%+"
 bindsym XF86AudioLowerVolume exec --no-startup-id "amixer set Master 5%-"
 
 bindsym Mod1+Up exec --no-startup-id $1 ~/.config/i3/volumen.sh
-bindsym Mod1+Down exec --no-startup-id $1 ~/config/i3/volumen.sh
+bindsym Mod1+Down exec --no-startup-id $1 ~/.config/i3/volumen.sh
 
 #bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc 34"
 #bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 34"
@@ -220,3 +199,18 @@ client.unfocused $color2 $color2 $blanco $color2
 client.urgent $rojo $rojo $blanco $rojo
 
 #vim: syntax=sh
+
+# Foco
+set $color #16A085
+# Sin Foco
+set $color2 #454749
+# Foco en Espacio sin foco
+set $color3 #353638
+# Texto
+set $blanco #ffffff
+# Inactivo
+set $negro #000000
+# Urgente
+set $rojo #900000
+# Fondo
+set $transparente #00000000

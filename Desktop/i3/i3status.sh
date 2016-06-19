@@ -1,5 +1,7 @@
 #!/bin/sh
 
+sh ~/.config/i3/barcolor.sh > /dev/null &
+
 if [[ $1 ]]; then
 
 	s=$1;
@@ -87,6 +89,8 @@ while true; do
 	fi
 
 	nvidia=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
+
+	volumen=$(amixer get Master | grep "Front Right:" | awk {"print \$5"} | tr -d "[]");
 
 	disco1=$(df | grep sdb1 | awk '{print $5}')
 	disco2=$(df | grep sda1 | awk '{print $5}')
@@ -225,6 +229,13 @@ while true; do
 	fi
 
 	echo -e "\"full_text\":\" NVIDIA: ${nvidia} °C \" },"
+
+	### Volumen ###
+
+	echo -e "{
+				\"color\":\"#FFFFFF\",
+				\"full_text\":\" S: ${volumen} \"
+			 },"
 
 	### Root ###
 

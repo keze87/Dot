@@ -23,7 +23,7 @@ done
 
 ### i3 ###
 
-files="brillo.sh i3status.sh config"
+files="brillo.sh i3status.sh config barcolor.sh"
 
 for file in ${files}; do
 

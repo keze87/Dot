@@ -1,3 +1,4 @@
+#vim: syntax=sh
 # i3 Laptop config file (v4)
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
@@ -26,7 +27,6 @@ exec --no-startup-id guake
 exec --no-startup-id compton --config ~/.compton.conf
 exec --no-startup-id /usr/lib/mate-polkit/polkit-mate-authentication-agent-1
 exec --no-startup-id nitrogen --restore
-#exec --no-startup-id mate-volume-control-applet
 
 exec --no-startup-id synclient TapButton2=3
 exec --no-startup-id synclient TapButton3=2
@@ -175,11 +175,12 @@ bar {
 
 	i3bar_command i3bar -t
 	position top
-	status_command sh ~/.config/i3/i3status.sh "$color"
 	separator_symbol "|"
 
 	bindsym button3 exec --no-startup-id sh ~/.config/i3/work.sh
 	bindsym button2 kill
+
+	status_command sh ~/.config/i3/i3status.sh "$color"
 
 	colors {
 		separator $color
@@ -197,20 +198,3 @@ client.focused $color $color $blanco $color
 client.focused_inactive $color3 $color3 $blanco $color2
 client.unfocused $color2 $color2 $blanco $color2
 client.urgent $rojo $rojo $blanco $rojo
-
-#vim: syntax=sh
-
-# Foco
-set $color #16A085
-# Sin Foco
-set $color2 #454749
-# Foco en Espacio sin foco
-set $color3 #353638
-# Texto
-set $blanco #ffffff
-# Inactivo
-set $negro #000000
-# Urgente
-set $rojo #900000
-# Fondo
-set $transparente #00000000

@@ -1,3 +1,4 @@
+#vim: syntax=sh
 # i3 Desktop config file (v4)
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
@@ -166,12 +167,13 @@ bar {
 
 	i3bar_command i3bar -t
 	position top
-	status_command sh ~/.config/i3/i3status.sh "$color"
 	separator_symbol "|"
 	font pango:DejaVu Sans Mono Regular 9
 
 	bindsym button3 exec --no-startup-id sh ~/.config/i3/work.sh
 	bindsym button2 kill
+
+	status_command sh ~/.config/i3/i3status.sh "$color"
 
 	colors {
 		separator $color
@@ -189,20 +191,3 @@ client.focused $color $color $blanco $color
 client.focused_inactive $color3 $color3 $blanco $color2
 client.unfocused $color2 $color2 $blanco $color2
 client.urgent $rojo $rojo $blanco $rojo
-
-#vim: syntax=sh
-
-# Foco
-set $color #16A085
-# Sin Foco
-set $color2 #454749
-# Foco en Espacio sin foco
-set $color3 #353638
-# Texto
-set $blanco #ffffff
-# Inactivo
-set $negro #000000
-# Urgente
-set $rojo #900000
-# Fondo
-set $transparente #00000000

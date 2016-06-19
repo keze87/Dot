@@ -1,5 +1,6 @@
 #!/bin/sh
 
+killall sh ~/.config/i3/barcolor.sh
 sh ~/.config/i3/barcolor.sh > /dev/null &
 
 if [[ $1 ]]; then

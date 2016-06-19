@@ -1,9 +1,9 @@
 #!/bin/bash
 #vim set lang spanglish
 
-if [[ $1 ]]; then
+if [[ -f ~/.dotlaptop ]]; then
 
-	host=$1;
+	host="Laptop";
 
 else
 
@@ -48,9 +48,16 @@ while true; do
 
 				if [[ ${ar} -eq ${current} ]]; then
 
-					multipleincurrent=true;
+					active=$( xprop -id $(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | \
+					cut -f 2) _NET_WM_WINDOW_TYPE )
 
-					break
+					if echo "${active}" | grep -q NORMAL; then
+
+						multipleincurrent=true;
+
+						break
+
+					fi
 
 				fi
 
@@ -60,9 +67,9 @@ while true; do
 
 		if [[ ${currentvacio} == false && ${multipleincurrent} == false ]]; then
 
-			known=( 'Spotify' 'Geany' )
+			known=( 'Spotify' 'Geany' 'guake' )
 
-			active=$(sleep 2; xprop -id $(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | cut -f 2) WM_CLASS)
+			active=$(xprop -id $(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | cut -f 2) WM_CLASS)
 
 			for know in "${known[@]}"; do
 
@@ -75,6 +82,12 @@ while true; do
 				fi
 
 			done
+
+			if [[ ${color} == "guake" ]]; then
+
+				color=${currentcolor}
+
+			fi
 
 			if [[ ! ${color} ]]; then
 
@@ -158,19 +171,19 @@ while true; do
 
 				echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
 				echo "	colors {"												>> ${config}
-				echo '	separator #3A4145'										>> ${config}
-				echo '	background #000000'										>> ${config}
+				echo '	separator #8AE234'										>> ${config}
+				echo '	background #353638'										>> ${config}
 				echo '	statusline #ffffff'										>> ${config}
-				echo '	focused_workspace #3A4145 #3A4145 #ffffff'				>> ${config}
+				echo '	focused_workspace #8AE234 #8AE234 #ffffff'				>> ${config}
 				echo '	active_workspace #454749 #454749 #ffffff'				>> ${config}
-				echo '	inactive_workspace #000000 #000000 #ffffff'				>> ${config}
+				echo '	inactive_workspace #353638 #353638 #ffffff'				>> ${config}
 				echo '	urgent_workspace #900000 #900000 #ffffff'				>> ${config}
 				echo "	}"														>> ${config}
 				echo "}"														>> ${config}
-				echo 'client.focused #3A4145 #3A4145 #ffffff #16A085'			>> ${config}
+				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> ${config}
 				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
 				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
-				echo '#3A4145'													>> ${config}
+				echo '#8AE234'													>> ${config}
 
 			;;
 
@@ -253,3 +266,5 @@ done
 # barcolor <colorclass> <border> <background> <text>
 
 # class    <border>  <backgr> <text> <indicator> <child_border>
+
+# <separator>

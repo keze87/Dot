@@ -20,6 +20,12 @@ dependiendo del tamaño de pantalla." 10 50 2 \
 
 if [[ $? == 0 ]]; then
 
+	if [[ -f ~/.dotlaptop ]]; then
+
+		rm ~/.dotlaptop
+
+	fi
+
 	if [ -d "${olddir}" ]; then
 
 		gvfs-trash "${olddir}"
@@ -41,6 +47,8 @@ if [[ $? == 0 ]]; then
 		Laptop)
 
 			sh "${dir}"/Laptop/Laptop.sh
+
+			touch ~/.dotlaptop
 
 		;;
 

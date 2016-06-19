@@ -1,5 +1,11 @@
 #!/bin/sh
 
+if pgrep -a -x -f "sh ~/.config/i3/barcolor.sh"; then
+
+	killall sh ~/.config/i3/barcolor.sh
+
+fi
+
 sh ~/.config/i3/barcolor.sh > /dev/null &
 
 if [[ $1 ]]; then

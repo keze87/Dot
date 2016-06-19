@@ -1,9 +1,9 @@
 #!/bin/bash
 #vim set lang spanglish
 
-if [[ -f ~/.dotlaptop ]]; then
+if [[ $1 ]]; then
 
-	host="Laptop";
+	host=$1;
 
 else
 
@@ -53,6 +53,25 @@ while true; do
 
 					if echo "${active}" | grep -q NORMAL; then
 
+						if echo "${active}" | grep -q ','; then
+
+							true
+
+						else
+
+							multipleincurrent=true;
+
+							break
+
+						fi
+
+					fi
+
+					active=$( xprop -id $(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | \
+					cut -f 2) WM_CLASS )
+
+					if echo "${active}" | grep -q mpv; then
+
 						multipleincurrent=true;
 
 						break
@@ -67,7 +86,7 @@ while true; do
 
 		if [[ ${currentvacio} == false && ${multipleincurrent} == false ]]; then
 
-			known=( 'Spotify' 'Geany' 'guake' )
+			known=( 'Spotify' 'Geany' 'guake' 'albert' )
 
 			active=$(xprop -id $(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | cut -f 2) WM_CLASS)
 
@@ -83,7 +102,7 @@ while true; do
 
 			done
 
-			if [[ ${color} == "guake" ]]; then
+			if [[ ${color} == "guake" || ${color} == "albert" ]]; then
 
 				color=${currentcolor}
 
@@ -111,7 +130,7 @@ while true; do
 
 	else
 
-		color="Escritorio"
+		color="Escritorio${host}"
 
 	fi
 

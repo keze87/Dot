@@ -1,6 +1,16 @@
 #!/bin/bash
 #vim set lang spanglish
 
+if [[ $1 ]]; then
+
+	host=$1;
+
+else
+
+	host="Desktop";
+
+fi
+
 config="${HOME}/.config/i3/config"
 currentcolor=""
 
@@ -76,7 +86,7 @@ while true; do
 
 			if [[ ${currentvacio} == true ]]; then
 
-				color="Escritorio"
+				color="Escritorio${host}"
 
 			else
 
@@ -92,9 +102,13 @@ while true; do
 
 	fi
 
+	change=false;
+
 	if [[ ${color} != ${currentcolor} ]]; then
 
-		head -n -18 .Dot/Laptop/i3/config > .barconfig
+		change=true;
+
+		head -n -18 .Dot/Desktop/i3/config > .barconfig
 
 		mv .barconfig .config/i3/config
 
@@ -157,7 +171,26 @@ while true; do
 
 			;;
 
-			Escritorio)
+			EscritorioDesktop)
+
+				echo '	status_command sh ~/.config/i3/i3status.sh "#16A085"'	>> ${config}
+				echo "	colors {"												>> ${config}
+				echo '	separator #16A085'										>> ${config}
+				echo '	background #00000000'									>> ${config}
+				echo '	statusline #ffffff'										>> ${config}
+				echo '	focused_workspace #16A085 #16A085 #ffffff'				>> ${config}
+				echo '	active_workspace #454749 #454749 #ffffff'				>> ${config}
+				echo '	inactive_workspace #00000000 #00000000 #ffffff'			>> ${config}
+				echo '	urgent_workspace #900000 #900000 #ffffff'				>> ${config}
+				echo "	}"														>> ${config}
+				echo "}"														>> ${config}
+				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> ${config}
+				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
+				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
+
+			;;
+
+			EscritorioLaptop)
 
 				echo '	status_command sh ~/.config/i3/i3status.sh "#16A085"'	>> ${config}
 				echo "	colors {"												>> ${config}
@@ -203,7 +236,11 @@ while true; do
 
 	fi
 
-	sleep 2
+	if [[ ${change} == false ]]; then
+
+		sleep 2
+
+	fi
 
 done
 

@@ -23,7 +23,7 @@ done
 
 ### i3 ###
 
-files="lariza.sh i3status.sh key.sh config barcolor.sh"
+files="lariza.sh i3status.sh key.sh config"
 
 for file in ${files}; do
 

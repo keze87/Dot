@@ -6,7 +6,7 @@ if pgrep -a -x -f "sh ~/.config/i3/barcolor.sh"; then
 
 fi
 
-sh ~/.config/i3/barcolor.sh > /dev/null &
+sh ~/.config/i3/barcolor.sh "Laptop" > /dev/null &
 
 if [[ $1 ]]; then
 

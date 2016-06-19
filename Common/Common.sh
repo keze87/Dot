@@ -25,7 +25,7 @@ done
 
 ### i3 ###
 
-files="volumen.sh invert.sh tab.sh work.sh apagar.sh speed.sh trans.sh instance.sh"
+files="volumen.sh invert.sh tab.sh work.sh apagar.sh speed.sh trans.sh instance.sh barcolor.sh"
 
 mkdir "${olddir}"/i3
 

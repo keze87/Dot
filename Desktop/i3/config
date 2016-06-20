@@ -42,10 +42,10 @@ bindsym $mod+s exec $1 "/bin/sh /usr/bin/spotify"
 bindsym Mod1+s exec $1 ~/.ss.sh
 bindsym $mod+q exec $1 ~/.config/i3/apagar.sh
 bindsym $mod+l exec sh ~/.config/i3/lariza.sh
-bindsym $mod+y exec sh ~/.yt.sh
+bindsym $mod+y exec sh ~/.yt.sh 1000
 bindsym $mod+n exec --no-startup-id sh ~/.config/i3/invert.sh
 bindsym Mod1+Tab exec --no-startup-id sh ~/.config/i3/tab.sh
-bindsym $mod+t exec --no-startup-id compton-trans `zenity --scale --text="Cuan opaco?" --value=80`
+bindsym $mod+t exec --no-startup-id compton-trans $(zenity --scale --text="Cuan opaco?" --value=80)
 bindsym $mod+o exec --no-startup-id setxkbmap latam && killall kvkbd || kvkbd
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -173,21 +173,6 @@ bar {
 	bindsym button3 exec --no-startup-id sh ~/.config/i3/work.sh
 	bindsym button2 kill
 
-	status_command sh ~/.config/i3/i3status.sh "$color"
-
-	colors {
-		separator $color
-		background $transparente
-		statusline $blanco
-		focused_workspace $color $color $blanco
-		active_workspace $color2 $color2 $blanco
-		inactive_workspace $transparente $transparente $blanco
-		urgent_workspace $rojo $rojo $blanco
-	}
+	status_command sh ~/.config/i3/i3status.sh
 
 }
-
-client.focused $color $color $blanco $color
-client.focused_inactive $color3 $color3 $blanco $color2
-client.unfocused $color2 $color2 $blanco $color2
-client.urgent $rojo $rojo $blanco $rojo

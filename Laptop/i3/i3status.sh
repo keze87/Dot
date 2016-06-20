@@ -330,11 +330,11 @@ while true; do
 
 	if [ "${bateria2}" = "discharging" ]; then
 
-		echo -e "\"full_text\":\"BAT: ${bateria1}% \"},"
+		echo -e "\"full_text\":\" BAT: ${bateria1}% \"},"
 
 	else
 
-		echo -e "\"full_text\":\"AC: ${bateria1}% \"},"
+		echo -e "\"full_text\":\" AC: ${bateria1}% \"},"
 
 	fi
 

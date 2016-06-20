@@ -13,7 +13,7 @@ fi
 
 config="${HOME}/.config/i3/config"
 currentcolor=""
-ids2=( '' )
+ids2=( '#nerfed' )
 
 while true; do
 

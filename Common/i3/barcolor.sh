@@ -13,88 +13,33 @@ fi
 
 config="${HOME}/.config/i3/config"
 currentcolor=""
+ids2=( '' )
 
 while true; do
 
-	color=""
+	change=false;
 
-	arr=( $(wmctrl -lx | awk '{print $2}') )
+	current=$(xprop -root | grep "DESKTOP(CARDINAL)" | tr -c -d "[:digit:]\n")
 
-	if [ ${#arr[@]} -gt 0 ]; then # Existe alguna ventana
+	ids=( $(wmctrl -lx | grep " ${current} " | awk '{print $1}') )
 
-		current=$(xprop -root | grep "DESKTOP(CARDINAL)" | tr -c -d "[:digit:]\n")
+	if [[ "${ids[*]}" != "${ids2[*]}" ]]; then
 
-		currentvacio=true;
+		ids2=( "${ids[@]}" )
 
-		for ar in "${arr[@]}"; do
+		color=""
 
-			if [[ ${ar} -eq ${current} ]]; then
+		arr=( $(wmctrl -lx | awk '{print $2}') )
 
-				currentvacio=false; # Hay por lo menos una ventana en el escritorio activo
+		if [ ${#arr[@]} -gt 0 ]; then # Existe alguna ventana
 
-				break
-
-			fi
-
-		done
-
-		arr=( $(printf '%s\n' "${arr[@]}" | awk '!($0 in seen){seen[$0];next} 1') )
-
-		multipleincurrent=false;
-
-		if [[ ${currentvacio} == false && ${#arr[@]} -gt 0 ]]; then
+			currentvacio=true;
 
 			for ar in "${arr[@]}"; do
 
 				if [[ ${ar} -eq ${current} ]]; then
 
-					active=$( xprop -id $(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | \
-					cut -f 2) _NET_WM_WINDOW_TYPE )
-
-					if echo "${active}" | grep -q NORMAL; then
-
-						if echo "${active}" | grep -q ','; then
-
-							true
-
-						else
-
-							multipleincurrent=true;
-
-							break
-
-						fi
-
-					fi
-
-					active=$( xprop -id $(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | \
-					cut -f 2) WM_CLASS )
-
-					if echo "${active}" | grep -q mpv; then
-
-						multipleincurrent=true;
-
-						break
-
-					fi
-
-				fi
-
-			done
-
-		fi
-
-		if [[ ${currentvacio} == false && ${multipleincurrent} == false ]]; then
-
-			known=( 'Spotify' 'Geany' 'guake' 'albert' )
-
-			active=$(xprop -id $(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | cut -f 2) WM_CLASS)
-
-			for know in "${known[@]}"; do
-
-				if echo "${active}" | grep -q ${know}; then
-
-					color=${know}
+					currentvacio=false; # Hay por lo menos una ventana en el escritorio activo
 
 					break
 
@@ -102,175 +47,268 @@ while true; do
 
 			done
 
-			if [[ ${color} == "guake" || ${color} == "albert" ]]; then
+			arr=( $(printf '%s\n' "${arr[@]}" | awk '!($0 in seen){seen[$0];next} 1') )
 
-				color=${currentcolor}
+			multipleincurrent=false;
+
+			if [[ ${currentvacio} == false && ${#arr[@]} -gt 0 ]]; then
+
+				normal=0
+
+				for ar in "${arr[@]}"; do
+
+					if [[ ${ar} -eq ${current} ]]; then
+
+						# wmctrl -lx | grep " ${current} "
+						# fijarse si hay por lo menos 2 Normales
+
+						ids=( $(wmctrl -lx | grep " ${current} " | awk '{print $1}') )
+
+						for id in "${ids[@]}"; do
+
+							xprop -id ${id} | grep "NET_WM_WINDOW_TYPE" | grep "= _NET_WM_WINDOW_TYPE_NORMAL"
+
+							if [[ $? != 0 ]]; then
+
+								xprop -id ${id} | grep "WM_CLASS" | grep "Spotify"
+
+								if [[ $? != 0 ]]; then
+
+									xprop -id ${id} | grep "WM_CLASS" | grep "mpv"
+
+								fi
+
+							fi
+
+							if [[ $? == 0 ]]; then
+
+								normal=$((normal + 1))
+
+								if [[ ${normal} -gt 1 ]]; then
+
+									multipleincurrent=true
+
+									break
+
+								fi
+
+							fi
+
+						done
+
+					fi
+
+				done
 
 			fi
 
-			if [[ ! ${color} ]]; then
+			if [[ ${currentvacio} == false && ${multipleincurrent} == false ]]; then
 
-				color="Negro"
+				known=( 'Spotify' 'Geany' 'Terminator' 'guake' 'albert' )
+
+				active=$(xprop -id $(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | cut -f 2) WM_CLASS)
+
+				for know in "${known[@]}"; do
+
+					if echo "${active}" | grep -q ${know}; then
+
+						color=${know}
+
+						break
+
+					fi
+
+				done
+
+				if [[ ${color} == "guake" || ${color} == "albert" ]]; then
+
+					color=${currentcolor}
+
+				fi
+
+				if [[ ! ${color} ]]; then
+
+					color="Negro"
+
+				fi
+
+			else
+
+				if [[ ${currentvacio} == true ]]; then
+
+					color="Escritorio${host}"
+
+				else
+
+					color="Transparente"
+
+				fi
 
 			fi
 
 		else
 
-			if [[ ${currentvacio} == true ]]; then
-
-				color="Escritorio${host}"
-
-			else
-
-				color="Transparente"
-
-			fi
+			color="Escritorio${host}"
 
 		fi
 
-	else
+		if [[ ${color} != ${currentcolor} ]]; then
 
-		color="Escritorio${host}"
+			change=true;
 
-	fi
+			head -n -18 .Dot/Desktop/i3/config > .barconfig
 
-	change=false;
+			mv .barconfig .config/i3/config
 
-	if [[ ${color} != ${currentcolor} ]]; then
+			case ${color} in
 
-		change=true;
+				Negro)
 
-		head -n -18 .Dot/Desktop/i3/config > .barconfig
+					echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
+					echo "	colors {"												>> ${config}
+					echo '	separator #16A085'										>> ${config}
+					echo '	background #000000'										>> ${config}
+					echo '	statusline #ffffff'										>> ${config}
+					echo '	focused_workspace #16A085 #16A085 #ffffff'				>> ${config}
+					echo '	active_workspace #454749 #454749 #ffffff'				>> ${config}
+					echo '	inactive_workspace #000000 #000000 #ffffff'				>> ${config}
+					echo '	urgent_workspace #900000 #900000 #ffffff'				>> ${config}
+					echo "	}"														>> ${config}
+					echo "}"														>> ${config}
+					echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> ${config}
+					echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
+					echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
+					echo '#16A085'													>> ${config}
 
-		mv .barconfig .config/i3/config
+				;;
 
-		case ${color} in
+				Spotify)
 
-			Negro)
+					echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
+					echo "	colors {"												>> ${config}
+					echo '	separator #1ED660'										>> ${config}
+					echo '	background #282828'										>> ${config}
+					echo '	statusline #ffffff'										>> ${config}
+					echo '	focused_workspace #1ED660 #1ED660 #ffffff'				>> ${config}
+					echo '	active_workspace #454749 #454749 #ffffff'				>> ${config}
+					echo '	inactive_workspace #282828 #282828 #ffffff'				>> ${config}
+					echo '	urgent_workspace #900000 #900000 #ffffff'				>> ${config}
+					echo "	}"														>> ${config}
+					echo "}"														>> ${config}
+					echo 'client.focused #1ED660 #1ED660 #ffffff #1ED660'			>> ${config}
+					echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
+					echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
+					echo '#1ED660'													>> ${config}
 
-				echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
-				echo "	colors {"												>> ${config}
-				echo '	separator #16A085'										>> ${config}
-				echo '	background #000000'										>> ${config}
-				echo '	statusline #ffffff'										>> ${config}
-				echo '	focused_workspace #16A085 #16A085 #ffffff'				>> ${config}
-				echo '	active_workspace #454749 #454749 #ffffff'				>> ${config}
-				echo '	inactive_workspace #000000 #000000 #ffffff'				>> ${config}
-				echo '	urgent_workspace #900000 #900000 #ffffff'				>> ${config}
-				echo "	}"														>> ${config}
-				echo "}"														>> ${config}
-				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> ${config}
-				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
-				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
-				echo '#16A085'													>> ${config}
+				;;
 
-			;;
+				Geany)
 
-			Spotify)
+					echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
+					echo "	colors {"												>> ${config}
+					echo '	separator #8AE234'										>> ${config}
+					echo '	background #454749'										>> ${config}
+					echo '	statusline #ffffff'										>> ${config}
+					echo '	focused_workspace #8AE234 #8AE234 #ffffff'				>> ${config}
+					echo '	active_workspace #454749 #454749 #ffffff'				>> ${config}
+					echo '	inactive_workspace #454749 #454749 #ffffff'				>> ${config}
+					echo '	urgent_workspace #900000 #900000 #ffffff'				>> ${config}
+					echo "	}"														>> ${config}
+					echo "}"														>> ${config}
+					echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> ${config}
+					echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
+					echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
+					echo '#8AE234'													>> ${config}
 
-				echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
-				echo "	colors {"												>> ${config}
-				echo '	separator #1ED660'										>> ${config}
-				echo '	background #282828'										>> ${config}
-				echo '	statusline #ffffff'										>> ${config}
-				echo '	focused_workspace #1ED660 #1ED660 #ffffff'				>> ${config}
-				echo '	active_workspace #454749 #454749 #ffffff'				>> ${config}
-				echo '	inactive_workspace #282828 #282828 #ffffff'				>> ${config}
-				echo '	urgent_workspace #900000 #900000 #ffffff'				>> ${config}
-				echo "	}"														>> ${config}
-				echo "}"														>> ${config}
-				echo 'client.focused #1ED660 #1ED660 #ffffff #1ED660'			>> ${config}
-				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
-				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
-				echo '#1ED660'													>> ${config}
+				;;
 
-			;;
+				Terminator)
 
-			Geany)
+					echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
+					echo "	colors {"												>> ${config}
+					echo '	separator #8AE234'										>> ${config}
+					echo '	background #000000CC'									>> ${config}
+					echo '	statusline #ffffff'										>> ${config}
+					echo '	focused_workspace #8AE234 #8AE234 #ffffff'				>> ${config}
+					echo '	active_workspace #454749 #454749 #ffffff'				>> ${config}
+					echo '	inactive_workspace #000000CC #000000CC #ffffff'			>> ${config}
+					echo '	urgent_workspace #900000 #900000 #ffffff'				>> ${config}
+					echo "	}"														>> ${config}
+					echo "}"														>> ${config}
+					echo 'client.focused #8AE234 #8AE234 #ffffff #8AE234'			>> ${config}
+					echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
+					echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
+					echo '#8AE234'													>> ${config}
 
-				echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
-				echo "	colors {"												>> ${config}
-				echo '	separator #8AE234'										>> ${config}
-				echo '	background #353638'										>> ${config}
-				echo '	statusline #ffffff'										>> ${config}
-				echo '	focused_workspace #8AE234 #8AE234 #ffffff'				>> ${config}
-				echo '	active_workspace #454749 #454749 #ffffff'				>> ${config}
-				echo '	inactive_workspace #353638 #353638 #ffffff'				>> ${config}
-				echo '	urgent_workspace #900000 #900000 #ffffff'				>> ${config}
-				echo "	}"														>> ${config}
-				echo "}"														>> ${config}
-				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> ${config}
-				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
-				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
-				echo '#8AE234'													>> ${config}
+				;;
 
-			;;
+				EscritorioDesktop)
 
-			EscritorioDesktop)
+					echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
+					echo "	colors {"												>> ${config}
+					echo '	separator #16A085'										>> ${config}
+					echo '	background #00000000'									>> ${config}
+					echo '	statusline #ffffff'										>> ${config}
+					echo '	focused_workspace #16A085 #16A085 #ffffff'				>> ${config}
+					echo '	active_workspace #454749 #454749 #ffffff'				>> ${config}
+					echo '	inactive_workspace #00000000 #00000000 #ffffff'			>> ${config}
+					echo '	urgent_workspace #900000 #900000 #ffffff'				>> ${config}
+					echo "	}"														>> ${config}
+					echo "}"														>> ${config}
+					echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> ${config}
+					echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
+					echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
+					echo '#16A085'													>> ${config}
 
-				echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
-				echo "	colors {"												>> ${config}
-				echo '	separator #16A085'										>> ${config}
-				echo '	background #00000000'									>> ${config}
-				echo '	statusline #ffffff'										>> ${config}
-				echo '	focused_workspace #16A085 #16A085 #ffffff'				>> ${config}
-				echo '	active_workspace #454749 #454749 #ffffff'				>> ${config}
-				echo '	inactive_workspace #00000000 #00000000 #ffffff'			>> ${config}
-				echo '	urgent_workspace #900000 #900000 #ffffff'				>> ${config}
-				echo "	}"														>> ${config}
-				echo "}"														>> ${config}
-				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> ${config}
-				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
-				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
-				echo '#16A085'													>> ${config}
+				;;
 
-			;;
+				EscritorioLaptop)
 
-			EscritorioLaptop)
+					echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
+					echo "	colors {"												>> ${config}
+					echo '	separator #1C0C26'										>> ${config}
+					echo '	background #00000000'									>> ${config}
+					echo '	statusline #ffffff'										>> ${config}
+					echo '	focused_workspace #1C0C26 #1C0C26 #ffffff'				>> ${config}
+					echo '	active_workspace #454749 #454749 #ffffff'				>> ${config}
+					echo '	inactive_workspace #00000000 #00000000 #ffffff'			>> ${config}
+					echo '	urgent_workspace #900000 #900000 #ffffff'				>> ${config}
+					echo "	}"														>> ${config}
+					echo "}"														>> ${config}
+					echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> ${config}
+					echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
+					echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
+					echo '#1C0C26'													>> ${config}
 
-				echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
-				echo "	colors {"												>> ${config}
-				echo '	separator #1C0C26'										>> ${config}
-				echo '	background #00000000'									>> ${config}
-				echo '	statusline #ffffff'										>> ${config}
-				echo '	focused_workspace #1C0C26 #1C0C26 #ffffff'				>> ${config}
-				echo '	active_workspace #454749 #454749 #ffffff'				>> ${config}
-				echo '	inactive_workspace #00000000 #00000000 #ffffff'			>> ${config}
-				echo '	urgent_workspace #900000 #900000 #ffffff'				>> ${config}
-				echo "	}"														>> ${config}
-				echo "}"														>> ${config}
-				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> ${config}
-				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
-				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
-				echo '#1C0C26'													>> ${config}
+				;;
 
-			;;
+				*) # Transparente
 
-			*) # Transparente
+					echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
+					echo "	colors {"												>> ${config}
+					echo '	separator #16A085'										>> ${config}
+					echo '	background #00000000'									>> ${config}
+					echo '	statusline #ffffff'										>> ${config}
+					echo '	focused_workspace #16A085 #16A085 #ffffff'				>> ${config}
+					echo '	active_workspace #454749 #454749 #ffffff'				>> ${config}
+					echo '	inactive_workspace #00000000 #00000000 #ffffff'			>> ${config}
+					echo '	urgent_workspace #900000 #900000 #ffffff'				>> ${config}
+					echo "	}"														>> ${config}
+					echo "}"														>> ${config}
+					echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> ${config}
+					echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
+					echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
+					echo '#16A085'													>> ${config}
 
-				echo '	status_command sh ~/.config/i3/i3status.sh'				>> ${config}
-				echo "	colors {"												>> ${config}
-				echo '	separator #16A085'										>> ${config}
-				echo '	background #00000000'									>> ${config}
-				echo '	statusline #ffffff'										>> ${config}
-				echo '	focused_workspace #16A085 #16A085 #ffffff'				>> ${config}
-				echo '	active_workspace #454749 #454749 #ffffff'				>> ${config}
-				echo '	inactive_workspace #00000000 #00000000 #ffffff'			>> ${config}
-				echo '	urgent_workspace #900000 #900000 #ffffff'				>> ${config}
-				echo "	}"														>> ${config}
-				echo "}"														>> ${config}
-				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> ${config}
-				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> ${config}
-				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> ${config}
-				echo '#16A085'													>> ${config}
+				;;
 
-			;;
+			esac
 
-		esac
+			currentcolor=${color}
 
-		currentcolor=${color}
+			i3-msg reload
 
-		i3-msg reload
+		fi
 
 	fi
 

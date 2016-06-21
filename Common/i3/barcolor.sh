@@ -133,7 +133,7 @@ while true; do
 
 		if [[ ${color} != "${currentcolor}" ]]; then
 
-			head -n -1 .Dot/Desktop/i3/config > .barconfig
+			head -n -1 .Dot/${host}/i3/config > .barconfig
 
 			mv .barconfig .config/i3/config
 
@@ -237,10 +237,10 @@ while true; do
 				EscritorioLaptop)
 
 					echo -e "	colors {\n"											>> "${config}"
-					echo '		separator #1C0C26'									>> "${config}"
+					echo '		separator #ED1A5F'									>> "${config}"
 					echo '		background #00000000'								>> "${config}"
 					echo '		statusline #ffffff'									>> "${config}"
-					echo '		focused_workspace #1C0C26 #1C0C26 #ffffff'			>> "${config}"
+					echo '		focused_workspace #ED1A5F #ED1A5F #ffffff'			>> "${config}"
 					echo '		active_workspace #454749 #454749 #ffffff'			>> "${config}"
 					echo '		inactive_workspace #00000000 #00000000 #ffffff'		>> "${config}"
 					echo '		urgent_workspace #900000 #900000 #ffffff'			>> "${config}"

@@ -154,13 +154,21 @@ fi
 
 if [[ $? == 0 || ${maxres} == "1000" ]]; then
 
+	wid=$(wmctrl -lx| awk '{print $1" "$2" "$3}' | grep "smtube.smtube" | awk '{print $1}')
+
+	if [[ ${wid} ]]; then
+
+		wid="--wid=${wid}"
+
+	fi
+
 	if [[ ${sub} ]]; then
 
-		mpv --no-terminal --sub-file="${sub}" "${title}"
+		mpv --no-terminal "${wid}" --sub-file="${sub}" "${title}"
 
 	else
 
-		mpv --no-terminal "${title}"
+		mpv --no-terminal "${wid}" "${title}"
 
 	fi
 

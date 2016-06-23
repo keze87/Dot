@@ -83,7 +83,7 @@ while true; do
 
 			if [[ ${multipleincurrent} == false ]]; then
 
-				known=( 'Spotify' 'Geany' 'Terminator' 'guake' 'albert' )
+				known=( 'Spotify' 'Geany' 'Terminator' 'guake' 'albert' 'zenity' )
 
 				active=$(xprop -id "$(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | cut -f 2)" WM_CLASS)
 
@@ -99,7 +99,7 @@ while true; do
 
 				done
 
-				if [[ ${color} == "guake" || ${color} == "albert" ]]; then
+				if [[ ${color} == "guake" || ${color} == "albert" || ${color} == "zenity" ]]; then
 
 					color=${currentcolor}
 

@@ -46,6 +46,7 @@ bindsym XF86MonBrightnessUp exec --no-startup-id $1 sudo sh ~/.config/i3/brillo.
 bindsym XF86MonBrightnessDown exec --no-startup-id $1 sudo sh ~/.config/i3/brillo.sh
 
 bindsym $mod+w exec chromium
+bindsym Mod1+w exec firefox
 bindsym $mod+e exec pcmanfm
 bindsym $mod+g exec $1 geany
 bindsym $mod+s exec $1 /bin/sh /usr/bin/spotify

@@ -249,7 +249,7 @@ while true; do
 					echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> "${config}"
 					echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> "${config}"
 					echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> "${config}"
-					echo '#1C0C26'													>> "${config}"
+					echo '#ED1A5F'													>> "${config}"
 
 				;;
 

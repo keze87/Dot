@@ -10,7 +10,7 @@ else
 	host="Desktop";
 
 fi
-
+set -x
 config="${HOME}/.config/i3/config"
 currentcolor=""
 ids2=( '#nerfed' )
@@ -45,31 +45,37 @@ while true; do
 
 						for id in "${ids[@]}"; do
 
-							xprop -id "${id}" | grep "NET_WM_WINDOW_TYPE" | grep "= _NET_WM_WINDOW_TYPE_NORMAL"
+							xprop -id "${id}" _NET_WM_WINDOW_TYPE | grep "= _NET_WM_WINDOW_TYPE_NORMAL"
 
 							if [[ $? != 0 ]]; then
 
-								xprop -id "${id}" | grep "WM_CLASS" | grep "Spotify"
+								class=$(xprop -id "${id}" WM_CLASS | awk '{print $3}' | tr -c -d '[:alnum:]\n')
 
-								if [[ $? != 0 ]]; then
+								known=( 'spotify' 'mpv' 'Steam' ) # Ventanas sin WINDOW_TYPE_NORMAL
 
-									xprop -id "${id}" | grep "WM_CLASS" | grep "mpv"
+								for know in "${known[@]}"; do
 
-								fi
+									if [[ "${class}" == "${know}" ]]; then
 
-							fi
+										normal=$((normal + 1))
 
-							if [[ $? == 0 ]]; then
+										break
+
+									fi
+
+								done
+
+							else
 
 								normal=$((normal + 1))
 
-								if [[ ${normal} -gt 1 ]]; then
+							fi
 
-									multipleincurrent=true
+							if [[ ${normal} -gt 1 ]]; then
 
-									break
+								multipleincurrent=true
 
-								fi
+								break
 
 							fi
 
@@ -83,13 +89,13 @@ while true; do
 
 			if [[ ${multipleincurrent} == false ]]; then
 
-				known=( 'Spotify' 'Geany' 'Terminator' 'guake' 'albert' 'zenity' )
+				known=( 'spotify' 'geany' 'terminator' 'guake' 'albert' 'zenity' )
 
-				active=$(xprop -id "$(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | cut -f 2)" WM_CLASS)
+				active=$(xprop -id "$(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | cut -f 2)" WM_CLASS | awk '{print $3}' | tr -c -d '[:alnum:]\n')
 
 				for know in "${known[@]}"; do
 
-					if echo "${active}" | grep -q "${know}"; then
+					if [[ "${active}" == "${know}" ]]; then
 
 						color=${know}
 
@@ -158,7 +164,7 @@ while true; do
 
 				;;
 
-				Spotify)
+				spotify)
 
 					echo -e "	colors {\n"											>> "${config}"
 					echo '		separator #1ED660'									>> "${config}"
@@ -177,7 +183,7 @@ while true; do
 
 				;;
 
-				Geany)
+				geany)
 
 					echo -e "	colors {\n"											>> "${config}"
 					echo '		separator #8AE234'									>> "${config}"
@@ -196,7 +202,7 @@ while true; do
 
 				;;
 
-				Terminator)
+				terminator)
 
 					echo -e "	colors {\n"											>> "${config}"
 					echo '		separator #8AE234'									>> "${config}"

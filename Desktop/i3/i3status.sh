@@ -8,17 +8,13 @@ fi
 
 sh ~/.config/i3/barcolor.sh "Desktop" > /dev/null &
 
-if [[ $1 ]]; then
-
-	s=$1;
-
-else
-
-	s="#FFFFFF";
-
-fi
-
 up=true
+
+while [[ ! ${ip} ]]; do
+
+	ip=$(ip r | grep default | cut -d ' ' -f 3)
+
+done
 
 echo -e "{\"version\":1}\n["
 
@@ -48,7 +44,7 @@ while true; do
 
 	fi
 
-	if [[ $player ]]; then
+	if [[ ${player} ]]; then
 
 		artist=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player \
 		/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
@@ -68,19 +64,19 @@ while true; do
 		egrep -A 1 "album" | egrep -v "album" | cut -b 44- | tr '"' "'" | \
 		egrep -v ^$)
 
-		if [[ $artist ]]; then
+		if [[ ${artist} ]]; then
 
 			artist=${artist::-1}
 
 		fi
 
-		if [[ $album ]]; then
+		if [[ ${album} ]]; then
 
 			album=${album::-1}
 
 		fi
 
-		if [[ $title ]]; then
+		if [[ ${title} ]]; then
 
 			title=${title::-1}
 
@@ -90,7 +86,7 @@ while true; do
 
 	if [[ -f ${HOME}/memo ]]; then
 
-		memo=$(tr -s "\n" " " < ${HOME}/memo)
+		memo=$(tr -s "\n" " " < ~/memo)
 
 	fi
 
@@ -111,11 +107,11 @@ while true; do
 
 	### Spotify ###
 
-	if [[ $player ]]; then
+	if [[ ${player} && ${title} ]]; then
 
 		s=$(tail -n1 .config/i3/config)
 
-		if [[ $artist ]]; then
+		if [[ ${artist} ]]; then
 
 			echo -e "{
 						\"color\":\"#FFFFFF\",
@@ -126,8 +122,8 @@ while true; do
 
 		fi
 
-		if [[ $album || $title ]]; then
-			if [[ $artist ]]; then
+		if [[ ${album} || ${title} ]]; then
+			if [[ ${artist} ]]; then
 
 				echo -e "{
 							\"color\":\"$s\",
@@ -139,7 +135,7 @@ while true; do
 			fi
 		fi
 
-		if [[ $album ]]; then
+		if [[ ${album} ]]; then
 
 			echo -e "{
 						\"color\":\"#FFFFFF\",
@@ -151,7 +147,7 @@ while true; do
 
 		fi
 
-		if [[ $album && $title ]]; then
+		if [[ ${album} && ${title} ]]; then
 
 			echo -e "{
 						\"color\":\"$s\",
@@ -184,7 +180,7 @@ while true; do
 
 	### Internet ###
 
-	if ping -q -w 1 -c 1 $(ip r | grep default | cut -d ' ' -f 3) > /dev/null; then
+	if ping -q -w 1 -c 1 ${ip} > /dev/null; then
 
 		echo -e "{
 					\"color\":\"#FFFFFF\",
@@ -218,13 +214,13 @@ while true; do
 
 	### Nvidia ###
 
-	if [[ $nvidia -lt 60 ]]; then
+	if [[ ${nvidia} -lt 60 ]]; then
 
 		echo -e "{ \"color\":\"#FFFFFF\","
 
 	else
 
-		if [[ $nvidia -lt 80 ]]; then
+		if [[ ${nvidia} -lt 80 ]]; then
 
 			echo -e "{ \"color\":\"#FFA500\","
 

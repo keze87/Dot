@@ -10,9 +10,10 @@ else
 	host="Desktop";
 
 fi
-set -x
+
 config="${HOME}/.config/i3/config"
 currentcolor=""
+
 ids2=( '#nerfed' )
 
 while true; do

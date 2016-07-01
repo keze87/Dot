@@ -3,7 +3,7 @@
 #set -x
 
 # dialog rsync pygmentize expac rtmpdump
-# youtube-dl aria2c mpv wmctrl
+# youtube-dl aria2c mpv wmctrl FontAwesome
 
 dir="${HOME}/.Dot"
 olddir="${HOME}/Dot_Old"

@@ -10,15 +10,15 @@ sh ~/.config/i3/barcolor.sh "Desktop" > /dev/null &
 
 up=true
 
-while [[ ! ${ip} ]]; do
-
-	ip=$(ip r | grep default | cut -d ' ' -f 3)
-
-done
-
 echo -e "{\"version\":1}\n["
 
 while true; do
+
+	if [[ ! ${ip} ]]; then
+
+		ip=$(ip r | grep default | cut -d ' ' -f 3)
+
+	fi
 
 	if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify \
 	/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
@@ -111,6 +111,23 @@ while true; do
 
 		s=$(tail -n1 .config/i3/config)
 
+		echo -e "{
+					\"color\":\"${s}\",
+					\"separator\": false,
+					\"separator_block_width\": 0,"
+
+		if [[ ${player} == 'spotify' ]]; then
+
+			echo -e "\"full_text\":\" \"
+					 },"
+
+		else
+
+			echo -e "\"full_text\":\" \"
+					 },"
+
+		fi
+
 		if [[ ${artist} ]]; then
 
 			echo -e "{
@@ -171,7 +188,7 @@ while true; do
 
 		echo -e "{
 					\"color\":\"#FFFFFF\",
-					\"full_text\":\" ${memo::-1} \"
+					\"full_text\":\": ${memo::-1} \"
 				 },"
 
 		memo=""
@@ -184,7 +201,7 @@ while true; do
 
 		echo -e "{
 					\"color\":\"#FFFFFF\",
-					\"full_text\":\" NET: $(sh ~/.config/i3/speed.sh "eno1") \"
+					\"full_text\":\" : $(sh ~/.config/i3/speed.sh "eno1") \"
 				},"
 
 		up=true
@@ -207,7 +224,7 @@ while true; do
 
 		echo -e "{
 					\"color\":\"#FF0000\",
-					\"full_text\":\" Sin Internet \"
+					\"full_text\":\": Sin Internet \"
 				 },"
 
 	fi
@@ -232,34 +249,34 @@ while true; do
 
 	fi
 
-	echo -e "\"full_text\":\" NVIDIA: ${nvidia} °C \" },"
+	echo -e "\"full_text\":\" : ${nvidia} °C \" },"
 
 	### Volumen ###
 
 	echo -e "{
 				\"color\":\"#FFFFFF\",
-				\"full_text\":\" S: ${volumen} \"
+				\"full_text\":\" : ${volumen} \"
 			 },"
 
 	### Root ###
 
 	echo -e "{
 				\"color\":\"#FFFFFF\",
-				\"full_text\":\" ROOT: ${disco1} \"
+				\"full_text\":\" : ${disco1} \"
 			 },"
 
 	### Home ###
 
 	echo -e "{
 				\"color\":\"#FFFFFF\",
-				\"full_text\":\" HOME: ${disco2} \"
+				\"full_text\":\" : ${disco2} \"
 			 },"
 
 	### RAM ###
 
 	echo -e "{
 				\"color\":\"#FFFFFF\",
-				\"full_text\":\" RAM: ${ram} \"
+				\"full_text\":\" : ${ram} \"
 			 },"
 
 	### CPU ###
@@ -282,7 +299,7 @@ while true; do
 
 	fi
 
-	echo -e "\"full_text\":\" T: ${cpu}°C \" },"
+	echo -e "\"full_text\":\" : ${cpu}°C \" },"
 
 	### Fecha ###
 

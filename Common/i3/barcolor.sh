@@ -50,7 +50,8 @@ while true; do
 
 							if [[ $? != 0 ]]; then
 
-								class=$(xprop -id "${id}" WM_CLASS | awk '{print $3}' | tr -c -d '[:alnum:]\n')
+								class=$(xprop -id "${id}" WM_CLASS | awk '{print $3}' | \
+								tr -c -d '[:alnum:]\n')
 
 								known=( 'spotify' 'mpv' 'Steam' ) # Ventanas sin WINDOW_TYPE_NORMAL
 
@@ -92,7 +93,8 @@ while true; do
 
 				known=( 'spotify' 'geany' 'terminator' 'guake' 'albert' 'zenity' )
 
-				active=$(xprop -id "$(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | cut -f 2)" WM_CLASS | awk '{print $3}' | tr -c -d '[:alnum:]\n')
+				active=$(xprop -id "$(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | \
+				cut -f 2)" WM_CLASS | awk '{print $3}' | tr -c -d '[:alnum:]\n')
 
 				for know in "${known[@]}"; do
 
@@ -295,6 +297,6 @@ done
 
 # barcolor <colorclass> <border> <background> <text>
 
-# class    <border>  <backgr> <text> <indicator> <child_border>
+# class    <border> <backgr> <text> <indicator> <child_border>
 
 # <separator>

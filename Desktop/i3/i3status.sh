@@ -188,7 +188,7 @@ while true; do
 
 		echo -e "{
 					\"color\":\"#FFFFFF\",
-					\"full_text\":\": ${memo::-1} \"
+					\"full_text\":\"  ${memo::-1} \"
 				 },"
 
 		memo=""
@@ -201,7 +201,7 @@ while true; do
 
 		echo -e "{
 					\"color\":\"#FFFFFF\",
-					\"full_text\":\" : $(sh ~/.config/i3/speed.sh "eno1") \"
+					\"full_text\":\"   $(sh ~/.config/i3/speed.sh "eno1") \"
 				},"
 
 		up=true
@@ -224,7 +224,7 @@ while true; do
 
 		echo -e "{
 					\"color\":\"#FF0000\",
-					\"full_text\":\": Sin Internet \"
+					\"full_text\":\"   Sin Internet \"
 				 },"
 
 	fi
@@ -249,34 +249,34 @@ while true; do
 
 	fi
 
-	echo -e "\"full_text\":\" : ${nvidia} °C \" },"
+	echo -e "\"full_text\":\"   ${nvidia} °C \" },"
 
 	### Volumen ###
 
 	echo -e "{
 				\"color\":\"#FFFFFF\",
-				\"full_text\":\" : ${volumen} \"
+				\"full_text\":\"   ${volumen} \"
 			 },"
 
 	### Root ###
 
 	echo -e "{
 				\"color\":\"#FFFFFF\",
-				\"full_text\":\" : ${disco1} \"
+				\"full_text\":\"   ${disco1} \"
 			 },"
 
 	### Home ###
 
 	echo -e "{
 				\"color\":\"#FFFFFF\",
-				\"full_text\":\" : ${disco2} \"
+				\"full_text\":\"   ${disco2} \"
 			 },"
 
 	### RAM ###
 
 	echo -e "{
 				\"color\":\"#FFFFFF\",
-				\"full_text\":\" : ${ram} \"
+				\"full_text\":\"   ${ram} \"
 			 },"
 
 	### CPU ###
@@ -299,7 +299,7 @@ while true; do
 
 	fi
 
-	echo -e "\"full_text\":\" : ${cpu}°C \" },"
+	echo -e "\"full_text\":\"   ${cpu}°C \" },"
 
 	### Fecha ###
 

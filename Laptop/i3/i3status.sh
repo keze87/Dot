@@ -8,16 +8,6 @@ fi
 
 sh ~/.config/i3/barcolor.sh "Laptop" > /dev/null &
 
-if [[ $1 ]]; then
-
-	s=$1;
-
-else
-
-	s="#FFFFFF";
-
-fi
-
 up=true
 
 echo -e "{\"version\":1}\n["
@@ -50,7 +40,7 @@ while true; do
 
 	fi
 
-	if [[ $player ]]; then
+	if [[ ${player} ]]; then
 
 		artist=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player \
 		/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
@@ -70,19 +60,19 @@ while true; do
 		egrep -A 1 "album" | egrep -v "album" | cut -b 44- | tr '"' "'" | \
 		egrep -v ^$)
 
-		if [[ $artist ]]; then
+		if [[ ${artist} ]]; then
 
 			artist=${artist::-1}
 
 		fi
 
-		if [[ $album ]]; then
+		if [[ ${album} ]]; then
 
 			album=${album::-1}
 
 		fi
 
-		if [[ $title ]]; then
+		if [[ ${title} ]]; then
 
 			title=${title::-1}
 
@@ -92,7 +82,7 @@ while true; do
 
 	if [[ -f ${HOME}/memo ]]; then
 
-		memo=$(tr -s "\n" " " < ${HOME}/memo)
+		memo=$(tr -s "\n" " " < ~/memo)
 
 	fi
 
@@ -121,11 +111,28 @@ while true; do
 
 	### Spotify ###
 
-	if [[ $player ]]; then
+	if [[ ${player} && ${title} ]]; then
 
 		s=$(tail -n1 .config/i3/config)
 
-		if [[ $artist ]]; then
+		echo -e "{
+					\"color\":\"${s}\",
+					\"separator\": false,
+					\"separator_block_width\": 0,"
+
+		if [[ ${player} == 'spotify' ]]; then
+
+			echo -e "\"full_text\":\" \"
+					 },"
+
+		else
+
+			echo -e "\"full_text\":\" \"
+					 },"
+
+		fi
+
+		if [[ ${artist} ]]; then
 
 			echo -e "{
 						\"color\":\"#FFFFFF\",
@@ -136,8 +143,8 @@ while true; do
 
 		fi
 
-		if [[ $album || $title ]]; then
-			if [[ $artist ]]; then
+		if [[ ${album} || ${title} ]]; then
+			if [[ ${artist} ]]; then
 
 				echo -e "{
 							\"color\":\"$s\",
@@ -149,7 +156,7 @@ while true; do
 			fi
 		fi
 
-		if [[ $album ]]; then
+		if [[ ${album} ]]; then
 
 			echo -e "{
 						\"color\":\"#FFFFFF\",
@@ -161,7 +168,7 @@ while true; do
 
 		fi
 
-		if [[ $album && $title ]]; then
+		if [[ ${album} && ${title} ]]; then
 
 			echo -e "{
 						\"color\":\"$s\",
@@ -186,7 +193,7 @@ while true; do
 
 		echo -e "{
 					\"color\":\"#FFFFFF\",
-					\"full_text\":\" ${memo::-1} \"
+					\"full_text\":\"  ${memo::-1} \"
 				 },"
 
 		memo=""
@@ -205,7 +212,7 @@ while true; do
 
 			echo -e "{
 						\"color\":\"#FFFFFF\",
-						\"full_text\":\" BRILLO: ${brillo%.*} \"
+						\"full_text\":\"   ${brillo%.*} \"
 					 },"
 
 		fi
@@ -223,12 +230,12 @@ while true; do
 
 		if [[ $speed == "0 K↓ 0 K↑" ]]; then
 
-			echo -e "\"full_text\":\" WiFi: (${wifi}) \"
+			echo -e "\"full_text\":\"   (${wifi}) \"
 				 },"
 
 		else
 
-			echo -e "\"full_text\":\" WiFi: ${speed} (${wifi}) \"
+			echo -e "\"full_text\":\"   ${speed} (${wifi}) \"
 				 },"
 
 		fi
@@ -253,7 +260,7 @@ while true; do
 
 		echo -e "{
 					\"color\":\"#FF0000\",
-					\"full_text\":\" Sin Internet \"
+					\"full_text\":\"   Sin Internet \"
 				 },"
 
 	fi
@@ -262,28 +269,28 @@ while true; do
 
 	echo -e "{
 				\"color\":\"#FFFFFF\",
-				\"full_text\":\" S: ${volumen} \"
+				\"full_text\":\"   ${volumen} \"
 			 },"
 
 	### Root ###
 
 	echo -e "{
 				\"color\":\"#FFFFFF\",
-				\"full_text\":\" ROOT: ${disco1} \"
+				\"full_text\":\"   ${disco1} \"
 			 },"
 
 	### Home ###
 
 	echo -e "{
 				\"color\":\"#FFFFFF\",
-				\"full_text\":\" HOME: ${disco2} \"
+				\"full_text\":\"   ${disco2} \"
 			 },"
 
 	### RAM ###
 
 	echo -e "{
 				\"color\":\"#FFFFFF\",
-				\"full_text\":\" RAM: ${ram} \"
+				\"full_text\":\"   ${ram} \"
 			 },"
 
 	### CPU ###
@@ -306,7 +313,7 @@ while true; do
 
 	fi
 
-	echo -e "\"full_text\":\" T: ${cpu}°C \" },"
+	echo -e "\"full_text\":\"   ${cpu}°C \" },"
 
 	### Bateria ##
 
@@ -330,11 +337,11 @@ while true; do
 
 	if [ "${bateria2}" = "discharging" ]; then
 
-		echo -e "\"full_text\":\" BAT: ${bateria1}% \"},"
+		echo -e "\"full_text\":\"   ${bateria1}% \"},"
 
 	else
 
-		echo -e "\"full_text\":\" AC: ${bateria1}% \"},"
+		echo -e "\"full_text\":\"   ${bateria1}% \"},"
 
 	fi
 

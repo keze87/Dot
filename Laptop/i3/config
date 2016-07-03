@@ -8,7 +8,7 @@ set $mod Mod4
 # Permitir solo una instancia
 set $1 sh ~/.config/i3/instance.sh
 
-font pango:DejaVu Sans Mono Regular 8
+font pango:DejaVu Sans Mono Regular, FontAwesome 10
 
 smart_gaps on
 smart_borders on

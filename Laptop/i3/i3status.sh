@@ -96,7 +96,7 @@ while true; do
 
 	wifi=$(iwgetid -r)
 
-	volumen=$(amixer get Master | grep Right: | awk {"print \$5"} | tr -d "[]");
+	volumen=$(amixer get Master | grep Right: | awk {"print \$5"} | tr -d "[]%");
 
 	disco1=$(df | grep sdb3 | awk '{print $5}')
 	disco2=$(df | grep sda3 | awk '{print $5}')
@@ -230,7 +230,7 @@ while true; do
 
 		if [[ $speed == "0 K↓ 0 K↑" ]]; then
 
-			echo -e "\"full_text\":\"   (${wifi}) \"
+			echo -e "\"full_text\":\"   ${wifi} \"
 				 },"
 
 		else
@@ -268,9 +268,25 @@ while true; do
 	### Volumen ###
 
 	echo -e "{
-				\"color\":\"#FFFFFF\",
-				\"full_text\":\"   ${volumen} \"
-			 },"
+				\"color\":\"#FFFFFF\","
+
+	if [ "${volumen}" -lt 10 ]; then
+
+		echo -e "\"full_text\":\"   ${volumen}% \"},"
+
+	else
+
+		if [[ "${volumen}" -lt 40 ]]; then
+
+			echo -e "\"full_text\":\"   ${volumen}% \"},"
+
+		else
+
+			echo -e "\"full_text\":\"   ${volumen}% \"},"
+
+		fi
+
+	fi
 
 	### Root ###
 
@@ -323,7 +339,7 @@ while true; do
 
 	else
 
-		if [[ $bateria1 -gt 20 ]]; then
+		if [[ $"{bateria1}" -gt 20 ]]; then
 
 			echo -e "{\"color\":\"#FFA500\","
 
@@ -337,7 +353,23 @@ while true; do
 
 	if [ "${bateria2}" = "discharging" ]; then
 
-		echo -e "\"full_text\":\"   ${bateria1}% \"},"
+		if [ "${bateria1}" -lt 30 ]; then
+
+			echo -e "\"full_text\":\"   ${bateria1}% \"},"
+
+		else
+
+			if [[ $bateria1 -lt 65 ]]; then
+
+				echo -e "\"full_text\":\"   ${bateria1}% \"},"
+
+			else
+
+				echo -e "\"full_text\":\"   ${bateria1}% \"},"
+
+			fi
+
+		fi
 
 	else
 

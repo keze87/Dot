@@ -92,7 +92,7 @@ while true; do
 
 	nvidia=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
 
-	volumen=$(amixer get Master | grep "Front Right:" | awk {"print \$5"} | tr -d "[]");
+	volumen=$(amixer get Master | grep "Front Right:" | awk {"print \$5"} | tr -d "[]%");
 
 	disco1=$(df | grep sdb1 | awk '{print $5}')
 	disco2=$(df | grep sda1 | awk '{print $5}')
@@ -254,9 +254,25 @@ while true; do
 	### Volumen ###
 
 	echo -e "{
-				\"color\":\"#FFFFFF\",
-				\"full_text\":\"   ${volumen} \"
-			 },"
+				\"color\":\"#FFFFFF\","
+
+	if [ "${volumen}" -lt 10 ]; then
+
+		echo -e "\"full_text\":\"   ${volumen}% \"},"
+
+	else
+
+		if [[ "${volumen}" -lt 40 ]]; then
+
+			echo -e "\"full_text\":\"   ${volumen}% \"},"
+
+		else
+
+			echo -e "\"full_text\":\"   ${volumen}% \"},"
+
+		fi
+
+	fi
 
 	### Root ###
 

@@ -22,17 +22,12 @@ for_window [class="albert"] floating enable
 for_window [class="mpv"] floating enable
 
 
-exec --no-startup-id sh ~/.mouse.sh
+exec --no-startup-id albert
+exec --no-startup-id conky
 exec --no-startup-id guake
-exec --no-startup-id compton --config ~/.compton.conf
+exec --no-startup-id compton
 exec --no-startup-id /usr/lib/mate-polkit/polkit-mate-authentication-agent-1
 exec --no-startup-id nitrogen --restore
-
-exec --no-startup-id synclient TapButton2=3
-exec --no-startup-id synclient TapButton3=2
-exec --no-startup-id synclient TapButton3=2
-exec --no-startup-id synclient TapButton2=3
-exec --no-startup-id synclient HorizTwoFingerScroll=1
 
 bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer set Master 5%+"
 bindsym XF86AudioLowerVolume exec --no-startup-id "amixer set Master 5%-"
@@ -40,8 +35,6 @@ bindsym XF86AudioLowerVolume exec --no-startup-id "amixer set Master 5%-"
 bindsym Mod1+Up exec --no-startup-id $1 ~/.config/i3/volumen.sh
 bindsym Mod1+Down exec --no-startup-id $1 ~/.config/i3/volumen.sh
 
-#bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc 34"
-#bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 34"
 bindsym XF86MonBrightnessUp exec --no-startup-id $1 sudo sh ~/.config/i3/brillo.sh
 bindsym XF86MonBrightnessDown exec --no-startup-id $1 sudo sh ~/.config/i3/brillo.sh
 

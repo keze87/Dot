@@ -23,7 +23,7 @@ for_window [title="Steam Keyboard"] floating enable
 for_window [title="Nitrogen"] floating enable
 
 
-exec --no-startup-id conky
+#exec --no-startup-id conky
 exec --no-startup-id albert
 exec --no-startup-id guake
 exec --no-startup-id compton
@@ -34,6 +34,8 @@ exec --no-startup-id numlockx
 
 bindsym Mod1+Up exec --no-startup-id $1 ~/.config/i3/volumen.sh
 bindsym Mod1+Down exec --no-startup-id $1 ~/.config/i3/volumen.sh
+bindsym Mod1+Prior exec --no-startup-id "amixer set Master 5%+"
+bindsym Mod1+Next exec --no-startup-id "amixer set Master 5%-"
 
 bindsym $mod+w exec chromium
 bindsym Mod1+w exec firefox

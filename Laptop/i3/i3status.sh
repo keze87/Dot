@@ -373,7 +373,7 @@ while true; do
 
 	else
 
-		echo -e "\"full_text\":\"   ${bateria1}% \"},"
+		echo -e "\"full_text\":\"   ${bateria1}% \"},"
 
 	fi
 

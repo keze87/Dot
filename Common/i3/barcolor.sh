@@ -15,6 +15,8 @@ config="${HOME}/.config/i3/config"
 currentcolor=""
 
 ids2=( '#nerfed' )
+known=( 'spotify' 'mpv' 'gl' 'Steam' ) # Ventanas sin WINDOW_TYPE_NORMAL
+known2=( 'spotify' 'geany' 'terminator' 'guake' 'albert' 'zenity' )
 
 while true; do
 
@@ -53,8 +55,6 @@ while true; do
 								class=$(xprop -id "${id}" WM_CLASS | awk '{print $3}' | \
 								tr -c -d '[:alnum:]\n')
 
-								known=( 'spotify' 'mpv' 'Steam' ) # Ventanas sin WINDOW_TYPE_NORMAL
-
 								for know in "${known[@]}"; do
 
 									if [[ "${class}" == "${know}" ]]; then
@@ -91,16 +91,14 @@ while true; do
 
 			if [[ ${multipleincurrent} == false ]]; then
 
-				known=( 'spotify' 'geany' 'terminator' 'guake' 'albert' 'zenity' )
-
 				active=$(xprop -id "$(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | \
 				cut -f 2)" WM_CLASS | awk '{print $3}' | tr -c -d '[:alnum:]\n')
 
-				for know in "${known[@]}"; do
+				for know2 in "${known2[@]}"; do
 
-					if [[ "${active}" == "${know}" ]]; then
+					if [[ "${active}" == "${know2}" ]]; then
 
-						color=${know}
+						color=${know2}
 
 						break
 
@@ -227,10 +225,10 @@ while true; do
 				EscritorioDesktop)
 
 					echo -e "	colors {\n"											>> "${config}"
-					echo '		separator #16A085'									>> "${config}"
+					echo '		separator #45C0EA'									>> "${config}"
 					echo '		background #00000000'								>> "${config}"
 					echo '		statusline #ffffff'									>> "${config}"
-					echo '		focused_workspace #16A085 #16A085 #ffffff'			>> "${config}"
+					echo '		focused_workspace #45C0EA #45C0EA #ffffff'			>> "${config}"
 					echo '		active_workspace #454749 #454749 #ffffff'			>> "${config}"
 					echo '		inactive_workspace #00000000 #00000000 #ffffff'		>> "${config}"
 					echo '		urgent_workspace #900000 #900000 #ffffff'			>> "${config}"
@@ -239,7 +237,7 @@ while true; do
 					echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> "${config}"
 					echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> "${config}"
 					echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> "${config}"
-					echo '#16A085'													>> "${config}"
+					echo '#45C0EA'													>> "${config}"
 
 				;;
 

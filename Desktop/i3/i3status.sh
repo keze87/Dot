@@ -14,12 +14,6 @@ echo -e "{\"version\":1}\n["
 
 while true; do
 
-	if [[ ! ${ip} ]]; then
-
-		ip=$(ip r | grep default | cut -d ' ' -f 3)
-
-	fi
-
 	if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify \
 	/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
 	string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | \
@@ -90,14 +84,34 @@ while true; do
 
 	fi
 
+	if date +"%M:%S" | grep -q '0:0'; then
+
+		tenmin=true
+
+	else
+
+		tenmin=false
+
+	fi
+
+	if [[ ${tenmin} == true || ! ${ip} ]]; then
+
+		ip=$(ip r | grep default | cut -d ' ' -f 3)
+
+	fi
+
 	nvidia=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
 
-	volumen=$(amixer get Master | grep "Front Right:" | awk {"print \$5"} | tr -d "[]%");
+	volumen=$(amixer get Master | grep "Front Right:" | awk {"print \$5"} | tr -d "[]%")
 
-	disco1=$(df | grep sdb1 | awk '{print $5}')
-	disco2=$(df | grep sda1 | awk '{print $5}')
+	if [[ ${tenmin} == true || ! ${disco1} || ! ${disco2} ]]; then
 
-	ram=$(free -h | grep Mem | awk '{print $3}');
+		disco1=$(df | grep sdb1 | awk '{print $5}')
+		disco2=$(df | grep sda1 | awk '{print $5}')
+
+	fi
+
+	ram=$(free -h | grep Mem | awk '{print $3}')
 
 	cpu=$(cat /sys/devices/platform/coretemp.0/hwmon/*/temp1_input | cut -c1-2)
 
@@ -197,12 +211,18 @@ while true; do
 
 	### Internet ###
 
-	if ping -q -w 1 -c 1 ${ip} > /dev/null; then
+	if ping -q -w 1 -c 1 "${ip}" > /dev/null; then
 
-		echo -e "{
-					\"color\":\"#FFFFFF\",
-					\"full_text\":\"   $(sh ~/.config/i3/speed.sh "eno1") \"
-				},"
+		speed=$(sh ~/.config/i3/speed.sh "eno1")
+
+		if [[ "${speed}" != '0 K↓ 0 K↑' ]]; then
+
+			echo -e "{
+						\"color\":\"#FFFFFF\",
+						\"full_text\":\"   ${speed} \"
+					},"
+
+		fi
 
 		up=true
 
@@ -226,6 +246,26 @@ while true; do
 					\"color\":\"#FF0000\",
 					\"full_text\":\"   Sin Internet \"
 				 },"
+
+	fi
+
+	### TeamPyro ###
+
+	if [[ ${tenmin} == true || ${#war[@]} -eq 0 ]]; then
+
+		war=( $(wget https://steamgaug.es/api/v2 -q -O - | grep low | tr -c -d "[:digit:]\n") )
+
+		heatmeat=$((war[0] - war[1]))
+
+	fi
+
+	if [[ ${#war[@]} -eq 2 && ${war[0]} -gt 1 && ${war[1]} -gt 1 ]]; then
+
+		echo -e "{
+						\"color\":\"#FFFFFF\",
+						\"short_text\":\"\",
+						\"full_text\":\"   ${war[0]}    ${war[1]} (${heatmeat}) \"
+					},"
 
 	fi
 

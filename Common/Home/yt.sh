@@ -44,18 +44,6 @@ else
 
 fi
 
-name=$(youtube-dl -e "${link}")
-
-if [[ $? == 0 ]]; then
-
-	echo -e "${name}\n${link}\n"
-
-else
-
-	exit 2;
-
-fi
-
 tmp="${HOME}/.cache"
 
 if [[ -f "${tmp}"/ytlog ]]; then
@@ -72,7 +60,7 @@ if [[ ${maxres} == 1000 ]]; then
 
 	while [[ ${aux} != *[[:digit:]]* ]] ; do
 
-		aux=$(zenity --entry --text='Resolucion?' --entry-text="1000")
+		aux=$(zenity --entry --text="${link}\nResolucion?" --entry-text="1000")
 
 		if [[ $? != 0 ]]; then
 
@@ -89,6 +77,14 @@ if [[ ${maxres} == 1000 ]]; then
 	done
 
 	maxres=${aux}
+
+fi
+
+name=$(youtube-dl -e "${link}")
+
+if [[ $? != 0 ]]; then
+
+	exit 2;
 
 fi
 

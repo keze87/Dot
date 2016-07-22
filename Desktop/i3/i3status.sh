@@ -10,7 +10,14 @@ sh ~/.config/i3/barcolor.sh "Desktop" > /dev/null &
 
 up=true
 
-echo -e "{\"version\":1}\n["
+echo -e '{"version":1}
+		[
+			[
+				{
+					"color":"#FF0000",
+					"full_text":" Iniciando "
+				}
+			],'
 
 while true; do
 
@@ -196,19 +203,6 @@ while true; do
 
 	fi
 
-	### El Memo ###
-
-	if [[ ${memo} ]]; then
-
-		echo -e "{
-					\"color\":\"#FFFFFF\",
-					\"full_text\":\"  ${memo::-1} \"
-				 },"
-
-		memo=""
-
-	fi
-
 	### Internet ###
 
 	if ping -q -w 1 -c 1 "${ip}" > /dev/null; then
@@ -249,23 +243,16 @@ while true; do
 
 	fi
 
-	### TeamPyro ###
+	### El Memo ###
 
-	if [[ ${tenmin} == true || ${#war[@]} -eq 0 ]]; then
-
-		war=( $(wget https://steamgaug.es/api/v2 -q -O - | grep low | tr -c -d "[:digit:]\n") )
-
-		heatmeat=$((war[0] - war[1]))
-
-	fi
-
-	if [[ ${#war[@]} -eq 2 && ${war[0]} -gt 1 && ${war[1]} -gt 1 ]]; then
+	if [[ ${memo} ]]; then
 
 		echo -e "{
-						\"color\":\"#FFFFFF\",
-						\"short_text\":\"\",
-						\"full_text\":\"   ${war[0]}    ${war[1]} (${heatmeat}) \"
-					},"
+					\"color\":\"#FFFFFF\",
+					\"full_text\":\"  ${memo::-1} \"
+				 },"
+
+		memo=""
 
 	fi
 

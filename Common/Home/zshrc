@@ -49,7 +49,7 @@ alias yt='
 	url=$(xclip -o);
 
 	if [[ $url ]]; then
-		youtube-dl -e --get-description --get-format $url && \
+		youtube-dl -e --get-description --get-format $url
 		mpv "--ytdl" "--ytdl-format=bestvideo[height<=?1080]+bestaudio/best" ${url}
 	fi
 		'
@@ -58,7 +58,7 @@ alias yt720='
 	url=$(xclip -o);
 
 	if [[ $url ]]; then
-		youtube-dl -e --get-description --get-format $url && \
+		youtube-dl -e --get-description --get-format $url
 		mpv "--ytdl" "--ytdl-format=bestvideo[height<=?720]+bestaudio/best" ${url}
 	fi
 		'

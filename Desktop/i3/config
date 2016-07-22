@@ -40,7 +40,7 @@ bindsym Mod1+Next exec --no-startup-id "amixer set Master 5%-"
 bindsym $mod+w exec chromium
 bindsym Mod1+w exec firefox
 bindsym $mod+e exec pcmanfm
-bindsym $mod+g exec env GTK2_RC_FILES=/usr/share/themes/Vertex-Dark/gtk-2.0/gtkrc $1 geany
+bindsym $mod+g exec $1 geany
 bindsym $mod+s exec $1 "/bin/sh /usr/bin/spotify"
 bindsym Mod1+s exec $1 ~/.ss.sh
 bindsym $mod+q exec $1 ~/.config/i3/apagar.sh

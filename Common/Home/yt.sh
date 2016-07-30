@@ -1,7 +1,5 @@
 #!/bin/sh
 
-#set -x
-
 if [[ $2 ]]; then
 
 	link=$2;
@@ -60,6 +58,13 @@ if [[ ${maxres} == 1000 ]]; then
 
 	while [[ ${aux} != *[[:digit:]]* ]] ; do
 
+		(
+
+			sleep 0.2
+			i3-msg move position mouse
+
+		) &
+
 		aux=$(zenity --entry --text="${link}\nResolucion?" --entry-text="1000")
 
 		if [[ $? != 0 ]]; then
@@ -90,6 +95,13 @@ fi
 
 args='--allow-overwrite=true -c --file-allocation=none --log-level=error
 -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=0 -t5'
+
+(
+
+	sleep 0.2
+	i3-msg move position mouse
+
+) &
 
 if [[ ${maxres} == 0 ]]; then
 

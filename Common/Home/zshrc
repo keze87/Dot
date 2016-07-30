@@ -30,6 +30,7 @@ alias yt-aria='sh ~/.yt.sh'
 alias logcat='
 	while true; do
 		adb logcat;
+		clear;
 	done
 		'
 alias pop2='

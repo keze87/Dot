@@ -22,8 +22,6 @@ function pidtree() {
 
 }
 
-#set -x
-
 if [[ ! $1 ]]; then
 
 	exit 1

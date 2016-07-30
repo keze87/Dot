@@ -7,12 +7,12 @@ if [[ $1 ]]; then
 
 else
 
-	host="Desktop";
+	host='Desktop';
 
 fi
 
 config="${HOME}/.config/i3/config"
-currentcolor="Negro"
+currentcolor='#nerfed'
 
 known=( 'spotify' 'geany' 'audacious' 'terminator' 'guake' 'albert' 'zenity' )
 
@@ -34,16 +34,13 @@ IFS=$'\n'
 
 while true; do
 
-	active=$(xprop -id "$(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | \
-	cut -f 2)" WM_CLASS | awk '{print $3}' | tr -c -d '[:alnum:]\n')
-
 	current=$(xprop -root _NET_CURRENT_DESKTOP | tr -c -d "[:digit:]\n")
 
 	ids=( $(wmctrl -lx | awk '{print $1" "$2}' | grep " ${current}" | awk '{print $1}') )
 
-	multipleincurrent=true
-
 	wmc=( $(wmctrl -lG | awk '{print $1" work:"$2" "$5" "$6}' | grep "work:${current}") )
+
+	multipleincurrent=true
 
 	for id in "${ids[@]}"; do
 
@@ -78,6 +75,9 @@ while true; do
 
 		color=''
 
+		active=$(xprop -id "$(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | \
+		cut -f 2)" WM_CLASS | awk '{print $3}' | tr -c -d '[:alnum:]\n')
+
 		for know in "${known[@]}"; do
 
 			if [[ "${active}" == "${know}" ]]; then
@@ -96,7 +96,7 @@ while true; do
 
 		else
 
-			if [[ ${color} == "guake" || ${color} == "audacious" || ${color} == "albert" || ${color} == "zenity" ]]; then
+			if [[ ${color} == 'guake' || ${color} == 'audacious' || ${color} == 'albert' || ${color} == 'zenity' ]]; then
 
 				color=${currentcolor}
 
@@ -112,7 +112,7 @@ while true; do
 
 		else
 
-			color="Transparente"
+			color='Transparente'
 
 		fi
 

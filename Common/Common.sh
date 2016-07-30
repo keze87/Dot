@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#set -x
-
 dir="${HOME}/.Dot/Common"
 olddir="${HOME}/Dot_Old"
 

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#set -x
-
 dir="${HOME}/.Dot/Laptop"
 olddir="${HOME}/Dot_Old"
 

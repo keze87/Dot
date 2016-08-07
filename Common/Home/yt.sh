@@ -103,13 +103,15 @@ args='--allow-overwrite=true -c --file-allocation=none --log-level=error
 
 ) &
 
+text="$(echo "${name}" | tr '&' 'y')\n${maxres}\n"
+
 if [[ ${maxres} == 0 ]]; then
 
 	stdbuf -o0 youtube-dl -q --no-playlist -f "bestvideo+bestaudio/best" --exec "echo {} > ${tmp}/title" \
 	--external-downloader "aria2c" --external-downloader-args "${args}" \
 	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" 2>&1 | tee -a "${tmp}"/ytlog | \
 	tee /dev/tty | grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
-	zenity --progress --title="Yt-dl-aria2c" --text="$(echo ${name} | tr '&' 'y') \n${maxres}\n" \
+	zenity --progress --title="Yt-dl-aria2c" --text="${text}" \
 	--percentage=0 --auto-close --no-cancel
 
 else
@@ -118,7 +120,7 @@ else
 	--exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" \
 	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" 2>&1 | tee -a "${tmp}"/ytlog | \
 	tee /dev/tty | grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
-	zenity --progress --title="Yt-dl-aria2c" --text="$(echo ${name} | tr '&' 'y') \n${maxres}\n" \
+	zenity --progress --title="Yt-dl-aria2c" --text="${text}" \
 	--percentage=0 --auto-close --no-cancel
 
 fi
@@ -156,17 +158,27 @@ rm "${tmp}/title"
 if [[ ${maxres} != "1000" ]]; then
 
 	zenity --question --text="Descarga completa. Reproducir?" \
---ok-label="Yup" --cancel-label="Nope"
+	--ok-label="Yup" --cancel-label="Nope"
 
 fi
 
 if [[ $? == 0 || ${maxres} == "1000" ]]; then
 
-	wid=$(wmctrl -lx| awk '{print $1" "$2" "$3}' | grep "smtube.smtube" | awk '{print $1}')
+	wid=$(wmctrl -lx | awk '{print $1" "$2" "$3}' | grep "smtube.smtube" | awk '{print $1}')
 
 	if [[ ${wid} ]]; then
 
-		wid="--wid=${wid}"
+		if [[ ${maxres} != 1000 ]]; then
+
+			zenity --question --text="Unir a smtube?" \
+			--ok-label="Yup" --cancel-label="Nope" && \
+			wid="--wid=${wid}"
+
+		else
+
+			wid="--wid=${wid}"
+
+		fi
 
 	fi
 

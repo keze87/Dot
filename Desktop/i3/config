@@ -171,7 +171,7 @@ bar {
 	i3bar_command i3bar -t
 	position top
 	separator_symbol "|"
-	font pango:DejaVu Sans Mono Regular 9
+	#font pango:DejaVu Sans Mono Regular 9
 
 	bindsym button3 exec --no-startup-id sh ~/.config/i3/work.sh
 	bindsym button2 kill

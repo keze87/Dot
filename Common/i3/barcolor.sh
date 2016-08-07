@@ -148,18 +148,18 @@ while true; do
 			spotify)
 
 				echo -e "	colors {\n"											>> "${config}"
-				echo '		separator #1ED660'									>> "${config}"
+				echo '		separator #1DB954'									>> "${config}"
 				echo '		background #282828'									>> "${config}"
 				echo '		statusline #ffffff'									>> "${config}"
-				echo '		focused_workspace #1ED660 #1ED660 #ffffff'			>> "${config}"
+				echo '		focused_workspace #1DB954 #1DB954 #ffffff'			>> "${config}"
 				echo '		active_workspace #454749 #454749 #ffffff'			>> "${config}"
 				echo '		inactive_workspace #282828 #282828 #ffffff'			>> "${config}"
 				echo '		urgent_workspace #900000 #900000 #ffffff'			>> "${config}"
 				echo -e "\n	}\n"												>> "${config}"
 				echo -e "}\n"													>> "${config}"
-				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> "${config}"
+				echo 'client.focused #1DB954 #1DB954 #ffffff #1DB954'			>> "${config}"
 				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> "${config}"
-				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> "${config}"
+				echo 'client.unfocused #282828 #282828 #ffffff #454749'			>> "${config}"
 				echo '#1ED660'													>> "${config}"
 
 			;;

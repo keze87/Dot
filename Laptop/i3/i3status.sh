@@ -16,9 +16,11 @@ brillomax=$(cat /sys/class/backlight/intel_backlight/max_brightness)
 
 while true; do
 
+	clear
+
 	if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify \
 	/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
-	string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | \
+	string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' 2>/dev/null | \
 	grep -q Playing; then
 
 		player="spotify"
@@ -28,7 +30,7 @@ while true; do
 		if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.audacious \
 		/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
 		string:'org.mpris.MediaPlayer2.Player' \
-		string:'PlaybackStatus' | grep -q Playing; then
+		string:'PlaybackStatus' 2>/dev/null | grep -q Playing; then
 
 			player="audacious"
 

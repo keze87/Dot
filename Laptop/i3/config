@@ -23,7 +23,7 @@ for_window [class="mpv"] floating enable
 
 
 exec --no-startup-id albert
-exec --no-startup-id conky
+#exec --no-startup-id conky
 exec --no-startup-id guake
 exec --no-startup-id compton
 exec --no-startup-id /usr/lib/mate-polkit/polkit-mate-authentication-agent-1

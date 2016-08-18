@@ -1,6 +1,8 @@
 #!/bin/bash
 #vim set lang spanglish
 
+#TODO: less wmctrl
+
 if [[ $1 ]]; then
 
 	host=$1;
@@ -75,8 +77,9 @@ while true; do
 
 		color=''
 
-		active=$(xprop -id "$(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | \
-		cut -f 2)" WM_CLASS | awk '{print $3}' | tr -c -d '[:alnum:]\n')
+		pidactive=$(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | cut -f 2)
+
+		active=$(xprop -id "${pidactive}" WM_CLASS | awk '{print $3}' | tr -c -d '[:alnum:]\n')
 
 		for know in "${known[@]}"; do
 
@@ -89,6 +92,17 @@ while true; do
 			fi
 
 		done
+
+		wmc=$(wmctrl -lG | awk '{print $1" "$5" "$6}' | grep ${pidactive:2})
+
+		horizontal=$(echo ${wmc} | awk '{print $2}')
+		vertical=$(echo ${wmc} | awk '{print $3}')
+
+		if [[ ${horizontal} -lt ${x} && ${vertical} -lt ${y} ]]; then
+
+			color=${currentcolor}
+
+		fi
 
 		if [[ ! ${color} ]]; then
 
@@ -224,10 +238,10 @@ while true; do
 			EscritorioLaptop)
 
 				echo -e "	colors {\n"											>> "${config}"
-				echo '		separator #ED1A5F'									>> "${config}"
+				echo '		separator #FA6841'									>> "${config}"
 				echo '		background #00000000'								>> "${config}"
 				echo '		statusline #ffffff'									>> "${config}"
-				echo '		focused_workspace #ED1A5F #ED1A5F #ffffff'			>> "${config}"
+				echo '		focused_workspace #FA6841 #FA6841 #ffffff'			>> "${config}"
 				echo '		active_workspace #454749 #454749 #ffffff'			>> "${config}"
 				echo '		inactive_workspace #00000000 #00000000 #ffffff'		>> "${config}"
 				echo '		urgent_workspace #900000 #900000 #ffffff'			>> "${config}"

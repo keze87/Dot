@@ -16,8 +16,6 @@ brillomax=$(cat /sys/class/backlight/intel_backlight/max_brightness)
 
 while true; do
 
-	clear
-
 	if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify \
 	/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
 	string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' 2>/dev/null | \
@@ -108,6 +106,8 @@ while true; do
 	cpu=$(cat /sys/devices/platform/coretemp.0/hwmon/*/temp1_input | cut -c1-2)
 
 	fecha=$(date +"%A %d-%m %H:%M:%S")
+
+	clear
 
 	echo -e "["
 

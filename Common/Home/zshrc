@@ -26,6 +26,7 @@ alias cpu='watch grep \"cpu MHz\" /proc/cpuinfo'
 alias actualizar='pacaur -Syu'
 alias dpi='sudo sh ~/.dpi.sh'
 alias yt-aria='sh ~/.yt.sh'
+alias open='xdg-open'
 
 alias logcat='
 	while true; do
@@ -41,8 +42,8 @@ alias pop2='
 		'
 alias pop='
 	while true; do
-		mpv2 rtmp://popradio.stweb.tv:1935/popradio/live \
-		--cache-initial=1100 --cache-pause --cache-secs=30;
+		mpv --no-config --cache-initial=1100 --cache-pause --cache-secs=30 \
+		rtmp://popradio.stweb.tv:1935/popradio/live ;
 	done
 		'
 alias yt='

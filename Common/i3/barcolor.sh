@@ -1,7 +1,7 @@
 #!/bin/bash
 #vim set lang spanglish
 
-#TODO: less wmctrl
+#TODO: wmc = array
 
 if [[ $1 ]]; then
 
@@ -38,9 +38,11 @@ while true; do
 
 	current=$(xprop -root _NET_CURRENT_DESKTOP | tr -c -d "[:digit:]\n")
 
-	ids=( $(wmctrl -lx | awk '{print $1" "$2}' | grep " ${current}" | awk '{print $1}') )
+	wmctrl=$(wmctrl -lG | awk '{print $1" work:"$2" "$5" "$6}')
 
-	wmc=( $(wmctrl -lG | awk '{print $1" work:"$2" "$5" "$6}' | grep "work:${current}") )
+	ids=( $(echo "${wmctrl}" | grep "work:${current}" | awk '{print $1}') )
+
+	wmc=( $(echo "${wmctrl}" | grep "work:${current}") )
 
 	multipleincurrent=true
 
@@ -48,10 +50,10 @@ while true; do
 
 		for wm in "${wmc[@]}"; do
 
-			if echo ${wm} | grep -q ${id}; then
+			if echo "${wm}" | grep -q "${id}"; then
 
-				horizontal=$(echo ${wmc} | awk '{print $3}')
-				vertical=$(echo ${wmc} | awk '{print $4}')
+				horizontal=$(echo "${wmc}" | awk '{print $3}')
+				vertical=$(echo "${wmc}" | awk '{print $4}')
 
 				if [[ ${horizontal} -gt ${x} && ${vertical} -gt ${y} ]]; then
 
@@ -93,10 +95,10 @@ while true; do
 
 		done
 
-		wmc=$(wmctrl -lG | awk '{print $1" "$5" "$6}' | grep ${pidactive:2})
+		wmc=( $(echo "${wmctrl}" | grep "${pidactive:2}") )
 
-		horizontal=$(echo ${wmc} | awk '{print $2}')
-		vertical=$(echo ${wmc} | awk '{print $3}')
+		horizontal=$(echo "${wmc}" | awk '{print $3}')
+		vertical=$(echo "${wmc}" | awk '{print $4}')
 
 		if [[ ${horizontal} -lt ${x} && ${vertical} -lt ${y} ]]; then
 
@@ -115,6 +117,12 @@ while true; do
 				color=${currentcolor}
 
 			fi
+
+		fi
+
+		if [[ ${color} == 'Transparente' ]]; then
+
+			color="Negro"
 
 		fi
 

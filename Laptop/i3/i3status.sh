@@ -115,7 +115,7 @@ while true; do
 
 	if [[ ${player} && ${title} ]]; then
 
-		s=$(tail -n1 .config/i3/config)
+		s=$(tail -n1 .config/i3/config | tr -d "\t")
 
 		echo -e "{
 					\"color\":\"${s}\",

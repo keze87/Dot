@@ -16,7 +16,7 @@ fi
 config="${HOME}/.config/i3/config"
 currentcolor='#nerfed'
 
-known=( 'spotify' 'geany' 'audacious' 'terminator' 'guake' 'albert' 'zenity' )
+known=( 'spotify' 'geany' 'terminator' )
 
 ### tamaño pantalla
 if [[ ${host} == 'Desktop' ]]; then
@@ -100,27 +100,19 @@ while true; do
 		horizontal=$(echo "${wmc}" | awk '{print $3}')
 		vertical=$(echo "${wmc}" | awk '{print $4}')
 
-		if [[ ${horizontal} -lt ${x} && ${vertical} -lt ${y} ]]; then
+		if [[ ${horizontal} -lt ${x} || ${vertical} -lt ${y} ]]; then
 
 			color=${currentcolor}
 
-		fi
+			if [[ ${color} == 'Transparente' ]]; then
 
-		if [[ ! ${color} ]]; then
-
-			color="Negro"
-
-		else
-
-			if [[ ${color} == 'guake' || ${color} == 'audacious' || ${color} == 'albert' || ${color} == 'zenity' ]]; then
-
-				color=${currentcolor}
+				color="Negro"
 
 			fi
 
 		fi
 
-		if [[ ${color} == 'Transparente' ]]; then
+		if [[ ! ${color} ]]; then
 
 			color="Negro"
 
@@ -150,134 +142,141 @@ while true; do
 
 			Negro)
 
-				echo -e "	colors {\n"											>> "${config}"
-				echo '		separator #16A085'									>> "${config}"
-				echo '		background #000000'									>> "${config}"
-				echo '		statusline #ffffff'									>> "${config}"
-				echo '		focused_workspace #16A085 #16A085 #ffffff'			>> "${config}"
-				echo '		active_workspace #454749 #454749 #ffffff'			>> "${config}"
-				echo '		inactive_workspace #000000 #000000 #ffffff'			>> "${config}"
-				echo '		urgent_workspace #900000 #900000 #ffffff'			>> "${config}"
-				echo -e "\n	}\n"												>> "${config}"
-				echo -e "}\n"													>> "${config}"
-				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> "${config}"
-				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> "${config}"
-				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> "${config}"
-				echo '#16A085'													>> "${config}"
+				echo '
+					colors {
+						separator #16A085
+						background #000000
+						statusline #ffffff
+						focused_workspace #16A085 #16A085 #ffffff
+						active_workspace #454749 #454749 #ffffff
+						inactive_workspace #000000 #000000 #ffffff
+						urgent_workspace #900000 #900000 #ffffff
+					}
+				}
+				client.focused #16A085 #16A085 #ffffff #16A085
+				client.focused_inactive #353638 #353638 #ffffff #454749
+				client.unfocused #454749 #454749 #ffffff #454749
+				#16A085'	>> "${config}"
 
 			;;
 
 			spotify)
 
-				echo -e "	colors {\n"											>> "${config}"
-				echo '		separator #1DB954'									>> "${config}"
-				echo '		background #282828'									>> "${config}"
-				echo '		statusline #ffffff'									>> "${config}"
-				echo '		focused_workspace #1DB954 #1DB954 #ffffff'			>> "${config}"
-				echo '		active_workspace #454749 #454749 #ffffff'			>> "${config}"
-				echo '		inactive_workspace #282828 #282828 #ffffff'			>> "${config}"
-				echo '		urgent_workspace #900000 #900000 #ffffff'			>> "${config}"
-				echo -e "\n	}\n"												>> "${config}"
-				echo -e "}\n"													>> "${config}"
-				echo 'client.focused #1DB954 #1DB954 #ffffff #1DB954'			>> "${config}"
-				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> "${config}"
-				echo 'client.unfocused #282828 #282828 #ffffff #454749'			>> "${config}"
-				echo '#1ED660'													>> "${config}"
+				echo '
+					colors {
+						separator #1DB954
+						background #282828
+						statusline #ffffff
+						focused_workspace #1DB954 #1DB954 #ffffff
+						active_workspace #454749 #454749 #ffffff
+						inactive_workspace #282828 #282828 #ffffff
+						urgent_workspace #900000 #900000 #ffffff
+					}
+				}
+				client.focused #1DB954 #1DB954 #ffffff #1DB954
+				client.focused_inactive #353638 #353638 #ffffff #454749
+				client.unfocused #282828 #282828 #ffffff #454749
+				#1ED660'	>> "${config}"
 
 			;;
 
 			geany)
 
-				echo -e "	colors {\n"											>> "${config}"
-				echo '		separator #8AE234'									>> "${config}"
-				echo '		background #454749'									>> "${config}"
-				echo '		statusline #ffffff'									>> "${config}"
-				echo '		focused_workspace #8AE234 #8AE234 #ffffff'			>> "${config}"
-				echo '		active_workspace #454749 #454749 #ffffff'			>> "${config}"
-				echo '		inactive_workspace #454749 #454749 #ffffff'			>> "${config}"
-				echo '		urgent_workspace #900000 #900000 #ffffff'			>> "${config}"
-				echo -e "\n	}\n"												>> "${config}"
-				echo -e "}\n"													>> "${config}"
-				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> "${config}"
-				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> "${config}"
-				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> "${config}"
-				echo '#8AE234'													>> "${config}"
+				echo '
+					colors {
+						separator #8AE234
+						background #454749
+						statusline #ffffff
+						focused_workspace #8AE234 #8AE234 #ffffff
+						active_workspace #454749 #454749 #ffffff
+						inactive_workspace #454749 #454749 #ffffff
+						urgent_workspace #900000 #900000 #ffffff
+					}
+				}
+				client.focused #16A085 #16A085 #ffffff #16A085
+				client.focused_inactive #353638 #353638 #ffffff #454749
+				client.unfocused #454749 #454749 #ffffff #454749
+				#8AE234'	>> "${config}"
 
 			;;
 
 			terminator)
 
-				echo -e "	colors {\n"											>> "${config}"
-				echo '		separator #8AE234'									>> "${config}"
-				echo '		background #000000CC'								>> "${config}"
-				echo '		statusline #ffffff'									>> "${config}"
-				echo '		focused_workspace #8AE234 #8AE234 #ffffff'			>> "${config}"
-				echo '		active_workspace #454749 #454749 #ffffff'			>> "${config}"
-				echo '		inactive_workspace #000000CC #000000CC #ffffff'		>> "${config}"
-				echo '		urgent_workspace #900000 #900000 #ffffff'			>> "${config}"
-				echo -e "\n	}\n"												>> "${config}"
-				echo -e "}\n"													>> "${config}"
-				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> "${config}"
-				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> "${config}"
-				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> "${config}"
-				echo '#8AE234'													>> "${config}"
+				echo '
+					colors {
+						separator #8AE234
+						background #000000CC
+						statusline #ffffff
+						focused_workspace #8AE234 #8AE234 #ffffff
+						active_workspace #454749 #454749 #ffffff
+						inactive_workspace #000000CC #000000CC #ffffff
+						urgent_workspace #900000 #900000 #ffffff
+					}
+				}
+				client.focused #16A085 #16A085 #ffffff #16A085
+				client.focused_inactive #353638 #353638 #ffffff #454749
+				client.unfocused #454749 #454749 #ffffff #454749
+				#8AE234'	>> "${config}"
 
 			;;
 
 			EscritorioDesktop)
 
-				echo -e "	colors {\n"											>> "${config}"
-				echo '		separator #45C0EA'									>> "${config}"
-				echo '		background #00000000'								>> "${config}"
-				echo '		statusline #ffffff'									>> "${config}"
-				echo '		focused_workspace #45C0EA #45C0EA #ffffff'			>> "${config}"
-				echo '		active_workspace #454749 #454749 #ffffff'			>> "${config}"
-				echo '		inactive_workspace #00000000 #00000000 #ffffff'		>> "${config}"
-				echo '		urgent_workspace #900000 #900000 #ffffff'			>> "${config}"
-				echo -e "\n	}\n"												>> "${config}"
-				echo -e "}\n"													>> "${config}"
-				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> "${config}"
-				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> "${config}"
-				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> "${config}"
-				echo '#45C0EA'													>> "${config}"
+				echo '
+					colors {
+						separator #45C0EA
+						background #00000000
+						statusline #ffffff
+						focused_workspace #45C0EA #45C0EA #ffffff
+						active_workspace #454749 #454749 #ffffff
+						inactive_workspace #00000000 #00000000 #ffffff
+						urgent_workspace #900000 #900000 #ffffff
+					}
+				}
+				client.focused #16A085 #16A085 #ffffff #16A085
+				client.focused_inactive #353638 #353638 #ffffff #454749
+				client.unfocused #454749 #454749 #ffffff #454749
+				#45C0EA'	>> "${config}"
 
 			;;
 
 			EscritorioLaptop)
 
-				echo -e "	colors {\n"											>> "${config}"
-				echo '		separator #FA6841'									>> "${config}"
-				echo '		background #00000000'								>> "${config}"
-				echo '		statusline #ffffff'									>> "${config}"
-				echo '		focused_workspace #FA6841 #FA6841 #ffffff'			>> "${config}"
-				echo '		active_workspace #454749 #454749 #ffffff'			>> "${config}"
-				echo '		inactive_workspace #00000000 #00000000 #ffffff'		>> "${config}"
-				echo '		urgent_workspace #900000 #900000 #ffffff'			>> "${config}"
-				echo -e "\n	}\n"												>> "${config}"
-				echo -e "}\n"													>> "${config}"
-				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> "${config}"
-				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> "${config}"
-				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> "${config}"
-				echo '#ED1A5F'													>> "${config}"
+				echo '
+					colors {
+						separator #FA6841
+						background #00000000
+						statusline #ffffff
+						focused_workspace #FA6841 #FA6841 #ffffff
+						active_workspace #454749 #454749 #ffffff
+						inactive_workspace #00000000 #00000000 #ffffff
+						urgent_workspace #900000 #900000 #ffffff
+					}
+				}
+				client.focused #16A085 #16A085 #ffffff #16A085
+				client.focused_inactive #353638 #353638 #ffffff #454749
+				client.unfocused #454749 #454749 #ffffff #454749
+				#ED1A5F'	>> "${config}"
 
 			;;
 
 			*) # Transparente
 
-				echo -e "	colors {\n"											>> "${config}"
-				echo '		separator #16A085'									>> "${config}"
-				echo '		background #00000000'								>> "${config}"
-				echo '		statusline #ffffff'									>> "${config}"
-				echo '		focused_workspace #16A085 #16A085 #ffffff'			>> "${config}"
-				echo '		active_workspace #454749 #454749 #ffffff'			>> "${config}"
-				echo '		inactive_workspace #00000000 #00000000 #ffffff'		>> "${config}"
-				echo '		urgent_workspace #900000 #900000 #ffffff'			>> "${config}"
-				echo -e "\n	}\n"												>> "${config}"
-				echo -e "}\n"													>> "${config}"
-				echo 'client.focused #16A085 #16A085 #ffffff #16A085'			>> "${config}"
-				echo 'client.focused_inactive #353638 #353638 #ffffff #454749'	>> "${config}"
-				echo 'client.unfocused #454749 #454749 #ffffff #454749'			>> "${config}"
-				echo '#16A085'													>> "${config}"
+				echo '
+					colors {
+						separator #16A085
+						background #00000000
+						statusline #ffffff
+						focused_workspace #16A085 #16A085 #ffffff
+						active_workspace #454749 #454749 #ffffff
+						inactive_workspace #00000000 #00000000 #ffffff
+						urgent_workspace #900000 #900000 #ffffff
+					}
+				}
+				client.focused #16A085 #16A085 #ffffff #16A085
+				client.focused_inactive #353638 #353638 #ffffff #454749
+				client.unfocused #454749 #454749 #ffffff #454749
+				#16A085'	>> "${config}"
 
 			;;
 

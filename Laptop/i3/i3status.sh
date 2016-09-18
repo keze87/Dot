@@ -106,7 +106,7 @@ while true; do
 
 	fi
 
-	volumen=$(amixer get Master | grep Right: | awk {"print \$5"} | tr -d "[]%");
+	volumen=$(amixer get Master | grep Right: | awk '{print $5}' | tr -d "[]%");
 
 	disco1=$(df | grep sdb3 | awk '{print $5}')
 	disco2=$(df | grep sda3 | awk '{print $5}')

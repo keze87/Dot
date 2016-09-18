@@ -111,7 +111,7 @@ while true; do
 
 	nvidia=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
 
-	volumen=$(amixer get Master | grep "Front Right:" | awk {"print \$5"} | tr -d "[]%")
+	volumen=$(amixer get Master | grep "Front Right:" | awk '{print $5}' | tr -d "[]%")
 
 	if [[ ${tenmin} == true || ! ${disco1} || ! ${disco2} ]]; then
 

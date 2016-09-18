@@ -1,7 +1,7 @@
 #!/bin/bash
 
-volumen=$(amixer get Master | grep Right: | awk {"print \$4"});
-volumenmax=$(amixer get Master | grep Limits | awk {"print \$5"});
+volumen=$(amixer get Master | grep Right: | awk '{print $4}');
+volumenmax=$(amixer get Master | grep Limits | awk '{print $5}');
 
 zenity --scale --text="Nivel de Volumen?" --value=${volumen} \
 --max-value=${volumenmax} --hide-value --print-partial > .volumen &

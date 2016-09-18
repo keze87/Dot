@@ -96,6 +96,16 @@ while true; do
 
 	wifi=$(iwgetid -r)
 
+	if [[ ! ${wifi} ]]; then
+
+		if ip link | grep -q enp0s20u; then
+
+			wifi='USB'
+
+		fi
+
+	fi
+
 	volumen=$(amixer get Master | grep Right: | awk {"print \$5"} | tr -d "[]%");
 
 	disco1=$(df | grep sdb3 | awk '{print $5}')
@@ -223,9 +233,23 @@ while true; do
 
 	### WiFi ###
 
-	if [[ $wifi ]]; then
+	if [[ ${wifi} ]]; then
 
-		speed=$(sh ~/.config/i3/speed.sh wlp2s0)
+		if [[ ${wifi} == "USB" ]]; then
+
+			internet=$(ip link | grep enp0s20u | awk '{print $2}' | tr -c -d '[:alnum:]')
+
+		else
+
+			internet="wlp2s0"
+
+		fi
+
+		if [[ ${internet} ]]; then
+
+			speed=$(sh ~/.config/i3/speed.sh ${internet})
+
+		fi
 
 		echo -e "{
 					\"color\":\"#FFFFFF\","
@@ -341,7 +365,7 @@ while true; do
 
 	else
 
-		if [[ $"{bateria1}" -gt 20 ]]; then
+		if [[ "${bateria1}" -gt 20 ]]; then
 
 			echo -e "{\"color\":\"#FFA500\","
 

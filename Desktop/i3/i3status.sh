@@ -2,6 +2,15 @@
 
 #i3bar -> $TERM == 'dumb'
 
+echo -e '{"version":1}
+		[
+			[
+				{
+					"color":"#FF0000",
+					"full_text":" Iniciando "
+				}
+			],'
+
 if pgrep -a -x -f "sh ~/.config/i3/barcolor.sh"; then
 
 	killall sh ~/.config/i3/barcolor.sh
@@ -11,15 +20,6 @@ fi
 sh ~/.config/i3/barcolor.sh "Desktop" > /dev/null &
 
 up=true
-
-echo -e '{"version":1}
-		[
-			[
-				{
-					"color":"#FF0000",
-					"full_text":" Iniciando "
-				}
-			],'
 
 while true; do
 

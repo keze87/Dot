@@ -26,6 +26,7 @@ alias cpu='watch grep \"cpu MHz\" /proc/cpuinfo'
 alias actualizar='pacaur -Syu'
 alias dpi='sudo sh ~/.dpi.sh'
 alias yt-aria='sh ~/.yt.sh'
+alias yt-dialog='sh ~/.yt-dialog.sh'
 alias open='xdg-open'
 
 alias logcat='

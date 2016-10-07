@@ -244,10 +244,10 @@ while true; do
 
 				echo '
 					colors {
-						separator #FA6841
+						separator #FB574D
 						background #00000000
 						statusline #ffffff
-						focused_workspace #FA6841 #FA6841 #ffffff
+						focused_workspace #FB574D #FB574D #ffffff
 						active_workspace #454749 #454749 #ffffff
 						inactive_workspace #00000000 #00000000 #ffffff
 						urgent_workspace #900000 #900000 #ffffff

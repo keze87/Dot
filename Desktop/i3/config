@@ -51,6 +51,8 @@ bindsym Mod1+Tab exec --no-startup-id sh ~/.config/i3/tab.sh
 bindsym $mod+t exec --no-startup-id compton-trans $(zenity --scale --text="Cuan opaco?" --value=80)
 bindsym $mod+o exec --no-startup-id setxkbmap latam && killall kvkbd || kvkbd
 
+bindsym $mod+Tab workspace next
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier Mod1
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-dir="${HOME}/.Dot/Laptop"
-olddir="${HOME}/Dot_Old"
+dir=~/.Dot/Laptop
+olddir=~/Dot_Old
 
 ### Home ###
 

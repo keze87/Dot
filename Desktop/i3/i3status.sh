@@ -87,9 +87,9 @@ while true; do
 
 	fi
 
-	if [[ -f ${HOME}/memo ]]; then
+	if [[ -f ~/memo ]]; then
 
-		memo=$(tr -s "\n" " " < ~/memo)
+		memo=$(grep -v '#' < ~/memo | tr -s "\n" " ")
 
 	fi
 
@@ -251,8 +251,16 @@ while true; do
 
 	if [[ ${memo} ]]; then
 
+		color=$(grep '#' < ~/memo | tr -c -d '[:alnum:]')
+
+		if [[ ${#color} != 6 ]]; then
+
+			color='FFFFFF'
+
+		fi
+
 		echo -e "{
-					\"color\":\"#FFFFFF\",
+					\"color\":\"#${color}\",
 					\"full_text\":\"  ${memo::-1} \"
 				 },"
 

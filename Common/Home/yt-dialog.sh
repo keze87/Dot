@@ -50,11 +50,11 @@ fi
 
 if uname -a | grep -q arm ; then
 
-	tmp="${HOME}/storage/shared/Movies"
+	tmp=~/storage/shared/Movies
 
 else
 
-	tmp="${HOME}/.cache"
+	tmp=~/.cache
 
 fi
 

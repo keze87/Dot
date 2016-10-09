@@ -42,7 +42,7 @@ else
 
 fi
 
-tmp="${HOME}/.cache"
+tmp=~/.cache
 
 if [[ -f "${tmp}"/ytlog ]]; then
 

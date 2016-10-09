@@ -1,8 +1,6 @@
 #!/bin/bash
 #vim set lang spanglish
 
-#TODO: wmc = array
-
 if [[ $1 ]]; then
 
 	host=$1;
@@ -13,7 +11,7 @@ else
 
 fi
 
-config="${HOME}/.config/i3/config"
+config=~/.config/i3/config
 currentcolor='#nerfed'
 
 known=( 'spotify' 'geany' 'terminator' )
@@ -44,7 +42,7 @@ while true; do
 
 	wmc=( $(echo "${wmctrl}" | grep "work:${current}") )
 
-	multipleincurrent=true
+	maximizedInCurrent=true
 
 	for id in "${ids[@]}"; do
 
@@ -52,12 +50,12 @@ while true; do
 
 			if echo "${wm}" | grep -q "${id}"; then
 
-				horizontal=$(echo "${wmc}" | awk '{print $3}')
-				vertical=$(echo "${wmc}" | awk '{print $4}')
+				horizontal=$(echo "${wm}" | awk '{print $3}')
+				vertical=$(echo "${wm}" | awk '{print $4}')
 
 				if [[ ${horizontal} -gt ${x} && ${vertical} -gt ${y} ]]; then
 
-					multipleincurrent=false
+					maximizedInCurrent=false
 
 				fi
 
@@ -67,7 +65,7 @@ while true; do
 
 		done
 
-		if [[ ${multipleincurrent} == false ]]; then
+		if [[ ${maximizedInCurrent} == false ]]; then
 
 			break
 
@@ -75,7 +73,7 @@ while true; do
 
 	done
 
-	if [[ ${multipleincurrent} == false ]]; then
+	if [[ ${maximizedInCurrent} == false ]]; then
 
 		color=''
 
@@ -95,10 +93,10 @@ while true; do
 
 		done
 
-		wmc=( $(echo "${wmctrl}" | grep "${pidactive:2}") )
+		wmc2=$(echo "${wmctrl}" | grep "${pidactive:2}")
 
-		horizontal=$(echo "${wmc}" | awk '{print $3}')
-		vertical=$(echo "${wmc}" | awk '{print $4}')
+		horizontal=$(echo "${wmc2}" | awk '{print $3}')
+		vertical=$(echo "${wmc2}" | awk '{print $4}')
 
 		if [[ ${horizontal} -lt ${x} || ${vertical} -lt ${y} ]]; then
 
@@ -144,19 +142,19 @@ while true; do
 
 				echo '
 					colors {
-						separator #16A085
+						separator #4080FB
 						background #000000
 						statusline #ffffff
-						focused_workspace #16A085 #16A085 #ffffff
+						focused_workspace #4080FB #4080FB #ffffff
 						active_workspace #454749 #454749 #ffffff
 						inactive_workspace #000000 #000000 #ffffff
 						urgent_workspace #900000 #900000 #ffffff
 					}
 				}
-				client.focused #16A085 #16A085 #ffffff #16A085
+				client.focused #4080FB #4080FB #ffffff #4080FB
 				client.focused_inactive #353638 #353638 #ffffff #454749
 				client.unfocused #454749 #454749 #ffffff #454749
-				#16A085'	>> "${config}"
+				#4080FB'	>> "${config}"
 
 			;;
 
@@ -193,7 +191,7 @@ while true; do
 						urgent_workspace #900000 #900000 #ffffff
 					}
 				}
-				client.focused #16A085 #16A085 #ffffff #16A085
+				client.focused #8AE234 #8AE234 #ffffff #8AE234
 				client.focused_inactive #353638 #353638 #ffffff #454749
 				client.unfocused #454749 #454749 #ffffff #454749
 				#8AE234'	>> "${config}"
@@ -213,7 +211,7 @@ while true; do
 						urgent_workspace #900000 #900000 #ffffff
 					}
 				}
-				client.focused #16A085 #16A085 #ffffff #16A085
+				client.focused #4080FB #4080FB #ffffff #4080FB
 				client.focused_inactive #353638 #353638 #ffffff #454749
 				client.unfocused #454749 #454749 #ffffff #454749
 				#8AE234'	>> "${config}"
@@ -224,19 +222,19 @@ while true; do
 
 				echo '
 					colors {
-						separator #45C0EA
+						separator #662C91
 						background #00000000
 						statusline #ffffff
-						focused_workspace #45C0EA #45C0EA #ffffff
+						focused_workspace #662C91 #662C91 #ffffff
 						active_workspace #454749 #454749 #ffffff
 						inactive_workspace #00000000 #00000000 #ffffff
 						urgent_workspace #900000 #900000 #ffffff
 					}
 				}
-				client.focused #16A085 #16A085 #ffffff #16A085
+				client.focused #4080FB #4080FB #ffffff #4080FB
 				client.focused_inactive #353638 #353638 #ffffff #454749
 				client.unfocused #454749 #454749 #ffffff #454749
-				#45C0EA'	>> "${config}"
+				#662C91'	>> "${config}"
 
 			;;
 
@@ -253,7 +251,7 @@ while true; do
 						urgent_workspace #900000 #900000 #ffffff
 					}
 				}
-				client.focused #16A085 #16A085 #ffffff #16A085
+				client.focused #4080FB #4080FB #ffffff #4080FB
 				client.focused_inactive #353638 #353638 #ffffff #454749
 				client.unfocused #454749 #454749 #ffffff #454749
 				#ED1A5F'	>> "${config}"
@@ -264,19 +262,19 @@ while true; do
 
 				echo '
 					colors {
-						separator #16A085
+						separator #4080FB
 						background #00000000
 						statusline #ffffff
-						focused_workspace #16A085 #16A085 #ffffff
+						focused_workspace #4080FB #4080FB #ffffff
 						active_workspace #454749 #454749 #ffffff
 						inactive_workspace #00000000 #00000000 #ffffff
 						urgent_workspace #900000 #900000 #ffffff
 					}
 				}
-				client.focused #16A085 #16A085 #ffffff #16A085
+				client.focused #4080FB #4080FB #ffffff #4080FB
 				client.focused_inactive #353638 #353638 #ffffff #454749
 				client.unfocused #454749 #454749 #ffffff #454749
-				#16A085'	>> "${config}"
+				#4080FB'	>> "${config}"
 
 			;;
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-dir="${HOME}/.Dot/Common"
-olddir="${HOME}/Dot_Old"
+dir=~/.Dot/Common
+olddir=~/Dot_Old
 
 ### Home ###
 

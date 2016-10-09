@@ -80,7 +80,7 @@ while true; do
 
 	fi
 
-	if [[ -f ${HOME}/memo ]]; then
+	if [[ -f ~/memo ]]; then
 
 		memo=$(tr -s "\n" " " < ~/memo)
 

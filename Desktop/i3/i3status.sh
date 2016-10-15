@@ -143,12 +143,12 @@ while true; do
 
 		if [[ ${player} == 'spotify' ]]; then
 
-			echo -e "\"full_text\":\" \"
+			echo -e "\"full_text\":\"  \"
 					 },"
 
 		else
 
-			echo -e "\"full_text\":\" \"
+			echo -e "\"full_text\":\"  \"
 					 },"
 
 		fi
@@ -253,7 +253,7 @@ while true; do
 
 		color=$(grep '#' < ~/memo | tr -c -d '[:alnum:]')
 
-		if [[ ${#color} != 6 ]]; then
+		if ! echo "${color}" | grep -q '^[0-9A-F]\{6\}$'; then
 
 			color='FFFFFF'
 
@@ -261,7 +261,7 @@ while true; do
 
 		echo -e "{
 					\"color\":\"#${color}\",
-					\"full_text\":\"  ${memo::-1} \"
+					\"full_text\":\"   ${memo::-1} \"
 				 },"
 
 		memo=""

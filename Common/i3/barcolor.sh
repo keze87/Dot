@@ -211,7 +211,7 @@ while true; do
 						urgent_workspace #900000 #900000 #ffffff
 					}
 				}
-				client.focused #4080FB #4080FB #ffffff #4080FB
+				client.focused #8AE234 #8AE234 #ffffff #8AE234
 				client.focused_inactive #353638 #353638 #ffffff #454749
 				client.unfocused #454749 #454749 #ffffff #454749
 				#8AE234'	>> "${config}"

@@ -61,6 +61,7 @@ yt() {
 twitch() {
 
 	url=""
+	tiempo=""
 	url=$(xclip -o);
 
 	if [[ $2 ]]; then
@@ -74,9 +75,13 @@ twitch() {
 
 	fi
 
-	if [[ $url ]]; then
+	if [[ ${url} ]]; then
 		youtube-dl -e --get-description --get-format "${url}"
-		mpv --vf="" "${tiempo}" --ytdl --ytdl-format="${1:-'Source'}" "${url}"
+		if [[ ${tiempo} ]]; then
+			mpv --vf="" "${tiempo}" --ytdl --ytdl-format="${1:-'Source'}" "${url}"
+		else
+			mpv --vf="" --ytdl --ytdl-format="${1:-'Source'}" "${url}"
+		fi
 	fi
 
 }

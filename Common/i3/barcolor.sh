@@ -14,7 +14,7 @@ fi
 config=~/.config/i3/config
 currentcolor='#nerfed'
 
-known=( 'spotify' 'geany' 'terminator' 'chromium' )
+known=( 'spotify' 'geany' 'terminator' )
 
 ### tamaño pantalla
 if [[ ${host} == 'Desktop' ]]; then
@@ -158,42 +158,22 @@ while true; do
 
 			;;
 
-			chromium)
-
-				echo '
-					colors {
-						separator #4080FB
-						background #000000
-						statusline #ffffff
-						focused_workspace #4080FB #4080FB #ffffff
-						active_workspace #454749 #454749 #ffffff
-						inactive_workspace #000000 #000000 #ffffff
-						urgent_workspace #900000 #900000 #ffffff
-					}
-				}
-				client.focused #4080FB #4080FB #ffffff #4080FB
-				client.focused_inactive #353638 #353638 #ffffff #454749
-				client.unfocused #000000 #000000 #ffffff #000000
-				#4080FB'	>> "${config}"
-
-			;;
-
 			spotify)
 
 				echo '
 					colors {
 						separator #1DB954
-						background #282828
+						background #121212
 						statusline #ffffff
 						focused_workspace #1DB954 #1DB954 #ffffff
 						active_workspace #454749 #454749 #ffffff
-						inactive_workspace #282828 #282828 #ffffff
+						inactive_workspace #121212 #121212 #ffffff
 						urgent_workspace #900000 #900000 #ffffff
 					}
 				}
 				client.focused #1DB954 #1DB954 #ffffff #1DB954
 				client.focused_inactive #353638 #353638 #ffffff #454749
-				client.unfocused #282828 #282828 #ffffff #454749
+				client.unfocused #121212 #121212 #ffffff #454749
 				#1ED660'	>> "${config}"
 
 			;;

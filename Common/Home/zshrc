@@ -50,7 +50,12 @@ alias pop='
 
 yt() {
 	url=""
-	url=$(xclip -o);
+
+	if [[ $2 ]]; then
+		url=$2;
+	else
+		url=$(xclip -o);
+	fi
 
 	if [[ $url ]]; then
 		youtube-dl -e --get-description --get-format "${url}"

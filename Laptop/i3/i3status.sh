@@ -82,7 +82,7 @@ while true; do
 
 	if [[ -f ~/memo ]]; then
 
-		memo=$(tr -s "\n" " " < ~/memo)
+		memo=$(grep -v '#' < ~/memo | tr -s "\n" " ")
 
 	fi
 
@@ -203,7 +203,7 @@ while true; do
 
 	if [[ ${memo} ]]; then
 
-		color=$(grep '#' < ~/memo | tr -c -d '[:alnum:]')
+		color=$(grep '#' < ~/memo | grep -v ':' | tr -c -d '[:alnum:]')
 
 		if ! echo "${color}" | grep -q '^[0-9A-F]\{6\}$'; then
 

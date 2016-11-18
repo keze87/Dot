@@ -1,5 +1,4 @@
-#vim: syntax=sh
-# i3 Desktop config file (v4)
+# i3 config file (v4)
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
@@ -51,6 +50,7 @@ bindsym Mod1+Tab exec --no-startup-id sh ~/.config/i3/tab.sh
 bindsym $mod+t exec --no-startup-id compton-trans $(zenity --scale --text="Cuan opaco?" --value=80)
 bindsym $mod+o exec --no-startup-id setxkbmap latam && killall kvkbd || kvkbd
 
+bindsym $mod+a sticky toggle
 bindsym $mod+Tab workspace next
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -102,7 +102,7 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
+#bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child

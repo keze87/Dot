@@ -24,8 +24,6 @@ if [[ ${laptop} ]]; then
 
 fi
 
-sh ~/.config/i3/barcolor.sh > /dev/null &
-
 up=true
 
 while true; do

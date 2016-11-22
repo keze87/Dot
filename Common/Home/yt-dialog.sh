@@ -1,5 +1,15 @@
 #!/bin/sh
 
+if which xclip; then
+
+	down="xclip -o"
+
+else
+
+	down="termux-clipboard-get"
+
+fi
+
 if [[ $2 ]]; then
 
 	link=$2;
@@ -22,7 +32,7 @@ else
 
 			maxres=$1;
 
-			link=$(xclip -o);
+			link=$($down);
 
 		else
 
@@ -34,7 +44,7 @@ else
 
 	else
 
-		link=$(xclip -o);
+		link=$($down);
 
 		maxres=1080
 

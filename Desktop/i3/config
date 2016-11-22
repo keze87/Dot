@@ -21,6 +21,8 @@ for_window [class="wplotsp.exe"] floating enable
 for_window [title="Steam Keyboard"] floating enable
 for_window [title="Nitrogen"] floating enable
 
+for_window [class="src.fiuba.algo3.vista.Programa"] floating enable
+for_window [class="src.fiuba.algo3.vista.Programa"] border normal
 
 #exec --no-startup-id conky
 exec --no-startup-id albert

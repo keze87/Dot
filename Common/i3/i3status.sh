@@ -18,12 +18,6 @@ if [[ -f ~/.dotlaptop ]]; then
 
 fi
 
-if pgrep -a -x -f "sh ~/.config/i3/barcolor.sh"; then
-
-	killall sh ~/.config/i3/barcolor.sh
-
-fi
-
 if [[ ${laptop} ]]; then
 
 	brillomax=$(cat /sys/class/backlight/intel_backlight/max_brightness)

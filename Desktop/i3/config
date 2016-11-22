@@ -14,5 +14,4 @@ bindsym Mod1+Next exec --no-startup-id "amixer set Master 5%-"
 
 bindsym $mod+l exec sh ~/.config/i3/lariza.sh
 
-exec sh ~/.config/i3/barcolor.sh
-
+exec --no-startup-id sh ~/.config/i3/barcolor.sh

@@ -14,6 +14,8 @@ fi
 config=~/.config/i3/config
 currentcolor='#nerfed'
 
+rm .barconfig
+
 known=( 'spotify' 'geany' 'terminator' )
 
 ### tamaño pantalla

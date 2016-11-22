@@ -15,5 +15,4 @@ bindsym XF86AudioLowerVolume exec --no-startup-id "amixer set Master 5%-"
 bindsym XF86MonBrightnessUp exec --no-startup-id $1 sudo sh ~/.config/i3/brillo.sh
 bindsym XF86MonBrightnessDown exec --no-startup-id $1 sudo sh ~/.config/i3/brillo.sh
 
-exec sh ~/.config/i3/barcolor.sh
-
+exec --no-startup-id sh ~/.config/i3/barcolor.sh

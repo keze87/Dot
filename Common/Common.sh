@@ -23,7 +23,7 @@ done
 
 ### i3 ###
 
-files="volumen.sh invert.sh tab.sh work.sh apagar.sh speed.sh trans.sh instance.sh barcolor.sh"
+files="volumen.sh invert.sh tab.sh work.sh apagar.sh speed.sh trans.sh instance.sh barcolor.sh brillo.sh config i3status.sh lariza.sh"
 
 mkdir "${olddir}"/i3
 
@@ -38,5 +38,25 @@ mkdir ~/.config/i3
 for file in ${files}; do
 
 	ln -s "${dir}"/i3/"${file}" ~/.config/i3/"${file}"
+
+done
+
+### mpv ###
+
+files="common.conf mvtools.vpy input.conf"
+
+mkdir "${olddir}"/mpv
+
+if [ -d ~/.config/mpv ]; then
+
+	mv ~/.config/mpv/ "${olddir}"/
+
+fi
+
+mkdir ~/.config/mpv
+
+for file in ${files}; do
+
+	ln -s "${dir}"/mpv/"${file}" ~/.config/mpv/"${file}"
 
 done

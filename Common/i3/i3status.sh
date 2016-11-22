@@ -1,18 +1,38 @@
 #!/bin/sh
 
+#i3bar -> $TERM == 'dumb'
+
+echo -e '{"version":1}
+		[
+			[
+				{
+					"color":"#FF0000",
+					"full_text":" Iniciando "
+				}
+			],'
+
+if [[ -f ~/.dotlaptop ]]; then
+
+	desktop=false;
+	laptop=true;
+
+fi
+
 if pgrep -a -x -f "sh ~/.config/i3/barcolor.sh"; then
 
 	killall sh ~/.config/i3/barcolor.sh
 
 fi
 
-sh ~/.config/i3/barcolor.sh "Laptop" > /dev/null &
+if [[ ${laptop} ]]; then
+
+	brillomax=$(cat /sys/class/backlight/intel_backlight/max_brightness)
+
+fi
+
+sh ~/.config/i3/barcolor.sh > /dev/null &
 
 up=true
-
-echo -e "{\"version\":1}\n["
-
-brillomax=$(cat /sys/class/backlight/intel_backlight/max_brightness)
 
 while true; do
 
@@ -86,36 +106,71 @@ while true; do
 
 	fi
 
-	brillo=$(cat /sys/class/backlight/intel_backlight/actual_brightness)
-	brillo=$(echo "$brillo * 100 / $brillomax" | bc -l)
+	if date +"%M:%S" | grep -q '0:0'; then
 
-	bateria1=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | \
-	grep perce | awk '{print $2}' | tr -d '%')
-	bateria2=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | \
-	grep state | awk '{print $2}')
+		tenmin=true
 
-	wifi=$(iwgetid -r)
+	else
 
-	if [[ ! ${wifi} ]]; then
-
-		if ip link | grep -q enp0s20u; then
-
-			wifi='USB'
-
-		fi
+		tenmin=false
 
 	fi
 
-	volumen=$(amixer get Master | grep Right: | awk '{print $5}' | tr -d "[]%");
-
-	disco1=$(df | grep sdb3 | awk '{print $5}')
-	disco2=$(df | grep sda3 | awk '{print $5}')
-
-	ram=$(free -h | grep Mem | awk '{print $3}');
+	ram=$(free -h | grep Mem | awk '{print $3}')
 
 	cpu=$(cat /sys/devices/platform/coretemp.0/hwmon/*/temp1_input | cut -c1-2)
 
-	fecha=$(date +"%A %d-%m %H:%M:%S")
+	if [[ ${laptop} ]]; then
+
+		brillo=$(cat /sys/class/backlight/intel_backlight/actual_brightness)
+		brillo=$(echo "$brillo * 100 / $brillomax" | bc -l)
+
+		bateria1=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | \
+		grep perce | awk '{print $2}' | tr -d '%')
+		bateria2=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | \
+		grep state | awk '{print $2}')
+
+		wifi=$(iwgetid -r)
+
+		if [[ ! ${wifi} ]]; then
+
+			if ip link | grep -q enp0s20u; then
+
+				wifi='USB'
+
+			fi
+
+		fi
+
+		volumen=$(amixer get Master | grep Right: | awk '{print $5}' | tr -d "[]%");
+
+		disco1=$(df | grep sdb3 | awk '{print $5}')
+		disco2=$(df | grep sda3 | awk '{print $5}')
+
+		fecha=$(date +"%A %d-%m %H:%M:%S")
+
+	else # if desktop
+
+		if [[ ${tenmin} == true || ! ${ip} ]]; then
+
+			ip=$(ip r | grep default | cut -d ' ' -f 3)
+
+		fi
+
+		nvidia=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
+
+		volumen=$(amixer get Master | grep "Front Right:" | awk '{print $5}' | tr -d "[]%")
+
+		if [[ ${tenmin} == true || ! ${disco1} || ! ${disco2} ]]; then
+
+			disco1=$(df | grep sdb1 | awk '{print $5}')
+			disco2=$(df | grep sda1 | awk '{print $5}')
+
+		fi
+
+		fecha=$(date +"%A %d-%m-%Y %H:%M:%S")
+
+	fi
 
 	clear
 
@@ -174,7 +229,7 @@ while true; do
 						\"color\":\"#FFFFFF\",
 						\"separator\": false,
 						\"separator_block_width\": 0,
-						\"short_text\":\"\",
+						\"short_text\":\" N/A \",
 						\"full_text\":\" ${album} \"
 					 },"
 
@@ -186,7 +241,6 @@ while true; do
 						\"color\":\"$s\",
 						\"separator\": false,
 						\"separator_block_width\": 0,
-						\"short_text\":\"\",
 						\"full_text\":\"--\"
 					 },"
 
@@ -196,6 +250,120 @@ while true; do
 					\"color\":\"#FFFFFF\",
 					\"full_text\":\" ${title} \"
 				 },"
+
+	fi
+
+	### Internet ###
+
+	if [[ ${laptop} ]]; then
+
+		if [[ ${wifi} ]]; then
+
+			if [[ ${wifi} == "USB" ]]; then
+
+				internet=$(ip link | grep enp0s20u | awk '{print $2}' | tr -c -d '[:alnum:]')
+
+			else
+
+				internet="wlp2s0"
+
+			fi
+
+			if [[ ${internet} ]]; then
+
+				speed=$(sh ~/.config/i3/speed.sh ${internet})
+
+			fi
+
+			echo -e "{
+						\"color\":\"#FFFFFF\","
+
+			if [[ $speed == "0 K↓ 0 K↑" ]]; then
+
+				echo -e "\"full_text\":\"   ${wifi} \"
+					 },"
+
+			else
+
+				echo -e "\"full_text\":\"   ${speed} (${wifi}) \"
+					 },"
+
+			fi
+
+			up=true
+			upsonido=true
+
+		else
+
+			up=false
+
+		fi
+
+	else # desktop
+
+		if ping -q -w 1 -c 1 "${ip}" > /dev/null; then
+
+			speed=$(sh ~/.config/i3/speed.sh "eno1")
+
+			if [[ "${speed}" != '0 K↓ 0 K↑' ]]; then
+
+				echo -e "{
+							\"color\":\"#FFFFFF\",
+							\"full_text\":\"   ${speed} \"
+						},"
+
+			fi
+
+			up=true
+			upsonido=true
+
+		else
+
+			up=false
+
+		fi
+
+	fi
+
+	if [[ ! ${up} ]]; then
+
+		time=$(awk '{print $0/60;}' /proc/uptime)
+
+		if [[ ${time%.*} -gt 1 ]]; then
+
+			if [[ ${upsonido} == true ]]; then
+
+				mpv --really-quiet /usr/share/sounds/freedesktop/stereo/dialog-information.oga
+
+				upsonido=false
+
+			fi
+
+		fi
+
+		echo -e "{
+					\"color\":\"#FF0000\",
+					\"full_text\":\"   Sin Internet \"
+				 },"
+
+	fi
+
+	### Brillo ###
+
+	if [[ ${brillo} ]]; then
+
+		if [ "${brillo%.*}" -eq "100" ]; then
+
+			brillo=""
+
+		else
+
+			echo -e "{
+						\"color\":\"#FFFFFF\",
+						\"full_text\":\"   ${brillo%.*} \"
+					 },"
+
+		fi
 
 	fi
 
@@ -220,82 +388,29 @@ while true; do
 
 	fi
 
-	### Brillo ###
+	### Nvidia ###
 
-	if [[ ${brillo} ]]; then
+	if [[ ${nvidia} ]]; then
 
-		if [ "${brillo%.*}" -eq "100" ]; then
+		if [[ ${nvidia} -lt 60 ]]; then
 
-			brillo=""
-
-		else
-
-			echo -e "{
-						\"color\":\"#FFFFFF\",
-						\"full_text\":\"   ${brillo%.*} \"
-					 },"
-
-		fi
-
-	fi
-
-	### WiFi ###
-
-	if [[ ${wifi} ]]; then
-
-		if [[ ${wifi} == "USB" ]]; then
-
-			internet=$(ip link | grep enp0s20u | awk '{print $2}' | tr -c -d '[:alnum:]')
+			echo -e "{ \"color\":\"#FFFFFF\","
 
 		else
 
-			internet="wlp2s0"
+			if [[ ${nvidia} -lt 80 ]]; then
 
-		fi
+				echo -e "{ \"color\":\"#FFA500\","
 
-		if [[ ${internet} ]]; then
+			else
 
-			speed=$(sh ~/.config/i3/speed.sh ${internet})
-
-		fi
-
-		echo -e "{
-					\"color\":\"#FFFFFF\","
-
-		if [[ $speed == "0 K↓ 0 K↑" ]]; then
-
-			echo -e "\"full_text\":\"   ${wifi} \"
-				 },"
-
-		else
-
-			echo -e "\"full_text\":\"   ${speed} (${wifi}) \"
-				 },"
-
-		fi
-
-		up=true
-
-	else
-
-		time=$(awk '{print $0/60;}' /proc/uptime)
-
-		if [[ ${time%.*} -gt 1 ]]; then
-
-			if [[ ${up} == true ]]; then
-
-				mpv --really-quiet /usr/share/sounds/freedesktop/stereo/dialog-information.oga
-
-				up=false
+				echo -e "{ \"color\":\"#FF0000\","
 
 			fi
 
 		fi
 
-		echo -e "{
-					\"color\":\"#FF0000\",
-					\"full_text\":\"   Sin Internet \"
-				 },"
+		echo -e "\"full_text\":\"   ${nvidia} °C \" },"
 
 	fi
 
@@ -367,47 +482,51 @@ while true; do
 
 	### Bateria ##
 
-	if [ "${bateria1}" -gt 50 ]; then
+	if [[ ${bateria1} ]]; then
 
-		echo -e "{\"color\":\"#FFFFFF\","
+		if [ "${bateria1}" -gt 50 ]; then
 
-	else
-
-		if [[ "${bateria1}" -gt 20 ]]; then
-
-			echo -e "{\"color\":\"#FFA500\","
+			echo -e "{\"color\":\"#FFFFFF\","
 
 		else
 
-			echo -e "{\"color\":\"#FF0000\","
+			if [[ "${bateria1}" -gt 20 ]]; then
 
-		fi
-
-	fi
-
-	if [ "${bateria2}" = "discharging" ]; then
-
-		if [ "${bateria1}" -lt 30 ]; then
-
-			echo -e "\"full_text\":\"   ${bateria1}% \"},"
-
-		else
-
-			if [[ "${bateria1}" -lt 65 ]]; then
-
-				echo -e "\"full_text\":\"   ${bateria1}% \"},"
+				echo -e "{\"color\":\"#FFA500\","
 
 			else
 
-				echo -e "\"full_text\":\"   ${bateria1}% \"},"
+				echo -e "{\"color\":\"#FF0000\","
 
 			fi
 
 		fi
 
-	else
+		if [ "${bateria2}" = "discharging" ]; then
 
-		echo -e "\"full_text\":\"   ${bateria1}% \"},"
+			if [ "${bateria1}" -lt 30 ]; then
+
+				echo -e "\"full_text\":\"   ${bateria1}% \"},"
+
+			else
+
+				if [[ "${bateria1}" -lt 65 ]]; then
+
+					echo -e "\"full_text\":\"   ${bateria1}% \"},"
+
+				else
+
+					echo -e "\"full_text\":\"   ${bateria1}% \"},"
+
+				fi
+
+			fi
+
+		else
+
+			echo -e "\"full_text\":\"   ${bateria1}% \"},"
+
+		fi
 
 	fi
 

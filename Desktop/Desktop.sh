@@ -21,7 +21,7 @@ done
 
 ### i3 ###
 
-files="lariza.sh i3status.sh key.sh config"
+files="config"
 
 for file in ${files}; do
 
@@ -37,17 +37,7 @@ done
 
 ### mpv ###
 
-files="mpv.conf mvtools.vpy input.conf"
-
-mkdir "${olddir}"/mpv
-
-if [ -d ~/.config/mpv ]; then
-
-	mv ~/.config/mpv/ "${olddir}"/
-
-fi
-
-mkdir ~/.config/mpv
+files="mpv.conf"
 
 for file in ${files}; do
 

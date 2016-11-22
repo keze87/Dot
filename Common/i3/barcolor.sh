@@ -1,9 +1,9 @@
 #!/bin/bash
 #vim set lang spanglish
 
-if [[ $1 ]]; then
+if [[ -f ~/.dotlaptop ]]; then
 
-	host=$1;
+	host='Laptop';
 
 else
 
@@ -132,7 +132,9 @@ while true; do
 
 	if [[ ${color} != "${currentcolor}" ]]; then
 
-		head -n -1 .Dot/${host}/i3/config > .barconfig
+		cat .Dot/${host}/i3/config .Dot/Common/i3/config > .barconfig
+
+		head -n -1 .barconfig > .barconfig
 
 		mv .barconfig .config/i3/config
 

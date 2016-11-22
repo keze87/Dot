@@ -25,7 +25,7 @@ if [[ ${#desktop[@]} -eq ${#laptop[@]} ]]; then
 
 	for (( i = 1 ; i <= ${#desktop[@]} ; i++ )); do
 
-		vimdiff "${desktop[$i]}" "${laptop[$i]}"
+		gvimdiff "${desktop[$i]}" "${laptop[$i]}"
 
 	done
 

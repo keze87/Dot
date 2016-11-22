@@ -134,9 +134,7 @@ while true; do
 
 		cat .Dot/${host}/i3/config .Dot/Common/i3/config > .barconfig
 
-		head -n -1 .barconfig > .barconfig
-
-		mv .barconfig .config/i3/config
+		head -n -1 .barconfig > "${config}"
 
 		case ${color} in
 

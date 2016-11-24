@@ -317,7 +317,7 @@ while true; do
 
 	fi
 
-	if [[ ! ${up} ]]; then
+	if [[ ${up} == false ]]; then
 
 		time=$(awk '{print $0/60;}' /proc/uptime)
 

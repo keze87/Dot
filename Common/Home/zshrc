@@ -54,7 +54,7 @@ yt() {
 	if [[ $2 ]]; then
 		url=$2;
 	else
-		url=$(xclip -o);
+		url=$(xclip -o | grep '/');
 	fi
 
 	if [[ $url ]]; then
@@ -67,7 +67,7 @@ twitch() {
 
 	url=""
 	tiempo=""
-	url=$(xclip -o);
+	url=$(xclip -o | grep '/');
 
 	if [[ $2 ]]; then
 

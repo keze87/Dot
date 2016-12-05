@@ -105,25 +105,11 @@ args='--allow-overwrite=true -c --file-allocation=none --log-level=error
 
 text="$(echo "${name}" | tr '&' 'y')\n${maxres}\n"
 
-if [[ ${maxres} == 0 ]]; then
-
-	stdbuf -o0 youtube-dl -q --no-playlist -f "bestvideo+bestaudio/best" --exec "echo {} > ${tmp}/title" \
-	--external-downloader "aria2c" --external-downloader-args "${args}" \
-	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" 2>&1 | tee -a "${tmp}"/ytlog | \
-	tee /dev/tty | grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
-	zenity --progress --title="Yt-dl-aria2c" --text="${text}" \
-	--percentage=0 --auto-close --no-cancel
-
-else
-
-	stdbuf -o0 youtube-dl -q --no-playlist -f "bestvideo[height<=?${maxres}]+bestaudio/best[height<=?${maxres}]/best" \
-	--exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" \
-	-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" 2>&1 | tee -a "${tmp}"/ytlog | \
-	tee /dev/tty | grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
-	zenity --progress --title="Yt-dl-aria2c" --text="${text}" \
-	--percentage=0 --auto-close --no-cancel
-
-fi
+stdbuf -o0 youtube-dl -q --no-playlist -f "bestvideo[height<=?${maxres}]+bestaudio/best[height<=?${maxres}]/bestvideo+bestaudio/best" \
+--exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" \
+-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" 2>&1 | tee -a "${tmp}"/ytlog | \
+tee /dev/tty | grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
+zenity --progress --title="Yt-dl-aria2c" --text="${text}" --percentage=0 --auto-close --no-cancel
 
 if [[ $? != 0 ]]; then
 

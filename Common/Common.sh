@@ -43,7 +43,7 @@ done
 
 ### mpv ###
 
-files="common.conf mvtools.vpy input.conf"
+files="mvtools.vpy input.conf"
 
 mkdir "${olddir}"/mpv
 

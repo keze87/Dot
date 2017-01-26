@@ -14,7 +14,8 @@ menu=$(dialog --clear --output-fd 1 \
 			  --menu "Selecciona la configuracion a instalar,\n\
 dependiendo del tamaño de pantalla." 10 50 2 \
 			  Desktop "24 Pulgadas" \
-			  Laptop "13 Pulgadas")
+			  Laptop "13 Pulgadas" \
+			  Termux "5 Pulgadas")
 
 if [[ $? == 0 ]]; then
 
@@ -32,11 +33,11 @@ if [[ $? == 0 ]]; then
 
 	mkdir "${olddir}"
 
-	sh "${dir}"/Common/Common.sh
-
 	case $menu in
 
 		Desktop)
+
+			sh "${dir}"/Common/Common.sh
 
 			sh "${dir}"/Desktop/Desktop.sh
 
@@ -44,9 +45,17 @@ if [[ $? == 0 ]]; then
 
 		Laptop)
 
+			sh "${dir}"/Common/Common.sh
+
 			sh "${dir}"/Laptop/Laptop.sh
 
 			touch ~/.dotlaptop
+
+		;;
+
+		Termux)
+
+			sh "${dir}"/Termux/Termux.sh
 
 		;;
 

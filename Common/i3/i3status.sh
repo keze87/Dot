@@ -25,6 +25,8 @@ if [[ ${laptop} ]]; then
 fi
 
 up=true
+headphones=false
+s="#FFFFFF"
 
 while true; do
 
@@ -153,6 +155,16 @@ while true; do
 
 		volumen=$(amixer get Master | grep "Front Right:" | awk '{print $5}' | tr -d "[]%")
 
+		if ! amixer get Master | grep -q "Rear"; then
+
+			headphones=true;
+
+		else
+
+			headphones=false;
+
+		fi
+
 		if [[ ${tenmin} == true || ! ${disco1} || ! ${disco2} ]]; then
 
 			disco1=$(df | grep sdb1 | awk '{print $5}')
@@ -168,11 +180,15 @@ while true; do
 
 	echo -e "["
 
+	if [[ (${player} && ${title}) || ${headphones} == true ]]; then
+
+		s=$(tail -n1 .config/i3/config | tr -d "\t")
+
+	fi
+
 	### Spotify ###
 
 	if [[ ${player} && ${title} ]]; then
-
-		s=$(tail -n1 .config/i3/config | tr -d "\t")
 
 		echo -e "{
 					\"color\":\"${s}\",
@@ -411,6 +427,12 @@ while true; do
 	echo -e "{
 				\"color\":\"#FFFFFF\","
 
+	if [[ ${headphones} == true ]]; then
+
+		echo -e "\"separator_block_width\": 0,"
+
+	fi
+
 	if [ "${volumen}" -lt 10 ]; then
 
 		echo -e "\"full_text\":\"   ${volumen}% \"},"
@@ -426,6 +448,15 @@ while true; do
 			echo -e "\"full_text\":\"   ${volumen}% \"},"
 
 		fi
+
+	fi
+
+	if [[ ${headphones} == true ]]; then
+
+		echo -e "{
+				\"color\":\"${s}\",
+				\"full_text\":\"  \"
+			 },"
 
 	fi
 

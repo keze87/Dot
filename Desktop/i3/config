@@ -7,6 +7,12 @@ font pango:Cantarell Regular, FontAwesome 10
 gaps inner 4
 gaps outer 4
 
+for_window [class="onboard"] floating enable
+for_window [class="Onboard"] floating enable
+for_window [class="hl2_linux"] floating disable
+for_window [class="hl2_linux"] move container to workspace "TF2"
+for_window [class="hl2_linux"] focus
+
 exec --no-startup-id numlockx
 
 bindsym Mod1+Prior exec --no-startup-id "amixer set Master 5%+"

@@ -59,7 +59,7 @@ yt() {
 
 	if [[ $url ]]; then
 		youtube-dl -e --get-description --get-format "${url}"
-		mpv --ytdl --ytdl-format="bestvideo[height<=${1:-1080}]+bestaudio/best[height<=${1:-1080}]/best" "${url}"
+		mpv --ytdl-format="bestvideo[height<=${1:-1080}]+bestaudio/best[height<=${1:-1080}]/best" "${url}"
 	fi
 }
 
@@ -83,9 +83,9 @@ twitch() {
 	if [[ ${url} ]]; then
 		youtube-dl -e --get-description --get-format "${url}"
 		if [[ ${tiempo} ]]; then
-			mpv --vf="" "${tiempo}" --ytdl --ytdl-format="${1:-'Source'}" "${url}"
+			mpv --vf="" "${tiempo}" --ytdl-format="${1:-'Source'}" "${url}"
 		else
-			mpv --vf="" --ytdl --ytdl-format="${1:-'Source'}" "${url}"
+			mpv --vf="" --ytdl-format="${1:-'Source'}" "${url}"
 		fi
 	fi
 

@@ -16,7 +16,7 @@ currentcolor='#nerfed'
 
 rm .barconfig
 
-known=( 'spotify' 'geany' 'terminator' )
+known=( 'spotify' 'spotifywebplayer' 'geany' 'terminator' )
 
 ### tamaño pantalla
 if [[ ${host} == 'Desktop' ]]; then
@@ -144,23 +144,23 @@ while true; do
 
 				echo '
 					colors {
-						separator #4080FB
+						separator #16A085
 						background #000000
 						statusline #ffffff
-						focused_workspace #4080FB #4080FB #ffffff
+						focused_workspace #16A085 #16A085 #ffffff
 						active_workspace #454749 #454749 #ffffff
 						inactive_workspace #000000 #000000 #ffffff
 						urgent_workspace #900000 #900000 #ffffff
 					}
 				}
-				client.focused #4080FB #4080FB #ffffff #4080FB
+				client.focused #16A085 #16A085 #ffffff #16A085
 				client.focused_inactive #353638 #353638 #ffffff #454749
 				client.unfocused #454749 #454749 #ffffff #454749
-				#4080FB'	>> "${config}"
+				#16A085'	>> "${config}"
 
 			;;
 
-			spotify)
+			spotify|spotifywebplayer)
 
 				echo '
 					colors {
@@ -224,19 +224,19 @@ while true; do
 
 				echo '
 					colors {
-						separator #418DDB
+						separator #000000
 						background #00000000
 						statusline #ffffff
-						focused_workspace #418DDB #418DDB #ffffff
+						focused_workspace #000000 #000000 #ffffff
 						active_workspace #454749 #454749 #ffffff
 						inactive_workspace #00000000 #00000000 #ffffff
 						urgent_workspace #900000 #900000 #ffffff
 					}
 				}
-				client.focused #4080FB #4080FB #ffffff #4080FB
+				client.focused #16A085 #16A085 #ffffff #16A085
 				client.focused_inactive #353638 #353638 #ffffff #454749
 				client.unfocused #454749 #454749 #ffffff #454749
-				#418DDB'	>> "${config}"
+				#000000'	>> "${config}"
 
 			;;
 
@@ -253,10 +253,10 @@ while true; do
 						urgent_workspace #900000 #900000 #ffffff
 					}
 				}
-				client.focused #4080FB #4080FB #ffffff #4080FB
+				client.focused #16A085 #16A085 #ffffff #16A085
 				client.focused_inactive #353638 #353638 #ffffff #454749
 				client.unfocused #454749 #454749 #ffffff #454749
-				#ED1A5F'	>> "${config}"
+				#FB574D'	>> "${config}"
 
 			;;
 
@@ -264,19 +264,19 @@ while true; do
 
 				echo '
 					colors {
-						separator #4080FB
+						separator #16A085
 						background #00000000
 						statusline #ffffff
-						focused_workspace #4080FB #4080FB #ffffff
+						focused_workspace #16A085 #16A085 #ffffff
 						active_workspace #454749 #454749 #ffffff
 						inactive_workspace #00000000 #00000000 #ffffff
 						urgent_workspace #900000 #900000 #ffffff
 					}
 				}
-				client.focused #4080FB #4080FB #ffffff #4080FB
+				client.focused #16A085 #16A085 #ffffff #16A085
 				client.focused_inactive #353638 #353638 #ffffff #454749
 				client.unfocused #454749 #454749 #ffffff #454749
-				#4080FB'	>> "${config}"
+				#16A085'	>> "${config}"
 
 			;;
 

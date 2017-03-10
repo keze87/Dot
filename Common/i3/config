@@ -9,10 +9,14 @@ smart_borders on
 for_window [class="^.*"] border pixel 1
 for_window [class="Main.py"] floating enable
 for_window [class="wplotsp.exe"] floating enable
+for_window [class="Pavucontrol"] floating enable
+for_window [class="Pavucontrol"] border normal
 for_window [class="etcher"] floating enable
 for_window [class="etcher"] border normal
 for_window [title="Steam Keyboard"] floating enable
 for_window [title="Nitrogen"] floating enable
+for_window [class="albert"] focus
+for_window [class="guake"] focus
 
 #exec --no-startup-id conky
 exec --no-startup-id albert

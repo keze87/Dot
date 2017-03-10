@@ -6,7 +6,7 @@ ZSH_THEME="bira"
 
 DISABLE_AUTO_UPDATE="true"
 
-plugins=(chucknorris colored-man-pages nyan)
+plugins=(colored-man-pages nyan)
 
 # User configuration
 
@@ -16,13 +16,43 @@ source $ZSH/oh-my-zsh.sh
 
 alias col='pygmentize -g'
 alias cpu='watch grep \"cpu MHz\" /proc/cpuinfo'
-alias yt-dialog='sh ~/.yt-dialog.sh'
+alias yt-dialog='zsh ~/.yt-dialog.sh'
+alias sortfile='find . -type f -size +10M -exec du -h {} + | sort -r -h | head -n 100 | less -S'
+
+yt-audio() {
+	url=""
+
+	if [[ $1 ]]; then
+		url=$1;
+	else
+		url=$(xclip -o | grep '/');
+	fi
+
+	if [[ $url ]]; then
+		youtube-dl -e --get-description --get-format "${url}"
+		mpv --no-video "${url}"
+	else
+		echo "Sin url :/"
+	fi
+}
+
+yt-json() {
+
+	url=$(xclip -o | grep '/');
+
+	echo "${url}"
+
+	youtube-dl "${1}" -j "${url}" | jq
+
+}
+
 alias pop='
 	while true; do
 		mpv --no-config --cache-initial=1100 --cache-pause --cache-secs=30 \
 		rtmp://popradio.stweb.tv:1935/popradio/live ;
 	done
 		'
+
 yt() {
 	url=""
 
@@ -37,6 +67,7 @@ yt() {
 		youtube-dl -g --format "bestvideo[height<=${1:-1080}]+bestaudio/best[height<=${1:-1080}]/best" "${url}"
 	fi
 }
+
 alias aria='
 	echo `xclip -o`;
 	aria2c --allow-overwrite=true -c --file-allocation=none --log-level=error \

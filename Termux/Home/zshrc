@@ -46,12 +46,55 @@ yt-json() {
 
 }
 
-alias pop='
-	while true; do
-		mpv --no-config --cache-initial=1100 --cache-pause --cache-secs=30 \
-		rtmp://popradio.stweb.tv:1935/popradio/live ;
+radio() {
+	url=""
+
+	if ! [[ $1 ]]; then
+
+		echo "Sin Opcion"
+
+		url=""
+
+	else
+
+		opcion="$1"
+
+	fi
+
+	case ${opcion} in
+
+		aspen)
+
+			url="http://18553.live.streamtheworld.com/ASPENAAC.aac"
+
+		;;
+
+		qmusic)
+
+			url="http://icecast-qmusic.cdp.triple-it.nl/Qmusic_nl_live_32.aac"
+
+		;;
+
+		pop)
+
+			url="rtmp://popradio.stweb.tv:1935/popradio/live"
+
+		;;
+
+		*)
+
+			echo "Opcion Incorrecta"
+
+			url=""
+
+		;;
+
+	esac
+
+	while [[ "${url}" ]]; do
+		mpv --no-config --cache-initial=120 --cache-pause --cache-secs=30 "${url}";
 	done
-		'
+}
 
 yt() {
 	url=""

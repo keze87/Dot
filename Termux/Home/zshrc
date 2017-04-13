@@ -38,7 +38,7 @@ yt-audio() {
 
 yt-json() {
 
-	url=$(xclip -o | grep '/');
+	url=$(termux-clipboard-get | grep '/');
 
 	echo "${url}"
 

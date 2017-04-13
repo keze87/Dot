@@ -400,6 +400,7 @@ while true; do
 
 		echo -e "{
 					\"color\":\"#${color}\",
+					\"short_text\":\"   Memo \",
 					\"full_text\":\"   ${memo::-1} \"
 				 },"
 

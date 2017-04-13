@@ -19,17 +19,8 @@ rm .barconfig
 known=( 'spotify' 'spotifywebplayer' 'geany' 'terminator' )
 
 ### tamaño pantalla
-if [[ ${host} == 'Desktop' ]]; then
-
-	x=1900
-	y=1000
-
-else
-
-	x=1300
-	y=700
-
-fi
+x=1200
+y=700
 
 ### Separacion de array
 IFS=$'\n'
@@ -224,10 +215,10 @@ while true; do
 
 				echo '
 					colors {
-						separator #000000
+						separator #3A6E3D
 						background #00000000
 						statusline #ffffff
-						focused_workspace #000000 #000000 #ffffff
+						focused_workspace #3A6E3D #3A6E3D #ffffff
 						active_workspace #454749 #454749 #ffffff
 						inactive_workspace #00000000 #00000000 #ffffff
 						urgent_workspace #900000 #900000 #ffffff
@@ -236,7 +227,7 @@ while true; do
 				client.focused #16A085 #16A085 #ffffff #16A085
 				client.focused_inactive #353638 #353638 #ffffff #454749
 				client.unfocused #454749 #454749 #ffffff #454749
-				#000000'	>> "${config}"
+				#3A6E3D'	>> "${config}"
 
 			;;
 

@@ -21,7 +21,7 @@ done
 
 ### i3 ###
 
-files="config"
+files="config monitor.sh"
 
 for file in ${files}; do
 

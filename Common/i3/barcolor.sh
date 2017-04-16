@@ -277,6 +277,8 @@ while true; do
 
 		i3-msg reload
 
+		sleep 2
+
 	fi
 
 	sleep 2

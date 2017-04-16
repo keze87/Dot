@@ -24,7 +24,6 @@ alias sortsize='expac -H M "%011m\t%-20n\t%10d" $(comm -23 <(pacman -Qqen | \
 sort) <(pacman -Qqg base base-devel | sort)) | sort -r -n | less -S'
 alias orphan='expac -HM "%-20n\t%10d" $( comm -23 <(pacman -Qqt | \
 sort) <(pacman -Qqg base base-devel|sort) ) | less -S'
-alias col='pygmentize -g'
 alias cpu='watch grep \"cpu MHz\" /proc/cpuinfo'
 alias actualizar='pacaur -Syu'
 alias dpi='sudo sh ~/.dpi.sh'
@@ -45,6 +44,20 @@ alias pop2='
 	sleep 30;
 	audacious POP/*
 		'
+
+col() {
+	case $# in
+		1)
+			pygmentize -g "$1"
+		;;
+		2)
+			pygmentize -l "$1" "$2"
+		;;
+		*)
+			echo nerfed
+		;;
+	esac
+}
 
 radio() {
 	url=""
@@ -92,7 +105,7 @@ radio() {
 	esac
 
 	while [[ "${url}" ]]; do
-		mpv --no-config --force-seekable=yes --cache-initial=240 --cache-pause --cache-secs=30 "${url}";
+		mpv --no-config --force-seekable=yes --cache-initial=240 --cache-pause "${url}";
 		sleep 1;
 	done
 }

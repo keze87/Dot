@@ -18,14 +18,12 @@ exec --no-startup-id numlockx
 bindsym Mod1+Prior exec --no-startup-id "amixer set Master 5%+"
 bindsym Mod1+Next exec --no-startup-id "amixer set Master 5%-"
 
-bindsym $mod+l exec sh ~/.config/i3/lariza.sh
+#bindsym $mod+l exec sh ~/.config/i3/lariza.sh
+bindsym $mod+l exec lariza
 
 exec --no-startup-id sh ~/.config/i3/barcolor.sh
 
-#bindsym $mod+m exec --no-startup-id "nvidia-settings --assign CurrentMetaMode='DPY-0: 1920x1080_60 @1920x1080 +0+0 {ViewPortIn=1920x1080, ViewPortOut=1920x1080+0+0, ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}, DPY-2: 1280x1024_60 @1280x1024 +0+1188 {ViewPortIn=1280x1024, ViewPortOut=1280x1024+0+0, ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}'; nitrogen --restore"
-#bindsym $mod+m exec --no-startup-id "xrandr --output DP-3 --off --output DVI-I-0 --primary --mode 1920x1080 --pos 1280x0 --rotate normal --output HDMI-0 --mode 1280x1024 --pos 0x880 --rotate normal --output DP-5 --off --output DP-4 --off --output DVI-I-1 --off --output DP-2 --off --output DP-1 --off --output DP-0 --off; nitrogen --restore"
-bindsym $mod+m exec --no-startup-id "nvidia-settings --assign CurrentMetaMode='DPY-0: nvidia-auto-select @1920x1080 +1280+0 {ViewPortIn=1920x1080, ViewPortOut=1920x1080+0+0, ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}, DPY-2: nvidia-auto-select @1280x1024 +0+880 {ViewPortIn=1280x1024, ViewPortOut=1280x1024+0+0, ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}'; nitrogen --restore"
-bindsym $mod+Shift+m exec --no-startup-id "nvidia-settings --assign CurrentMetaMode='DPY-0: 1920x1080_60 @1920x1080 +0+0 {ViewPortIn=1920x1080, ViewPortOut=1920x1080+0+0, ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}'; nitrogen --restore"
+bindsym $mod+m exec --no-startup-id sh ~/.config/i3/monitor.sh
 
 # Focus the big output
 bindsym Mod1+1 focus output DVI-I-0

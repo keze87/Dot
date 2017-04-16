@@ -7,7 +7,7 @@ echo -e '{"version":1}
 			[
 				{
 					"color":"#000000",
-					"full_text":" Iniciando "
+					"full_text":"I"
 				}
 			],'
 
@@ -236,6 +236,7 @@ while true; do
 							\"color\":\"$s\",
 							\"separator\": false,
 							\"separator_block_width\": 0,
+							\"short_text\":\"\",
 							\"full_text\":\"--\"
 						 },"
 
@@ -248,7 +249,7 @@ while true; do
 						\"color\":\"#FFFFFF\",
 						\"separator\": false,
 						\"separator_block_width\": 0,
-						\"short_text\":\" N/A \",
+						\"short_text\":\"\",
 						\"full_text\":\" ${album} \"
 					 },"
 

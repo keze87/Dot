@@ -23,7 +23,7 @@ done
 
 ### i3 ###
 
-files="volumen.sh invert.sh tab.sh work.sh apagar.sh speed.sh trans.sh instance.sh barcolor.sh brillo.sh config i3status.sh lariza.sh"
+files="volumen.sh invert.sh tab.sh work.sh apagar.sh speed.sh trans.sh instance.sh barcolor.sh brillo.sh config i3status.sh lariza.sh reiniciar.sh"
 
 mkdir "${olddir}"/i3
 

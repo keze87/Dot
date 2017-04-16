@@ -1,3 +1,3 @@
 #!/bin/sh
 
-GTK_THEME=Vertex-Light lariza
+GTK_THEME=Vertex-Maia lariza

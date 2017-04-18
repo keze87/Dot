@@ -14,10 +14,23 @@ export PATH="/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr
 
 source $ZSH/oh-my-zsh.sh
 
-alias col='pygmentize -g'
 alias cpu='watch grep \"cpu MHz\" /proc/cpuinfo'
 alias yt-dialog='zsh ~/.yt-dialog.sh'
 alias sortfile='find . -type f -size +10M -exec du -h {} + | sort -r -h | head -n 100 | less -S'
+
+col() {
+	case $# in
+		1)
+			pygmentize -g "$1"
+		;;
+		2)
+			pygmentize -l "$1" "$2"
+		;;
+		*)
+			echo nerfed
+		;;
+	esac
+}
 
 yt-audio() {
 	url=""
@@ -42,7 +55,15 @@ yt-json() {
 
 	echo "${url}"
 
-	youtube-dl "${1}" -j "${url}" | jq
+	if [[ ${1} ]]; then
+
+		youtube-dl "${1}" -j "${url}" | jq
+
+	else
+
+		youtube-dl -j "${url}" | jq
+
+	fi
 
 }
 
@@ -92,7 +113,8 @@ radio() {
 	esac
 
 	while [[ "${url}" ]]; do
-		mpv --no-config --cache-initial=120 --cache-pause --cache-secs=30 "${url}";
+		mpv --no-config --force-seekable=yes --cache-initial=240 --cache-pause "${url}";
+		sleep 1;
 	done
 }
 

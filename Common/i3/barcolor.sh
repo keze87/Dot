@@ -14,8 +14,6 @@ fi
 config=~/.config/i3/config
 currentcolor='#nerfed'
 
-rm .barconfig
-
 known=( 'spotify' 'spotifywebplayer' 'geany' 'terminator' )
 
 ### tamaño pantalla
@@ -124,6 +122,8 @@ while true; do
 	fi
 
 	if [[ ${color} != "${currentcolor}" ]]; then
+
+		rm .barconfig
 
 		cat .Dot/${host}/i3/config .Dot/Common/i3/config > .barconfig
 

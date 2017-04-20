@@ -18,9 +18,6 @@ exec --no-startup-id numlockx
 bindsym Mod1+Prior exec --no-startup-id "amixer set Master 5%+"
 bindsym Mod1+Next exec --no-startup-id "amixer set Master 5%-"
 
-#bindsym $mod+l exec sh ~/.config/i3/lariza.sh
-bindsym $mod+l exec lariza
-
 exec --no-startup-id sh ~/.config/i3/barcolor.sh
 
 bindsym $mod+m exec --no-startup-id sh ~/.config/i3/monitor.sh

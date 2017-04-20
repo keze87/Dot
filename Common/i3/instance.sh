@@ -72,6 +72,6 @@ if [[ ${id} ]]; then
 
 fi
 
-eval "${args}"
+i3-msg exec "${args}"
 
 exit $?

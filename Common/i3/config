@@ -28,6 +28,10 @@ exec --no-startup-id nitrogen --restore
 bindsym Mod1+Up exec --no-startup-id $1 ~/.config/i3/volumen.sh
 bindsym Mod1+Down exec --no-startup-id $1 ~/.config/i3/volumen.sh
 
+bindsym Mod1+Pause exec --no-startup-id playerctl play-pause
+bindsym Mod1+Home exec --no-startup-id playerctl previous
+bindsym Mod1+End exec --no-startup-id playerctl next
+
 bindsym $mod+w exec chromium
 bindsym Mod1+w exec $1 firefox
 bindsym $mod+l exec sh ~/.config/i3/lariza.sh

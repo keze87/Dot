@@ -13,7 +13,7 @@ echo -e '{"version":1}
 
 if [[ -f ~/.dotlaptop ]]; then
 
-	desktop=false;
+	#desktop=false;
 	laptop=true;
 
 fi
@@ -30,34 +30,17 @@ s="#FFFFFF"
 
 while true; do
 
-	if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify \
-	/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
-	string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' 2>/dev/null | \
-	grep -q Playing; then
+	if playerctl status | grep -q Playing; then
 
-		player="spotify"
+		if playerctl -p spotify status | grep -q Playing; then
 
-	else
-
-		if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.audacious \
-		/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
-		string:'org.mpris.MediaPlayer2.Player' \
-		string:'PlaybackStatus' 2>/dev/null | grep -q Playing; then
-
-			player="audacious"
+			player="spotify"
 
 		else
 
-			if dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotifywebplayer \
-			/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
-			string:'org.mpris.MediaPlayer2.Player' \
-			string:'PlaybackStatus' 2>/dev/null | grep -q Playing; then
+			if playerctl -p audacious status | grep -q Playing; then
 
-				player="spotifywebplayer"
-
-			else
-
-				player=""
+				player="audacious"
 
 			fi
 
@@ -67,41 +50,11 @@ while true; do
 
 	if [[ ${player} ]]; then
 
-		artist=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player \
-		/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
-		string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | \
-		egrep -A 2 "artist" | egrep -v "artist" | egrep -v "array" | \
-		cut -d'"' -f2- | head -n 1 | tr '"' "'" | egrep -v ^$)
+		artist=$(playerctl -p ${player} metadata artist | tr '"' "'")
 
-		title=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player \
-		/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
-		string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | \
-		egrep -A 1 "title" | egrep -v "title" | cut -d'"' -f2- | head -n 1 | \
-		 tr '"' "'" | egrep -v ^$)
+		album=$(playerctl -p ${player} metadata album | tr '"' "'")
 
-		album=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player \
-		/org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get \
-		string:'org.mpris.MediaPlayer2.Player' string:'Metadata' | \
-		egrep -A 1 "album" | egrep -v "album" | cut -d'"' -f2- | head -n 1 | \
-		 tr '"' "'" | egrep -v ^$)
-
-		if [[ ${artist} ]]; then
-
-			artist=${artist::-1}
-
-		fi
-
-		if [[ ${album} ]]; then
-
-			album=${album::-1}
-
-		fi
-
-		if [[ ${title} ]]; then
-
-			title=${title::-1}
-
-		fi
+		title=$(playerctl -p ${player} metadata title | tr '"' "'")
 
 	fi
 
@@ -120,8 +73,6 @@ while true; do
 		tenmin=false
 
 	fi
-
-	ram=$(free -h | grep Mem | awk '{print $3}')
 
 	cpu=$(cat /sys/devices/platform/coretemp.0/hwmon/*/temp1_input | cut -c1-2)
 
@@ -206,7 +157,7 @@ while true; do
 					\"separator\": false,
 					\"separator_block_width\": 0,"
 
-		if [[ ${player} == 'spotify' || ${player} == 'spotifywebplayer' ]]; then
+		if [[ ${player} == 'spotify' ]]; then
 
 			echo -e "\"full_text\":\"  \"
 					 },"
@@ -452,13 +403,13 @@ while true; do
 
 	else
 
-		if [[ "${volumen}" -lt 40 ]]; then
+		if [[ "${volumen}" -lt 100 ]]; then
 
 			echo -e "\"full_text\":\"   ${volumen}% \"},"
 
 		else
 
-			echo -e "\"full_text\":\"   ${volumen}% \"},"
+			echo -e "\"full_text\":\"   \"},"
 
 		fi
 
@@ -485,13 +436,6 @@ while true; do
 	echo -e "{
 				\"color\":\"#FFFFFF\",
 				\"full_text\":\"   ${disco2} \"
-			 },"
-
-	### RAM ###
-
-	echo -e "{
-				\"color\":\"#FFFFFF\",
-				\"full_text\":\"   ${ram} \"
 			 },"
 
 	### CPU ###

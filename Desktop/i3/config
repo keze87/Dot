@@ -23,5 +23,5 @@ exec --no-startup-id sh ~/.config/i3/barcolor.sh
 bindsym $mod+m exec --no-startup-id sh ~/.config/i3/monitor.sh
 
 # Focus the big output
-bindsym Mod1+1 focus output DVI-I-0
-bindsym Mod1+2 focus output HDMI-0
+#bindsym Mod1+1 focus output DVI-I-0
+#bindsym Mod1+2 focus output HDMI-0

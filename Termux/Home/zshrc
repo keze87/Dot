@@ -18,6 +18,10 @@ alias cpu='watch grep \"cpu MHz\" /proc/cpuinfo'
 alias yt-dialog='zsh ~/.yt-dialog.sh'
 alias sortfile='find . -type f -size +10M -exec du -h {} + | sort -r -h | head -n 100 | less -S'
 
+xclip() {
+	termux-clipboard-get
+}
+
 col() {
 	case $# in
 		1)
@@ -51,7 +55,7 @@ yt-audio() {
 
 yt-json() {
 
-	url=$(termux-clipboard-get | grep '/');
+	url=$(xclip -o | grep '/');
 
 	echo "${url}"
 
@@ -124,7 +128,7 @@ yt() {
 	if [[ $2 ]]; then
 		url=$2;
 	else
-		url=$(termux-clipboard-get | grep '/');
+		url=$(xclip -o | grep '/');
 	fi
 
 	if [[ $url ]]; then

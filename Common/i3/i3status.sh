@@ -496,7 +496,15 @@ while true; do
 
 				else
 
-					echo -e "\"full_text\":\"   ${bateria1}% \"},"
+					if [[ "${bateria1}" -lt 98 ]]; then
+
+						echo -e "\"full_text\":\"   ${bateria1}% \"},"
+
+					else
+
+						echo -e "\"full_text\":\"   \"},"
+
+					fi
 
 				fi
 
@@ -504,7 +512,15 @@ while true; do
 
 		else
 
-			echo -e "\"full_text\":\"   ${bateria1}% \"},"
+			if [[ "${bateria1}" -lt 98 ]]; then
+
+				echo -e "\"full_text\":\"   ${bateria1}% \"},"
+
+			else
+
+				echo -e "\"full_text\":\"   \"},"
+
+			fi
 
 		fi
 

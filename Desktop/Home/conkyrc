@@ -1,90 +1,91 @@
-###########################
-###   Modified by: Yo   ###
-###########################
-background yes
-use_xft yes
-xftfont DejaVu Sans Mono Book:pixelsize=14
-xftalpha 1
-update_interval 1
-total_run_times 0
-own_window_class conky
-own_window yes
-own_window_type override
-own_window_transparent yes
-own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
-double_buffer yes
-draw_shades yes
-draw_outline no
-draw_borders no
-draw_graph_borders no
-stippled_borders 0
-border_width 0
-default_color white
-default_shade_color black
-default_outline_color black
-alignment top_right
-no_buffers no
-cpu_avg_samples 1
-net_avg_samples 1
-override_utf8_locale yes
-use_spacer none
-minimum_size 700 1000
+---------------------------------
+------   Modified by: Yo   ------
+---------------------------------
 
-TEXT
-${alignr}$font < $sysname-$kernel > Sistema --|     
-${alignr}$font |    |     
-${alignr}$font < ${cpu cpu0} % > CPU --|    |     
-${alignr}$font < ${freq_g 1} ${cpubar cpu1 5,168 } > < ${freq_g 2} ${cpubar cpu2 5,168 } > --|    |    |     
-${alignr}$font < ${freq_g 3} ${cpubar cpu3 5,168 } > < ${freq_g 4} ${cpubar cpu4 5,168 } > --|    |    |     
-${alignr}$font < ${freq_g 5} ${cpubar cpu5 5,168 } > < ${freq_g 6} ${cpubar cpu6 5,168 } > --|    |    |     
-${alignr}$font < ${freq_g 7} ${cpubar cpu7 5,168 } > < ${freq_g 8} ${cpubar cpu8 5,168 } > --|    |    |     
-${alignr}$font < ${freq_g 9} ${cpubar cpu9 5,168 } > < ${freq_g 10} ${cpubar cpu10 5,168 } > --|    |    |     
-${alignr}$font < ${freq_g 11} ${cpubar cpu11 5,168 } > < ${freq_g 12} ${cpubar cpu12 5,168 } > --|    |    |     
-${alignr}$font < ${top name 1}  ${top cpu 1} > --|    |    |     
-${alignr}$font < ${top name 2}  ${top cpu 2} > --|    |    |     
-${alignr}$font < ${top name 3}  ${top cpu 3} > --|    |    |     
-${alignr}$font < ${top name 4}  ${top cpu 4} > --'    |    |     
-${alignr}$font |    |     
-${alignr}$font Procesos --|    |     
-${alignr}$font < $processes > Total --|    |    |     
-${alignr}$font < $running_processes > Corriendo --'    |    |     
-${alignr}$font |    |     
-${alignr}$font Temperatura --|    |     
-${alignr}$font < ${acpitemp}°C > acpi --'    |    |     
-${alignr}$font |    |     
-${alignr}$font Nvidia --|    |     
-${alignr}$font < ${nvidia temp}°C > Temperatura --|    |    |     
-${alignr}$font < ${nvidia gpufreq} > GPU Frec --|    |    |     
-${alignr}$font < ${nvidia memfreq} > MEM Frec --'    |    |     
-${alignr}$font |    |     
-${alignr}$font < $mem / 16GiB > RAM --|    |     
-${alignr}$font < $memperc% ${membar 5,168 /} > --|    |    |     
-${alignr}$font < ${top_mem name 1}  ${top mem 1} > --|    |    |     
-${alignr}$font < ${top_mem name 2}  ${top mem 2} > --|    |    |     
-${alignr}$font < ${top_mem name 3}  ${top mem 3} > --|    |    |     
-${alignr}$font < ${top_mem name 4}  ${top mem 4} > --'    |    |     
-${alignr}$font |    |     
-${alignr}$font < ${fs_used /} / ${fs_size /} > Espacio Raiz --|    |     
-${alignr}$font < ${fs_used_perc /}% ${fs_bar 5,168 /} > --'    |    |     
-${alignr}$font |    |     
-${alignr}$font < ${fs_used /home} / ${fs_size /home} > Espacio Home --'    |     
-${alignr}$font < ${fs_used_perc /home}% ${fs_bar 5,168 /home} > --'         |     
-${alignr}$font |     
-${alignr}$font Internet --'     
-${alignr}$font |          
-${alignr}$font < ${tcp_portmon 1 65535 count} > Conecciones --|          
-${alignr}$font |          
-${alignr}$font < ${tcp_portmon 1 32767 count} > entrada / local --|          
-${alignr}$font < ${tcp_portmon 1 32767 rhost 0} ${tcp_portmon 1 32767 lservice 0} > --|    |          
-${alignr}$font < ${tcp_portmon 1 32767 rhost 1} ${tcp_portmon 1 32767 lservice 1} > --|    |          
-${alignr}$font < ${tcp_portmon 1 32767 rhost 2} ${tcp_portmon 1 32767 lservice 2} > --'    |          
-${alignr}$font |          
-${alignr}$font < ${tcp_portmon 32768 61000 count} > salida / remota --|          
-${alignr}$font < ${tcp_portmon 32768 61000 rhost 0} ${alignr} ${tcp_portmon 32768 61000 rservice 0} > --|    |          
-${alignr}$font < ${tcp_portmon 32768 61000 rhost 1} ${alignr} ${tcp_portmon 32768 61000 rservice 1} > --|    |          
-${alignr}$font < ${tcp_portmon 32768 61000 rhost 2} ${alignr} ${tcp_portmon 32768 61000 rservice 2} > --'    |          
-${alignr}$font |          
-${alignr}$font < ${upspeed eno1} > Subida --|          
-${alignr}$font < ${upspeedgraph eno1 8,168 000000 000000} > --'    |          
-${alignr}$font < ${downspeed eno1} > Bajada --'          
-${alignr}$font < ${downspeedgraph eno1 8,168 000000 000000} > --'               
+conky.config = {
+	background = true,
+	use_xft = true,
+	font = 'DejaVu Sans Mono Book:size=12',
+	xftalpha = 1,
+	update_interval = 2,
+	total_run_times = 0,
+	own_window_class = 'conky',
+	own_window = true,
+	own_window_type = 'override',
+	own_window_transparent = true,
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+	double_buffer = true,
+	draw_shades = true,
+	draw_outline = false,
+	draw_borders = false,
+	draw_graph_borders = false,
+	stippled_borders = 0,
+	border_width = 0,
+	default_color = 'white',
+	default_shade_color = 'black',
+	default_outline_color = 'black',
+	alignment = 'top_right',
+	no_buffers = true, --no?
+	cpu_avg_samples = 1,
+	net_avg_samples = 1,
+	override_utf8_locale = true,
+	use_spacer = 'none',
+	xinerama_head = 2
+	--minimum_size 700 1000
+	--maximum_width 1200
+}
+
+conky.text = [[
+${alignr}$font < $sysname-$kernel > Sistema --|
+${alignr}$font |    |
+${alignr}$font < ${cpu cpu0} % > CPU --|    |
+${alignr}$font < ${freq_g 1} ${cpubar cpu1 5,168 } > < ${freq_g 2} ${cpubar cpu2 5,168 } > --|    |    |
+${alignr}$font < ${freq_g 3} ${cpubar cpu3 5,168 } > < ${freq_g 4} ${cpubar cpu4 5,168 } > --|    |    |
+${alignr}$font < ${freq_g 5} ${cpubar cpu5 5,168 } > < ${freq_g 6} ${cpubar cpu6 5,168 } > --|    |    |
+${alignr}$font < ${freq_g 7} ${cpubar cpu7 5,168 } > < ${freq_g 8} ${cpubar cpu8 5,168 } > --|    |    |
+${alignr}$font < ${freq_g 9} ${cpubar cpu9 5,168 } > < ${freq_g 10} ${cpubar cpu10 5,168 } > --|    |    |
+${alignr}$font < ${freq_g 11} ${cpubar cpu11 5,168 } > < ${freq_g 12} ${cpubar cpu12 5,168 } > --|    |    |
+${alignr}$font < ${top name 1}  ${top cpu 1} > --|    |    |
+${alignr}$font < ${top name 2}  ${top cpu 2} > --|    |    |
+${alignr}$font < ${top name 3}  ${top cpu 3} > --|    |    |
+${alignr}$font < ${top name 4}  ${top cpu 4} > --'    |    |
+${alignr}$font |    |
+${alignr}$font Procesos --|    |
+${alignr}$font < $processes > Total --|    |    |
+${alignr}$font < $running_processes > Corriendo --'    |    |
+${alignr}$font |    |
+${alignr}$font Temperatura --|    |
+${alignr}$font < ${acpitemp}°C > acpi --'    |    |
+${alignr}$font |    |
+${alignr}$font < $mem / 16GiB > RAM --|    |
+${alignr}$font < $memperc% ${membar 5,168 /} > --|    |    |
+${alignr}$font < ${top_mem name 1}  ${top mem 1} > --|    |    |
+${alignr}$font < ${top_mem name 2}  ${top mem 2} > --|    |    |
+${alignr}$font < ${top_mem name 3}  ${top mem 3} > --|    |    |
+${alignr}$font < ${top_mem name 4}  ${top mem 4} > --'    |    |
+${alignr}$font |    |
+${alignr}$font < ${fs_used /} / ${fs_size /} > Espacio Raiz --|    |
+${alignr}$font < ${fs_used_perc /}% ${fs_bar 5,168 /} > --'    |    |
+${alignr}$font |    |
+${alignr}$font < ${fs_used /home} / ${fs_size /home} > Espacio Home --'    |
+${alignr}$font < ${fs_used_perc /home}% ${fs_bar 5,168 /home} > --'         |
+${alignr}$font |
+${alignr}$font Internet --'
+${alignr}$font |
+${alignr}$font < ${tcp_portmon 1 65535 count} > Conecciones --|
+${alignr}$font |
+${alignr}$font < ${tcp_portmon 1 32767 count} > entrada / local --|
+${alignr}$font < ${tcp_portmon 1 32767 rhost 0} ${tcp_portmon 1 32767 lservice 0} > --|    |
+${alignr}$font < ${tcp_portmon 1 32767 rhost 1} ${tcp_portmon 1 32767 lservice 1} > --|    |
+${alignr}$font < ${tcp_portmon 1 32767 rhost 2} ${tcp_portmon 1 32767 lservice 2} > --'    |
+${alignr}$font |
+${alignr}$font < ${tcp_portmon 32768 61000 count} > salida / remota --|
+${alignr}$font < ${tcp_portmon 32768 61000 rhost 0} ${alignr} ${tcp_portmon 32768 61000 rservice 0} > --|    |
+${alignr}$font < ${tcp_portmon 32768 61000 rhost 1} ${alignr} ${tcp_portmon 32768 61000 rservice 1} > --|    |
+${alignr}$font < ${tcp_portmon 32768 61000 rhost 2} ${alignr} ${tcp_portmon 32768 61000 rservice 2} > --'    |
+${alignr}$font |
+${alignr}$font < ${upspeed eno1} > Subida --|
+${alignr}$font < ${upspeedgraph eno1 8,168 000000 000000} > --'    |
+${alignr}$font < ${downspeed eno1} > Bajada --'
+${alignr}$font < ${downspeedgraph eno1 8,168 000000 000000} > --'
+]]

@@ -31,6 +31,7 @@ alias yt-aria='sh ~/.yt.sh'
 alias yt-dialog='sh ~/.yt-dialog.sh'
 alias open='xdg-open'
 alias sortfile='find . -type f -size +10M -exec du -h {} + | sort -r -h | head -n 100 | less -S'
+alias ls='ls --color=auto -lah'
 
 alias logcat='
 	while true; do

@@ -2,14 +2,56 @@
 
 #i3bar -> $TERM == 'dumb'
 
-echo -e '{"version":1}
-		[
-			[
-				{
-					"color":"#000000",
-					"full_text":"I"
-				}
-			],'
+imprimir() {
+
+	#imprimir $color $text $separatorwidth $ultimo $shorttext
+
+	echo -e "
+	{
+		\"color\":\"$1\","
+
+	if [[ $3 == 0 ]]; then
+
+		echo -e "
+		\"separator\": false,
+		\"separator_block_width\": $3,"
+
+	fi
+
+	if [[ $# == 5 ]]; then
+
+		echo -e "
+		\"full_text\":\"$2\",
+		\"short_text\":\"$5\""
+
+	else
+
+		echo -e "		\"full_text\":\"$2\""
+
+	fi
+
+	if [[ $4 == 0 ]]; then
+
+		echo '	},'
+
+	else
+
+		echo '	}
+],'
+
+	fi
+
+}
+
+echo -e '
+{"version":1}
+[
+[
+	{
+		"color":"#000000",
+		"full_text":"I"
+	}
+],'
 
 if [[ -f ~/.dotlaptop ]]; then
 
@@ -29,6 +71,8 @@ headphones=false
 s="#FFFFFF"
 
 while true; do
+
+	player=""
 
 	if playerctl status | grep -q Playing; then
 
@@ -138,8 +182,6 @@ while true; do
 
 	fi
 
-	clear
-
 	echo -e "["
 
 	if [[ (${player} && ${title}) || ${headphones} == true ]]; then
@@ -152,75 +194,43 @@ while true; do
 
 	if [[ ${player} && ${title} ]]; then
 
-		echo -e "{
-					\"color\":\"${s}\",
-					\"separator\": false,
-					\"separator_block_width\": 0,"
-
 		if [[ ${player} == 'spotify' ]]; then
 
-			echo -e "\"full_text\":\"  \"
-					 },"
+			text="  "
 
 		else
 
-			echo -e "\"full_text\":\"  \"
-					 },"
+			text="  "
 
 		fi
+
+		imprimir "${s}" "${text}" 0 0
 
 		if [[ ${artist} ]]; then
 
-			echo -e "{
-						\"color\":\"#FFFFFF\",
-						\"separator\": false,
-						\"separator_block_width\": 0,
-						\"full_text\":\" ${artist} \"
-					 },"
+			imprimir "#FFFFFF" " ${artist} " 0 0
 
 		fi
 
-		if [[ ${album} || ${title} ]]; then
-			if [[ ${artist} ]]; then
+		if [[ ( ${album} || ${title} ) && ${artist} ]]; then
 
-				echo -e "{
-							\"color\":\"$s\",
-							\"separator\": false,
-							\"separator_block_width\": 0,
-							\"short_text\":\"\",
-							\"full_text\":\"--\"
-						 },"
+			imprimir "${s}" "--" 0 0 ''
 
-			fi
 		fi
 
 		if [[ ${album} ]]; then
 
-			echo -e "{
-						\"color\":\"#FFFFFF\",
-						\"separator\": false,
-						\"separator_block_width\": 0,
-						\"short_text\":\"\",
-						\"full_text\":\" ${album} \"
-					 },"
+			imprimir "#FFFFFF" " ${album} " 0 0 ''
 
 		fi
 
 		if [[ ${album} && ${title} ]]; then
 
-			echo -e "{
-						\"color\":\"$s\",
-						\"separator\": false,
-						\"separator_block_width\": 0,
-						\"full_text\":\"--\"
-					 },"
+			imprimir "${s}" "--" 0 0
 
 		fi
 
-		echo -e "{
-					\"color\":\"#FFFFFF\",
-					\"full_text\":\" ${title} \"
-				 },"
+		imprimir "#FFFFFF" " ${title} " 1 0
 
 	fi
 
@@ -246,20 +256,17 @@ while true; do
 
 			fi
 
-			echo -e "{
-						\"color\":\"#FFFFFF\","
-
 			if [[ $speed == "0 K↓ 0 K↑" ]]; then
 
-				echo -e "\"full_text\":\"   ${wifi} \"
-					 },"
+				text="   ${wifi} "
 
 			else
 
-				echo -e "\"full_text\":\"   ${speed} (${wifi}) \"
-					 },"
+				text="   ${speed} (${wifi}) "
 
 			fi
+
+			imprimir "#FFFFFF" " ${text} " 1 0
 
 			up=true
 			upsonido=true
@@ -278,10 +285,7 @@ while true; do
 
 			if [[ "${speed}" != '0 K↓ 0 K↑' ]]; then
 
-				echo -e "{
-							\"color\":\"#FFFFFF\",
-							\"full_text\":\"   ${speed} \"
-						},"
+				imprimir "#FFFFFF" "   ${speed} " 1 0
 
 			fi
 
@@ -312,10 +316,7 @@ while true; do
 
 		fi
 
-		echo -e "{
-					\"color\":\"#FF0000\",
-					\"full_text\":\"   Sin Internet \"
-				 },"
+		imprimir "#FF0000" "   Sin Internet " 1 0
 
 	fi
 
@@ -323,16 +324,9 @@ while true; do
 
 	if [[ ${brillo} ]]; then
 
-		if [ "${brillo%.*}" -eq "100" ]; then
+		if [ "${brillo%.*}" -lt "100" ]; then
 
-			brillo=""
-
-		else
-
-			echo -e "{
-						\"color\":\"#FFFFFF\",
-						\"full_text\":\"   ${brillo%.*} \"
-					 },"
+			imprimir "#FFFFFF" "   ${brillo%.*} " 1 0
 
 		fi
 
@@ -350,15 +344,51 @@ while true; do
 
 		fi
 
-		echo -e "{
-					\"color\":\"#${color}\",
-					\"short_text\":\"   Memo \",
-					\"full_text\":\"   ${memo::-1} \"
-				 },"
+		imprimir "#${color}" "   ${memo::-1} " 1 0 "   Memo "
 
 		memo=""
 
 	fi
+
+	### Volumen ###
+
+	if [[ ${headphones} == true ]]; then
+
+		imprimir "${s}" "  " 0 0
+
+		imprimir "#FFFFFF" " ${volumen}% " 1 0
+
+	else
+
+		if [ "${volumen}" -lt 10 ]; then
+
+			text="   ${volumen}% "
+
+		else
+
+			if [[ "${volumen}" -lt 100 ]]; then
+
+				text="   ${volumen}% "
+
+			else
+
+				text="   "
+
+			fi
+
+		fi
+
+		imprimir "#FFFFFF" "${text}" 1 0
+
+	fi
+
+	### Root ###
+
+	imprimir "#FFFFFF" "   ${disco1} " 1 0
+
+	### Home ###
+
+	imprimir "#FFFFFF" "   ${disco2} " 1 0
 
 	### Nvidia ###
 
@@ -366,99 +396,47 @@ while true; do
 
 		if [[ ${nvidia} -lt 60 ]]; then
 
-			echo -e "{ \"color\":\"#FFFFFF\","
+			color="#FFFFFF"
 
 		else
 
 			if [[ ${nvidia} -lt 80 ]]; then
 
-				echo -e "{ \"color\":\"#FFA500\","
+				color="#FFA500"
 
 			else
 
-				echo -e "{ \"color\":\"#FF0000\","
+				color="#FF0000"
 
 			fi
 
 		fi
 
-		echo -e "\"full_text\":\"   ${nvidia} °C \" },"
+		imprimir "${color}" "   ${nvidia} °C " 1 0
 
 	fi
-
-	### Volumen ###
-
-	echo -e "{
-				\"color\":\"#FFFFFF\","
-
-	if [[ ${headphones} == true ]]; then
-
-		echo -e "\"separator_block_width\": 0,"
-
-	fi
-
-	if [ "${volumen}" -lt 10 ]; then
-
-		echo -e "\"full_text\":\"   ${volumen}% \"},"
-
-	else
-
-		if [[ "${volumen}" -lt 100 ]]; then
-
-			echo -e "\"full_text\":\"   ${volumen}% \"},"
-
-		else
-
-			echo -e "\"full_text\":\"   \"},"
-
-		fi
-
-	fi
-
-	if [[ ${headphones} == true ]]; then
-
-		echo -e "{
-				\"color\":\"${s}\",
-				\"full_text\":\"  \"
-			 },"
-
-	fi
-
-	### Root ###
-
-	echo -e "{
-				\"color\":\"#FFFFFF\",
-				\"full_text\":\"   ${disco1} \"
-			 },"
-
-	### Home ###
-
-	echo -e "{
-				\"color\":\"#FFFFFF\",
-				\"full_text\":\"   ${disco2} \"
-			 },"
 
 	### CPU ###
 
 	if [[ ${cpu} -lt 60 ]]; then
 
-		echo -e "{ \"color\":\"#FFFFFF\","
+		color="#FFFFFF"
 
 	else
 
 		if [[ ${cpu} -lt 80 ]]; then
 
-			echo -e "{ \"color\":\"#FFA500\","
+			color="#FFA500"
 
 		else
 
-			echo -e "{ \"color\":\"#FF0000\","
+			color="#FF0000"
 
 		fi
 
 	fi
 
-	echo -e "\"full_text\":\"   ${cpu}°C \" },"
+	imprimir "${color}" "   ${cpu}°C " 1 0
 
 	### Bateria ##
 
@@ -466,17 +444,17 @@ while true; do
 
 		if [ "${bateria1}" -gt 50 ]; then
 
-			echo -e "{\"color\":\"#FFFFFF\","
+			color="#FFFFFF"
 
 		else
 
 			if [[ "${bateria1}" -gt 20 ]]; then
 
-				echo -e "{\"color\":\"#FFA500\","
+				color="#FFA500"
 
 			else
 
-				echo -e "{\"color\":\"#FF0000\","
+				color="#FF0000"
 
 			fi
 
@@ -486,23 +464,23 @@ while true; do
 
 			if [ "${bateria1}" -lt 30 ]; then
 
-				echo -e "\"full_text\":\"   ${bateria1}% \"},"
+				text="   ${bateria1}% "
 
 			else
 
 				if [[ "${bateria1}" -lt 65 ]]; then
 
-					echo -e "\"full_text\":\"   ${bateria1}% \"},"
+					text="   ${bateria1}% "
 
 				else
 
 					if [[ "${bateria1}" -lt 98 ]]; then
 
-						echo -e "\"full_text\":\"   ${bateria1}% \"},"
+						text="   ${bateria1}% "
 
 					else
 
-						echo -e "\"full_text\":\"   \"},"
+						text="   "
 
 					fi
 
@@ -514,26 +492,23 @@ while true; do
 
 			if [[ "${bateria1}" -lt 98 ]]; then
 
-				echo -e "\"full_text\":\"   ${bateria1}% \"},"
+				text="   ${bateria1}% "
 
 			else
 
-				echo -e "\"full_text\":\"   \"},"
+				text="   "
 
 			fi
 
 		fi
 
+		imprimir "${color}" "${text}" 1 0
+
 	fi
 
 	### Fecha ###
 
-	echo -e "{
-				\"color\":\"#FFFFFF\",
-				\"full_text\":\" ${fecha} \"
-			 }"
-
-	echo -e "],"
+	imprimir "#FFFFFF" " ${fecha} " 1 1
 
 	sleep 2
 

@@ -17,13 +17,14 @@ for_window [title="Steam Keyboard"] floating enable
 for_window [title="Nitrogen"] floating enable
 for_window [class="albert"] focus
 for_window [class="guake"] focus
+for_window [class="Lariza"] focus child, layout tabbed, focus
 
 #exec --no-startup-id conky
 exec --no-startup-id albert
 exec --no-startup-id guake
 exec --no-startup-id compton
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nitrogen --restore
+exec_always --no-startup-id nitrogen --restore
 
 bindsym Mod1+Up exec --no-startup-id $1 ~/.config/i3/volumen.sh
 bindsym Mod1+Down exec --no-startup-id $1 ~/.config/i3/volumen.sh

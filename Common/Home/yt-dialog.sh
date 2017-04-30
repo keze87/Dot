@@ -68,14 +68,6 @@ else
 
 fi
 
-if [[ -f "${tmp}"/ytlog ]]; then
-
-	rm "${tmp}"/ytlog
-
-fi
-
-touch "${tmp}"/ytlog
-
 if [[ ${maxres} == 1000 ]]; then
 
 	aux="aux"

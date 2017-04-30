@@ -18,10 +18,8 @@ exec --no-startup-id numlockx
 bindsym Mod1+Prior exec --no-startup-id "amixer set Master 5%+"
 bindsym Mod1+Next exec --no-startup-id "amixer set Master 5%-"
 
+bindsym Mod1+Shift+Tab focus output right
+
 exec --no-startup-id sh ~/.config/i3/barcolor.sh
 
 bindsym $mod+m exec --no-startup-id sh ~/.config/i3/monitor.sh
-
-# Focus the big output
-#bindsym Mod1+1 focus output DVI-I-0
-#bindsym Mod1+2 focus output HDMI-0

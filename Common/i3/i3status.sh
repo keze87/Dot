@@ -1,10 +1,7 @@
 #!/bin/sh
 
-#i3bar -> $TERM == 'dumb'
-
+#imprimir $color $text $separatorwidth $ultimo $shorttext
 imprimir() {
-
-	#imprimir $color $text $separatorwidth $ultimo $shorttext
 
 	echo -e "
 	{
@@ -74,7 +71,7 @@ while true; do
 
 	player=""
 
-	if playerctl status | grep -q Playing; then
+	if playerctl status 2>&1 | grep -q Playing; then
 
 		if playerctl -p spotify status | grep -q Playing; then
 

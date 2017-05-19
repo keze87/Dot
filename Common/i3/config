@@ -6,17 +6,18 @@ set $1 sh ~/.config/i3/instance.sh
 smart_gaps on
 smart_borders on
 
-for_window [class="^.*"] border pixel 1
+for_window [tiling] border pixel 1
+for_window [floating] border normal
+
+for_window [class="Audacious"] border pixel 1
+for_window [class="albert"] border pixel 1
+
 for_window [class="Main.py"] floating enable
 for_window [class="wplotsp.exe"] floating enable
 for_window [class="Pavucontrol"] floating enable
-for_window [class="Pavucontrol"] border normal
 for_window [class="etcher"] floating enable
-for_window [class="etcher"] border normal
 for_window [title="Steam Keyboard"] floating enable
 for_window [title="Nitrogen"] floating enable
-for_window [class="albert"] focus
-for_window [class="guake"] focus
 
 #exec --no-startup-id conky
 exec --no-startup-id albert
@@ -34,8 +35,8 @@ bindsym Mod1+End exec --no-startup-id playerctl next
 
 bindsym $mod+w exec chromium
 bindsym Mod1+w exec $1 firefox
-bindsym $mod+l exec sh ~/.config/i3/lariza.sh
-bindsym $mod+e exec $1 pcmanfm
+bindsym $mod+l exec $1 ~/.config/i3/lariza.sh
+bindsym $mod+e exec nautilus
 bindsym $mod+g exec $1 geany
 bindsym $mod+s exec $1 sh /usr/bin/spotify
 bindsym Mod1+s exec $1 ~/.ss.sh
@@ -44,15 +45,12 @@ bindsym $mod+y exec sh ~/.yt.sh 1000
 bindsym $mod+n exec --no-startup-id sh ~/.config/i3/invert.sh
 bindsym Mod1+Tab exec --no-startup-id sh ~/.config/i3/tab.sh
 bindsym $mod+t exec --no-startup-id compton-trans $(zenity --scale --text="Cuan opaco?" --value=80)
+bindsym $mod+Return exec terminator
 
-bindsym $mod+a sticky toggle
 bindsym $mod+Tab workspace next
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier Mod1
-
-# start a terminal
-bindsym $mod+Return exec terminator
 
 # kill focused window
 bindsym Mod1+F4 kill
@@ -65,10 +63,10 @@ bindsym Mod1+d exec --no-startup-id dmenu_run
 bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+Shift+Left focus left
-bindsym $mod+Shift+Down focus down
-bindsym $mod+Shift+Up focus up
-bindsym $mod+Shift+Right focus right
+#bindsym $mod+Shift+Left focus left
+#bindsym $mod+Shift+Down focus down
+#bindsym $mod+Shift+Up focus up
+#bindsym $mod+Shift+Right focus right
 
 # move focused window
 bindsym $mod+Left move left
@@ -98,8 +96,6 @@ bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+p focus parent
-
-# focus the child container
 #bindsym $mod+d focus child
 
 # switch to workspace
@@ -135,12 +131,6 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Vieja queres salir?' -b 'Me 
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-		# These bindings trigger as soon as you enter the resize mode
-
-		# Pressing left will shrink the window’s width.
-		# Pressing right will grow the window’s width.
-		# Pressing up will shrink the window’s height.
-		# Pressing down will grow the window’s height.
 		bindsym j resize shrink width 10 px or 10 ppt
 		bindsym k resize grow height 10 px or 10 ppt
 		bindsym l resize shrink height 10 px or 10 ppt
@@ -169,7 +159,7 @@ bar {
 	position top
 	separator_symbol "|"
 	tray_output primary
-	#font pango:DejaVu Sans Mono Regular 9
+	#font pango:DejaVu Sans Mono Regular 9.5
 
 	bindsym button3 exec --no-startup-id sh ~/.config/i3/work.sh
 	bindsym button2 kill

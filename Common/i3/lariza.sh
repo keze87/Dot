@@ -6,7 +6,7 @@ export LARIZA_USER_AGENT="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KH
 export LARIZA_ACCEPTED_LANGUAGE="es_AR"
 export LARIZA_DOWNLOAD_DIR="${HOME}/"
 export LARIZA_ENABLE_EXPERIMENTAL_WEBGL=1
-export GTK_THEME=Vertex-Maia
+#export GTK_THEME=Vertex-Maia
 
 lariza -T &
 

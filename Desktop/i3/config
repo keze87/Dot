@@ -2,10 +2,10 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-font pango:Cantarell Regular, FontAwesome 10
+font pango:Cantarell Regular, FontAwesome 9.5
 
-gaps inner 4
-gaps outer 4
+gaps inner 2
+gaps outer 2
 
 for_window [class="onboard"] floating enable
 for_window [class="Onboard"] floating enable
@@ -14,11 +14,14 @@ for_window [class="hl2_linux"] move container to workspace "TF2"
 for_window [class="hl2_linux"] focus
 
 exec --no-startup-id numlockx
+exec --no-startup-id xset -dpms; xset s off
 
 bindsym Mod1+Prior exec --no-startup-id "amixer set Master 5%+"
 bindsym Mod1+Next exec --no-startup-id "amixer set Master 5%-"
 
-bindsym Mod1+Shift+Tab focus output right
+bindsym $mod+Shift+Tab focus output right
+bindsym $mod+Shift+Left move workspace to output left
+bindsym $mod+Shift+Right move workspace to output right
 
 exec --no-startup-id sh ~/.config/i3/barcolor.sh
 

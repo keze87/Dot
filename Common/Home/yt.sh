@@ -150,7 +150,7 @@ fi
 
 if [[ $? == 0 || ${maxres} == "1000" ]]; then
 
-	wid=$(wmctrl -lx | awk '{print $1" "$2" "$3}' | grep "smtube.smtube" | awk '{print $1}')
+	wid=$(wmctrl -lx | awk '{print $1" "$3}' | grep "smtube.smtube" | awk '{print $1}')
 
 	if [[ ${wid} ]]; then
 

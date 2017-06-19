@@ -14,15 +14,17 @@ for_window [class="hl2_linux"] move container to workspace "TF2"
 for_window [class="hl2_linux"] focus
 
 exec --no-startup-id numlockx
-exec --no-startup-id xset -dpms; xset s off
+#exec_always --no-startup-id xset -dpms; xset s off
+#exec_always --no-startup-id gsettings reset org.gnome.desktop.wm.preferences button-layout
 
 bindsym Mod1+Prior exec --no-startup-id "amixer set Master 5%+"
 bindsym Mod1+Next exec --no-startup-id "amixer set Master 5%-"
+bindsym Mod1+Print exec --no-startup-id "sh -c 'cd; scrot -c'"
 
 bindsym $mod+Shift+Tab focus output right
 bindsym $mod+Shift+Left move workspace to output left
 bindsym $mod+Shift+Right move workspace to output right
 
-exec --no-startup-id sh ~/.config/i3/barcolor.sh
+exec --no-startup-id bash ~/.config/i3/barcolor.sh
 
-bindsym $mod+m exec --no-startup-id sh ~/.config/i3/monitor.sh
+bindsym $mod+m exec --no-startup-id bash ~/.config/i3/monitor.sh

@@ -249,7 +249,7 @@ while true; do
 
 			if [[ ${internet} ]]; then
 
-				speed=$(sh ~/.config/i3/speed.sh ${internet})
+				speed=$(bash ~/.config/i3/speed.sh ${internet})
 
 			fi
 
@@ -278,7 +278,7 @@ while true; do
 
 		if ping -q -w 1 -c 1 "${ip}" > /dev/null; then
 
-			speed=$(sh ~/.config/i3/speed.sh "eno1")
+			speed=$(bash ~/.config/i3/speed.sh "eno1")
 
 			if [[ "${speed}" != '0 K↓ 0 K↑' ]]; then
 

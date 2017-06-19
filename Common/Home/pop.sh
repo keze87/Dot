@@ -1,6 +1,16 @@
 #/bin/bash
 
-cd POP || exit
+if [[ -d "/tmp/POP" ]]; then
+
+	cd "/tmp/POP" || exit 1
+
+else
+
+	mkdir "/tmp/POP"
+
+	cd "/tmp/POP" || exit 2
+
+fi
 
 while true; do
 

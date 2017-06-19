@@ -1,8 +1,8 @@
 #!/bin/sh
 
-ACTION=$(zenity --width=90 --height=220 --list --radiolist --text="Que hago vieja?" \
+ACTION=$(zenity --width=90 --height=244 --list --radiolist --text="Que hago vieja?" \
 --title="Salir" --column "Eleccion" --column "" \
-TRUE Apagar FALSE Salir FALSE Reiniciar FALSE Suspender)
+TRUE Apagar FALSE Salir FALSE Reiniciar FALSE Suspender FALSE Apagar\ monitor)
 
 if [ -n "${ACTION}" ];then
 
@@ -30,6 +30,13 @@ if [ -n "${ACTION}" ];then
 
 			sleep 1
 			systemctl suspend
+
+		;;
+
+		Apagar\ monitor)
+
+			sleep 1
+			xset dpms force off
 
 		;;
 

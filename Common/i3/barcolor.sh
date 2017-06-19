@@ -4,6 +4,7 @@
 if [[ -f ~/.dotlaptop ]]; then
 
 	host='Laptop';
+	UnMonitor=true;
 
 else
 
@@ -129,6 +130,18 @@ while true; do
 
 		head -n -1 .barconfig > "${config}"
 
+		if [[ ${host} == 'Desktop' ]]; then
+
+			UnMonitor=true
+
+			if nvidia-settings --query CurrentMetaMode | grep -q -- "DPY-2"; then
+
+				UnMonitor=false
+
+			fi
+
+		fi
+
 		case ${color} in
 
 			Negro)
@@ -213,21 +226,25 @@ while true; do
 
 			EscritorioDesktop)
 
-				echo '
-					colors {
-						separator #3A6E3D
-						background #00000000
-						statusline #ffffff
-						focused_workspace #3A6E3D #3A6E3D #ffffff
-						active_workspace #454749 #454749 #ffffff
-						inactive_workspace #00000000 #00000000 #ffffff
-						urgent_workspace #900000 #900000 #ffffff
+				if [[ ${UnMonitor} == true ]]; then
+
+					echo '
+						colors {
+							separator #3A6E3D
+							background #00000000
+							statusline #ffffff
+							focused_workspace #3A6E3D #3A6E3D #ffffff
+							active_workspace #454749 #454749 #ffffff
+							inactive_workspace #00000000 #00000000 #ffffff
+							urgent_workspace #900000 #900000 #ffffff
+						}
 					}
-				}
-				client.focused #16A085 #16A085 #ffffff #16A085
-				client.focused_inactive #353638 #353638 #ffffff #454749
-				client.unfocused #454749 #454749 #ffffff #454749
-				#3A6E3D'	>> "${config}"
+					client.focused #16A085 #16A085 #ffffff #16A085
+					client.focused_inactive #353638 #353638 #ffffff #454749
+					client.unfocused #454749 #454749 #ffffff #454749
+					#3A6E3D'	>> "${config}"
+
+				fi
 
 			;;
 
@@ -253,21 +270,25 @@ while true; do
 
 			*) # Transparente
 
-				echo '
-					colors {
-						separator #215D9C
-						background #00000000
-						statusline #ffffff
-						focused_workspace #215D9C #215D9C #ffffff
-						active_workspace #454749 #454749 #ffffff
-						inactive_workspace #00000000 #00000000 #ffffff
-						urgent_workspace #900000 #900000 #ffffff
+				if [[ ${UnMonitor} == true ]]; then
+
+					echo '
+						colors {
+							separator #215D9C
+							background #00000000
+							statusline #ffffff
+							focused_workspace #215D9C #215D9C #ffffff
+							active_workspace #454749 #454749 #ffffff
+							inactive_workspace #00000000 #00000000 #ffffff
+							urgent_workspace #900000 #900000 #ffffff
+						}
 					}
-				}
-				client.focused #215D9C #215D9C #ffffff #215D9C
-				client.focused_inactive #353638 #353638 #ffffff #454749
-				client.unfocused #454749 #454749 #ffffff #454749
-				#215D9C'	>> "${config}"
+					client.focused #215D9C #215D9C #ffffff #215D9C
+					client.focused_inactive #353638 #353638 #ffffff #454749
+					client.unfocused #454749 #454749 #ffffff #454749
+					#215D9C'	>> "${config}"
+
+				fi
 
 			;;
 

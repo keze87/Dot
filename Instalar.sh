@@ -37,17 +37,17 @@ if [[ $? == 0 ]]; then
 
 		Desktop)
 
-			sh "${dir}"/Common/Common.sh
+			bash "${dir}"/Common/Common.sh
 
-			sh "${dir}"/Desktop/Desktop.sh
+			bash "${dir}"/Desktop/Desktop.sh
 
 		;;
 
 		Laptop)
 
-			sh "${dir}"/Common/Common.sh
+			bash "${dir}"/Common/Common.sh
 
-			sh "${dir}"/Laptop/Laptop.sh
+			bash "${dir}"/Laptop/Laptop.sh
 
 			touch ~/.dotlaptop
 
@@ -55,7 +55,7 @@ if [[ $? == 0 ]]; then
 
 		Termux)
 
-			sh "${dir}"/Termux/Termux.sh
+			bash "${dir}"/Termux/Termux.sh
 
 		;;
 

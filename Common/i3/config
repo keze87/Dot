@@ -1,7 +1,8 @@
 set $mod Mod4
+set $alt Mod1
 
 # Permitir solo una instancia
-set $1 sh ~/.config/i3/instance.sh
+set $1 bash ~/.config/i3/instance.sh
 
 smart_gaps on
 smart_borders on
@@ -26,26 +27,26 @@ exec --no-startup-id compton
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec_always --no-startup-id nitrogen --restore
 
-bindsym Mod1+Up exec --no-startup-id $1 ~/.config/i3/volumen.sh
-bindsym Mod1+Down exec --no-startup-id $1 ~/.config/i3/volumen.sh
+bindsym $alt+Up exec --no-startup-id $1 ~/.config/i3/volumen.sh
+bindsym $alt+Down exec --no-startup-id $1 ~/.config/i3/volumen.sh
 
-bindsym Mod1+Pause exec --no-startup-id playerctl play-pause
-bindsym Mod1+Home exec --no-startup-id playerctl previous
-bindsym Mod1+End exec --no-startup-id playerctl next
+bindsym $alt+Pause exec --no-startup-id playerctl play-pause
+bindsym $alt+Home exec --no-startup-id playerctl previous
+bindsym $alt+End exec --no-startup-id playerctl next
 
 bindsym $mod+w exec chromium
-bindsym Mod1+w exec $1 firefox
+bindsym $alt+w exec $1 firefox
 bindsym $mod+l exec $1 ~/.config/i3/lariza.sh
-bindsym $mod+e exec nautilus
+bindsym $mod+e exec $1 nautilus
 bindsym $mod+g exec $1 geany
 bindsym $mod+s exec $1 sh /usr/bin/spotify
-bindsym Mod1+s exec $1 ~/.ss.sh
+bindsym $alt+s exec $1 ~/.ss.sh
 bindsym $mod+q exec $1 ~/.config/i3/apagar.sh
-bindsym $mod+y exec sh ~/.yt.sh 1000
-bindsym $mod+n exec --no-startup-id sh ~/.config/i3/invert.sh
-bindsym Mod1+Tab exec --no-startup-id sh ~/.config/i3/tab.sh
+#bindsym $alt+q exec xset -dpms && xset s off
+bindsym $mod+n exec --no-startup-id bash ~/.config/i3/invert.sh
+bindsym $alt+Tab exec --no-startup-id bash ~/.config/i3/tab.sh
 bindsym $mod+t exec --no-startup-id compton-trans $(zenity --scale --text="Cuan opaco?" --value=80)
-bindsym $mod+Return exec terminator
+bindsym $mod+Return exec $1 /usr/bin/python2 /usr/bin/terminator
 
 bindsym $mod+Tab workspace next
 
@@ -53,10 +54,10 @@ bindsym $mod+Tab workspace next
 floating_modifier Mod1
 
 # kill focused window
-bindsym Mod1+F4 kill
+bindsym $alt+F4 kill
 
 # start dmenu (a program launcher)
-bindsym Mod1+d exec --no-startup-id dmenu_run
+bindsym $alt+d exec --no-startup-id dmenu_run
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -125,7 +126,7 @@ bindsym $mod+Shift+0 move container to workspace 10
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r exec sh .config/i3/reiniciar.sh
+bindsym $mod+Shift+r exec bash .config/i3/reiniciar.sh
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Vieja queres salir?' -b 'Me puse pillo' 'i3-msg exit'"
 
@@ -161,9 +162,9 @@ bar {
 	tray_output primary
 	#font pango:DejaVu Sans Mono Regular 9.5
 
-	bindsym button3 exec --no-startup-id sh ~/.config/i3/work.sh
+	bindsym button3 exec --no-startup-id bash ~/.config/i3/work.sh
 	bindsym button2 kill
 
-	status_command sh ~/.config/i3/i3status.sh
+	status_command bash ~/.config/i3/i3status.sh
 
 }

@@ -6,7 +6,7 @@ ZSH_THEME="bira"
 
 DISABLE_AUTO_UPDATE="true"
 
-plugins=(chucknorris colored-man-pages nyan)
+plugins=(colored-man-pages colorize bgnotify)
 
 # User configuration
 
@@ -26,12 +26,13 @@ alias orphan='expac -HM "%-20n\t%10d" $( comm -23 <(pacman -Qqt | \
 sort) <(pacman -Qqg base base-devel|sort) ) | less -S'
 alias cpu='watch grep \"cpu MHz\" /proc/cpuinfo'
 alias actualizar='pacaur -Syu'
-alias dpi='sudo sh ~/.dpi.sh'
-alias yt-aria='sh ~/.yt.sh'
-alias yt-dialog='sh ~/.yt-dialog.sh'
+#alias dpi='sudo sh ~/.dpi.sh'
+alias yt-aria='bash ~/.yt.sh'
+alias yt-dialog='bash ~/.yt-dialog.sh'
 alias open='gio open'
-alias sortfile='find . -type f -size +10M -exec du -h {} + | sort -r -h | head -n 100 | less -S'
 alias ls='ls --color=auto -lah'
+alias col='colorize'
+alias orion='xset -dpms && xset s off && orion -d; xset +dpms; xset s on'
 
 alias logcat='
 	while true; do
@@ -40,24 +41,13 @@ alias logcat='
 	done
 		'
 alias pop2='
-	cd;
-	sh .pop.sh&;
+	bash ${HOME}/.pop.sh&;
 	sleep 30;
-	audacious POP/*
+	audacious /tmp/POP/*
 		'
 
-col() {
-	case $# in
-		1)
-			pygmentize -g "$1"
-		;;
-		2)
-			pygmentize -l "$1" "$2"
-		;;
-		*)
-			echo nerfed
-		;;
-	esac
+sortfile() {
+	find . -type f -size +${1:-100}M -exec du -h {} + | sort -r -h | head -n 100 | less -S
 }
 
 radio() {
@@ -146,7 +136,6 @@ yt-audio() {
 }
 
 yt-json() {
-
 	url=$(xclip -o | grep '/');
 
 	echo "${url}"
@@ -160,11 +149,9 @@ yt-json() {
 		youtube-dl -j "${url}" | jq
 
 	fi
-
 }
 
 twitch() {
-
 	url=""
 	tiempo=""
 	url=$(xclip -o | grep '/');
@@ -189,7 +176,6 @@ twitch() {
 	else
 		echo "Sin url :/"
 	fi
-
 }
 
 alias yt720='yt 720'

@@ -2,19 +2,19 @@
 
 function pidtree() {
 
-	tp=( $(pgrep -P $1) )
+	tp=( $(pgrep -P "$1") )
 
 	for i in "${tp[@]}"; do
 
-		if [ -z $i ]; then
+		if [ -z "${i}" ]; then
 
 			exit
 
 		else
 
-			echo "$i"
+			echo "${i}"
 
-			pidtree $i
+			pidtree "${i}"
 
 		fi
 
@@ -44,7 +44,7 @@ done
 
 if echo "$1" | grep -q -F ".sh"; then
 
-	args="sh ${args}"
+	args="bash ${args}"
 
 fi
 
@@ -52,11 +52,11 @@ id=$(pgrep -a -x -f "${args}" | awk '{print $1}')
 
 if [[ ${id} ]]; then
 
-	ids=( ${id} $(pidtree ${id}) )
+	ids=( ${id} $(pidtree "${id}") )
 
 	for id in "${ids[@]}"; do
 
-		windowid=$(wmctrl -l -p | grep ${id} | awk '{print $1}')
+		windowid=$(wmctrl -l -p | grep "${id}" | awk '{print $1}')
 
 		if [[ ${windowid} ]]; then
 
@@ -67,8 +67,6 @@ if [[ ${id} ]]; then
 		fi
 
 	done
-
-	exit 2
 
 fi
 

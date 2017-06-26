@@ -8,10 +8,6 @@ smart_gaps on
 smart_borders on
 
 for_window [tiling] border pixel 1
-for_window [floating] border normal
-
-for_window [class="Audacious"] border pixel 1
-for_window [class="albert"] border pixel 1
 
 for_window [class="Main.py"] floating enable
 for_window [class="wplotsp.exe"] floating enable
@@ -37,7 +33,7 @@ bindsym $alt+End exec --no-startup-id playerctl next
 bindsym $mod+w exec chromium
 bindsym $alt+w exec $1 firefox
 bindsym $mod+l exec $1 ~/.config/i3/lariza.sh
-bindsym $mod+e exec $1 nautilus
+bindsym $mod+e exec $1 pcmanfm
 bindsym $mod+g exec $1 geany
 bindsym $mod+s exec $1 sh /usr/bin/spotify
 bindsym $alt+s exec $1 ~/.ss.sh
@@ -63,11 +59,8 @@ bindsym $alt+d exec --no-startup-id dmenu_run
 # installed.
 bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-# change focus
-#bindsym $mod+Shift+Left focus left
-#bindsym $mod+Shift+Down focus down
-#bindsym $mod+Shift+Up focus up
-#bindsym $mod+Shift+Right focus right
+#1664 936
+bindsym $alt+9 floating enable; resize set 1664 936; move absolute position center
 
 # move focused window
 bindsym $mod+Left move left

@@ -4,7 +4,6 @@
 if [[ -f ~/.dotlaptop ]]; then
 
 	host='Laptop';
-	UnMonitor=true;
 
 else
 
@@ -17,14 +16,54 @@ currentcolor='#nerfed'
 
 known=( 'spotify' 'geany' 'terminator' )
 
+### variables
+minuto=9
+unMonitor=true
+
 ### tamaño pantalla
-x=1200
-y=700
+xChico=1200
+yChico=700
+
+xGrande=1880
+yGrande=1040
+
+x=${xGrande}
+y=${yGrande}
 
 ### Separacion de array
 IFS=$'\n'
 
 while true; do
+
+	# me fijo si hay un solo monitor cada 10 min {
+	if [[ ${host} == 'Desktop' ]]; then
+
+		if [[ $(date +"%M" | cut -c1) != ${minuto} ]]; then
+
+			currentcolor='#nerfed' # (Recaulculo el color)
+
+			minuto=$(date +"%M" | cut -c1)
+
+			if nvidia-settings --query CurrentMetaMode | grep -q -- "DPY-2"; then
+
+				x=${xChico}
+				y=${yChico}
+
+				unMonitor=false
+
+			else
+
+				x=${xGrande}
+				y=${yGrande}
+
+				unMonitor=true
+
+			fi
+
+		fi
+
+	fi
+	#	}
 
 	current=$(xprop -root _NET_CURRENT_DESKTOP | tr -c -d "[:digit:]\n")
 
@@ -130,13 +169,12 @@ while true; do
 
 		head -n -1 .barconfig > "${config}"
 
-		if [[ ${host} == 'Desktop' ]]; then
+		###nerfed
+		if [[ ${unMonitor} == false ]]; then
 
-			UnMonitor=true
+			if [[ ${color} == 'Transparente' || ${color} == 'EscritorioDesktop' ]]; then
 
-			if nvidia-settings --query CurrentMetaMode | grep -q -- "DPY-2"; then
-
-				UnMonitor=false
+				color='Negro'
 
 			fi
 
@@ -226,25 +264,21 @@ while true; do
 
 			EscritorioDesktop)
 
-				if [[ ${UnMonitor} == true ]]; then
-
-					echo '
-						colors {
-							separator #3A6E3D
-							background #00000000
-							statusline #ffffff
-							focused_workspace #3A6E3D #3A6E3D #ffffff
-							active_workspace #454749 #454749 #ffffff
-							inactive_workspace #00000000 #00000000 #ffffff
-							urgent_workspace #900000 #900000 #ffffff
-						}
+				echo '
+					colors {
+						separator #3A6E3D
+						background #00000000
+						statusline #ffffff
+						focused_workspace #3A6E3D #3A6E3D #ffffff
+						active_workspace #454749 #454749 #ffffff
+						inactive_workspace #00000000 #00000000 #ffffff
+						urgent_workspace #900000 #900000 #ffffff
 					}
-					client.focused #16A085 #16A085 #ffffff #16A085
-					client.focused_inactive #353638 #353638 #ffffff #454749
-					client.unfocused #454749 #454749 #ffffff #454749
-					#3A6E3D'	>> "${config}"
-
-				fi
+				}
+				client.focused #16A085 #16A085 #ffffff #16A085
+				client.focused_inactive #353638 #353638 #ffffff #454749
+				client.unfocused #454749 #454749 #ffffff #454749
+				#3A6E3D'	>> "${config}"
 
 			;;
 
@@ -270,25 +304,21 @@ while true; do
 
 			*) # Transparente
 
-				if [[ ${UnMonitor} == true ]]; then
-
-					echo '
-						colors {
-							separator #215D9C
-							background #00000000
-							statusline #ffffff
-							focused_workspace #215D9C #215D9C #ffffff
-							active_workspace #454749 #454749 #ffffff
-							inactive_workspace #00000000 #00000000 #ffffff
-							urgent_workspace #900000 #900000 #ffffff
-						}
+				echo '
+					colors {
+						separator #215D9C
+						background #00000000
+						statusline #ffffff
+						focused_workspace #215D9C #215D9C #ffffff
+						active_workspace #454749 #454749 #ffffff
+						inactive_workspace #00000000 #00000000 #ffffff
+						urgent_workspace #900000 #900000 #ffffff
 					}
-					client.focused #215D9C #215D9C #ffffff #215D9C
-					client.focused_inactive #353638 #353638 #ffffff #454749
-					client.unfocused #454749 #454749 #ffffff #454749
-					#215D9C'	>> "${config}"
-
-				fi
+				}
+				client.focused #215D9C #215D9C #ffffff #215D9C
+				client.focused_inactive #353638 #353638 #ffffff #454749
+				client.unfocused #454749 #454749 #ffffff #454749
+				#215D9C'	>> "${config}"
 
 			;;
 

@@ -6,12 +6,17 @@ clip = video_in
 
 mpix = clip.width * clip.height / 1000000
 
-dst_fps = 60 #display_fps
+#display_fps
+dst_fps = container_fps * 2
+if (dst_fps > 60):
+	dst_fps = 60
+
 # Interpolating to fps higher than 60 is too CPU-expensive, smoothmotion can handle the rest.
 while (dst_fps > 60):
 	dst_fps /= 2
 
-print(str(dst_fps)+" vs "+str(container_fps))
+if (mpix > 2.5 or container_fps > 39 or container_fps < 10):
+	print(str(dst_fps)+" vs "+str(container_fps))
 
 # Skip interpolation for 60 Hz content
 if not (mpix > 2.5 or container_fps > 39 or container_fps < 10):

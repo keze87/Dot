@@ -4,8 +4,8 @@
 
 font pango:Cantarell Regular, FontAwesome 9.5
 
-gaps inner 2
-gaps outer 2
+gaps inner 4
+gaps outer 4
 
 for_window [class="onboard"] floating enable
 for_window [class="Onboard"] floating enable

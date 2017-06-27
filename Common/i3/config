@@ -7,7 +7,7 @@ set $1 bash ~/.config/i3/instance.sh
 smart_gaps on
 smart_borders on
 
-for_window [tiling] border pixel 1
+for_window [class="^.*"] border pixel 1
 
 for_window [class="Main.py"] floating enable
 for_window [class="wplotsp.exe"] floating enable

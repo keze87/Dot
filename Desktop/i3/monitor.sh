@@ -14,7 +14,7 @@ else
 
 fi
 
-i3-msg restart
+bash .config/i3/reiniciar.sh
 
 if pgrep conky; then
 

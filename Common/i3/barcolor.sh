@@ -16,10 +16,6 @@ currentcolor='#nerfed'
 
 known=( 'spotify' 'geany' 'terminator' )
 
-### variables
-minuto=9
-unMonitor=true
-
 ### tamaño pantalla
 xChico=1200
 yChico=700
@@ -30,40 +26,34 @@ yGrande=1040
 x=${xGrande}
 y=${yGrande}
 
+# me fijo si hay un solo monitor {
+cantMonitor=1
+
+if [[ ${host} == 'Desktop' ]]; then
+
+	if nvidia-settings --query CurrentMetaMode | grep -q -- "DPY-2"; then
+
+		x=${xChico}
+		y=${yChico}
+
+		cantMonitor=2
+
+	else
+
+		x=${xGrande}
+		y=${yGrande}
+
+		cantMonitor=1
+
+	fi
+
+fi
+#	}
+
 ### Separacion de array
 IFS=$'\n'
 
 while true; do
-
-	# me fijo si hay un solo monitor cada 10 min {
-	if [[ ${host} == 'Desktop' ]]; then
-
-		if [[ $(date +"%M" | cut -c1) != ${minuto} ]]; then
-
-			currentcolor='#nerfed' # (Recaulculo el color)
-
-			minuto=$(date +"%M" | cut -c1)
-
-			if nvidia-settings --query CurrentMetaMode | grep -q -- "DPY-2"; then
-
-				x=${xChico}
-				y=${yChico}
-
-				unMonitor=false
-
-			else
-
-				x=${xGrande}
-				y=${yGrande}
-
-				unMonitor=true
-
-			fi
-
-		fi
-
-	fi
-	#	}
 
 	current=$(xprop -root _NET_CURRENT_DESKTOP | tr -c -d "[:digit:]\n")
 
@@ -169,8 +159,7 @@ while true; do
 
 		head -n -1 .barconfig > "${config}"
 
-		###nerfed
-		if [[ ${unMonitor} == false ]]; then
+		if [[ ${cantMonitor} == 2 ]]; then
 
 			if [[ ${color} == 'Transparente' || ${color} == 'EscritorioDesktop' ]]; then
 

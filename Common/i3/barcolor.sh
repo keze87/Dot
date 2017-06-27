@@ -23,8 +23,8 @@ yChico=700
 xGrande=1880
 yGrande=1040
 
-x=${xGrande}
-y=${yGrande}
+x=${xChico}
+y=${yChico}
 
 # me fijo si hay un solo monitor {
 cantMonitor=1

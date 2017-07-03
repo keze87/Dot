@@ -4,11 +4,13 @@ i3-msg restart;
 
 pid=$(pgrep -a bash | grep barcolor | awk '{print $1}')
 
-if [[ "${pid}" ]]; then
+while [[ "${pid}" ]]; do
 
 	kill "${pid}"
 
-fi
+	pid=$(pgrep -a bash | grep barcolor | awk '{print $1}')
+
+done
 
 ( bash ~/.config/i3/barcolor.sh ) &
 

@@ -66,6 +66,9 @@ fi
 up=true
 headphones=false
 s="#FFFFFF"
+fechaInicio=$(date -u +"%G/%m/%d %H:%M:%S")
+rssLink=$(cat ${HOME}/.rss)
+newInbox=false
 
 while true; do
 
@@ -105,17 +108,28 @@ while true; do
 
 	fi
 
-	if date +"%M:%S" | grep -q '0:0'; then
+	if date +"%S" | grep -q '00\|01'; then
 
-		tenmin=true
+		unMinuto=true
 
 	else
 
-		tenmin=false
+		unMinuto=false
 
 	fi
 
 	cpu=$(cat /sys/devices/platform/coretemp.0/hwmon/*/temp1_input | cut -c1-2)
+
+	## inbox
+	if [[ ${newInbox} == false && ${unMinuto} == true && ${rssLink} ]]; then
+
+		if rsstail -u "${rssLink}" -e 1 --newer "${fechaInicio}" | grep -q Link; then
+
+			newInbox=true
+
+		fi
+
+	fi
 
 	if [[ ${laptop} ]]; then
 
@@ -148,7 +162,7 @@ while true; do
 
 	else # if desktop
 
-		if [[ ${tenmin} == true || ! ${ip} ]]; then
+		if [[ ${unMinuto} == true || ! ${ip} ]]; then
 
 			ip=$(ip r | grep default | cut -d ' ' -f 3)
 
@@ -168,7 +182,7 @@ while true; do
 
 		fi
 
-		if [[ ${tenmin} == true || ! ${disco1} || ! ${disco2} ]]; then
+		if [[ ${unMinuto} == true || ! ${disco1} || ! ${disco2} ]]; then
 
 			disco1=$(df | grep sdb1 | awk '{print $5}')
 			disco2=$(df | grep sda1 | awk '{print $5}')
@@ -228,6 +242,14 @@ while true; do
 		fi
 
 		imprimir "#FFFFFF" " ${title} " 1 0
+
+	fi
+
+	### Inbox ###
+
+	if [[ ${newInbox} == true ]]; then
+
+		imprimir "#FF7500" "   " 1 0
 
 	fi
 

@@ -7,7 +7,8 @@ font pango:DejaVu Sans Mono Regular, FontAwesome 10
 gaps inner 2
 gaps outer 2
 
-for_window [class="mpv"] floating enable
+#1664 936
+bindsym $alt+0 fullscreen disable; floating enable; resize set 1280 720; move absolute position center
 
 bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer set Master 5%+"
 bindsym XF86AudioLowerVolume exec --no-startup-id "amixer set Master 5%-"

@@ -1,4 +1,19 @@
-#!/bin/sh
+#!/bin/bash
+
+moverACursor(){
+
+	(
+
+		sleep 0.2
+		i3-msg move position mouse > /dev/null
+
+	) &
+
+	"$@"
+
+	return $?
+
+}
 
 if [[ $2 ]]; then
 
@@ -58,14 +73,7 @@ if [[ ${maxres} == 1000 ]]; then
 
 	while [[ ${aux} != *[[:digit:]]* ]] ; do
 
-		(
-
-			sleep 0.2
-			i3-msg move position mouse
-
-		) &
-
-		aux=$(zenity --entry --text="${link}\nResolucion?" --entry-text="1000")
+		aux=$(moverACursor zenity --entry --text="${link}\nResolucion?" --entry-text="1000")
 
 		if [[ $? != 0 ]]; then
 
@@ -96,16 +104,9 @@ fi
 args='--allow-overwrite=true -c --file-allocation=none --log-level=error
 -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=0 -t5'
 
-(
-
-	sleep 0.2
-	i3-msg move position mouse
-
-) &
-
 text="$(echo "${name}" | tr '&' 'y')\n${maxres}\n"
 
-stdbuf -o0 youtube-dl -q --no-playlist -f "bestvideo[height<=?${maxres}]+bestaudio/best[height<=?${maxres}]/bestvideo+bestaudio/best" \
+moverACursor stdbuf -o0 youtube-dl -q --no-playlist -f "bestvideo[height<=?${maxres}]+bestaudio/best[height<=?${maxres}]/bestvideo+bestaudio/best" \
 --exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" \
 -o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" 2>&1 | tee -a "${tmp}"/ytlog | \
 tee /dev/tty | grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
@@ -143,8 +144,7 @@ rm "${tmp}/title"
 
 if [[ ${maxres} != "1000" ]]; then
 
-	zenity --question --text="Descarga completa. Reproducir?" \
-	--ok-label="Yup" --cancel-label="Nope"
+	moverACursor zenity --question --text="Descarga completa. Reproducir?" --ok-label="Yup"
 
 fi
 
@@ -156,9 +156,15 @@ if [[ $? == 0 || ${maxres} == "1000" ]]; then
 
 		if [[ ${maxres} != 1000 ]]; then
 
-			zenity --question --text="Unir a smtube?" \
-			--ok-label="Yup" --cancel-label="Nope" && \
-			wid="--wid=${wid}"
+			if moverACursor zenity --question --text="Unir a smtube?" --ok-label="Yup"; then
+
+				wid="--wid=${wid}"
+
+			else
+
+				wid=""
+
+			fi
 
 		else
 
@@ -168,20 +174,27 @@ if [[ $? == 0 || ${maxres} == "1000" ]]; then
 
 	fi
 
+	vapour=""
+
+	if [[ ${maxres} == "1000" ]]; then
+
+		vapour="--profile=vapour"
+
+	fi
+
 	if [[ ${sub} ]]; then
 
-		mpv --no-terminal "${wid}" --sub-file="${sub}" "${title}"
+		mpv "${vapour}" "${wid}" --sub-file="${sub}" "${title}"
 
 	else
 
-		mpv --no-terminal "${wid}" "${title}"
+		mpv "${vapour}" "${wid}" "${title}"
 
 	fi
 
 	if [[ ${maxres} != "1000" ]]; then
 
-		zenity --question --text="Guardar" \
-		--ok-label="Yup" --cancel-label="Nope"
+		moverACursor zenity --question --text="Guardar" --ok-label="Yup"
 
 	fi
 
@@ -203,12 +216,12 @@ fi
 
 if echo "${title: -4}" | grep -q -F "."; then
 
-	ruta=$(zenity --file-selection --save --confirm-overwrite \
+	ruta=$(moverACursor zenity --file-selection --save --confirm-overwrite \
 	--filename="${name}.${title: -3}");
 
 else
 
-	ruta=$(zenity --file-selection --save --confirm-overwrite \
+	ruta=$(moverACursor zenity --file-selection --save --confirm-overwrite \
 	--filename="${name}.${title: -4}");
 
 fi
@@ -225,11 +238,11 @@ if [[ ${ruta} ]]; then
 
 else
 
-	gvfs-trash "${title}"
+	gio trash "${title}"
 
 	if [[ ${sub} ]]; then
 
-		gvfs-trash "${sub}"
+		gio trash "${sub}"
 
 	fi
 

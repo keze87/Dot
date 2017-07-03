@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # dialog rsync pygmentize expac rtmpdump
-# youtube-dl aria2c mpv wmctrl FontAwesome
+# youtube-dl aria2c mpv wmctrl FontAwesome rsstail
 
 dir=~/.Dot
 olddir=~/Dot_Old

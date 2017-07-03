@@ -255,10 +255,10 @@ while true; do
 
 				echo '
 					colors {
-						separator #3A6E3D
+						separator #D76C9C
 						background #00000000
 						statusline #ffffff
-						focused_workspace #3A6E3D #3A6E3D #ffffff
+						focused_workspace #D76C9C #D76C9C #ffffff
 						active_workspace #454749 #454749 #ffffff
 						inactive_workspace #00000000 #00000000 #ffffff
 						urgent_workspace #900000 #900000 #ffffff
@@ -267,7 +267,7 @@ while true; do
 				client.focused #16A085 #16A085 #ffffff #16A085
 				client.focused_inactive #353638 #353638 #ffffff #454749
 				client.unfocused #454749 #454749 #ffffff #454749
-				#3A6E3D'	>> "${config}"
+				#D76C9C'	>> "${config}"
 
 			;;
 

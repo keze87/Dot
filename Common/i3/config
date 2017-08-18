@@ -15,9 +15,10 @@ for_window [class="Pavucontrol"] floating enable
 for_window [class="etcher"] floating enable
 for_window [title="Steam Keyboard"] floating enable
 for_window [title="Nitrogen"] floating enable
-for_window [class="mpv"] floating enable
+#for_window [class="mpv"] floating enable
 
 #exec --no-startup-id conky
+exec --no-startup-id chromium --no-startup-window
 exec --no-startup-id albert
 exec --no-startup-id guake
 exec --no-startup-id compton

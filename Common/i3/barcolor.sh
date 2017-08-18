@@ -14,7 +14,7 @@ fi
 config=~/.config/i3/config
 currentcolor='#nerfed'
 
-known=( 'spotify' 'geany' 'terminator' )
+known=( 'spotify' 'geany' 'terminator' 'chromium' 'pcmanfm' 'atril' )
 
 ### tamaño pantalla
 xChico=1200
@@ -211,23 +211,23 @@ while true; do
 
 			;;
 
-			geany)
+			geany|chromium|pcmanfm|atril)
 
 				echo '
 					colors {
-						separator #4AAEE8
+						separator #2466AB
 						background #33393B
 						statusline #ffffff
-						focused_workspace #4AAEE8 #4AAEE8 #ffffff
-						active_workspace #33393B #33393B #ffffff
+						focused_workspace #33393B #33393B #2466AB
+						active_workspace #33393B #33393B #2466AB
 						inactive_workspace #33393B #33393B #ffffff
 						urgent_workspace #900000 #900000 #ffffff
 					}
 				}
-				client.focused #4AAEE8 #4AAEE8 #ffffff #4AAEE8
+				client.focused #2466AB #2466AB #ffffff #2466AB
 				client.focused_inactive #353638 #353638 #ffffff #33393B
 				client.unfocused #33393B #33393B #ffffff #33393B
-				#4AAEE8'	>> "${config}"
+				#2466AB'	>> "${config}"
 
 			;;
 

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 export LARIZA_HOME_URI="https://duckduckgo.com/?kae=t&kl=ar-es&kad=es_AR&kp=-2&k1=-1&kk=-1&kaj=m&kam=google-maps&kak=-1&kao=-1&kt=Cantarell&km=m&ko=1&ka=Cantarell"
 export LARIZA_USER_AGENT="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36"

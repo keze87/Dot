@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #imprimir $color $text $separatorwidth $ultimo $shorttext
 imprimir() {
@@ -57,7 +57,7 @@ if [[ -f ~/.dotlaptop ]]; then
 
 fi
 
-if [[ ${laptop} ]]; then
+if [[ ${laptop} == true ]]; then
 
 	brillomax=$(cat /sys/class/backlight/intel_backlight/max_brightness)
 
@@ -66,9 +66,9 @@ fi
 up=true
 headphones=false
 s="#FFFFFF"
-fechaInicio=$(date -u +"%G/%m/%d %H:%M:%S")
+rssFecha=$(cat ${HOME}/.rssFecha)
 rssLink=$(cat ${HOME}/.rss)
-newInbox=false
+newInbox=0
 
 while true; do
 
@@ -108,30 +108,22 @@ while true; do
 
 	fi
 
-	if date +"%S" | grep -q '00\|01'; then
+	### Cuento 5 minutos
+	date +"%M:%S" | grep -q '0:00\|5:00\|0:01\|5:01'
 
-		unMinuto=true
+	if [[ $? == 0 || ! ${cincoMinutos} ]]; then
+
+		cincoMinutos=true
 
 	else
 
-		unMinuto=false
+		cincoMinutos=false
 
 	fi
 
 	cpu=$(cat /sys/devices/platform/coretemp.0/hwmon/*/temp1_input | cut -c1-2)
 
-	## inbox
-	if [[ ${newInbox} == false && ${unMinuto} == true && ${rssLink} ]]; then
-
-		if rsstail -u "${rssLink}" -e 1 --newer "${fechaInicio}" | grep -q Link; then
-
-			newInbox=true
-
-		fi
-
-	fi
-
-	if [[ ${laptop} ]]; then
+	if [[ ${laptop} == true ]]; then
 
 		brillo=$(cat /sys/class/backlight/intel_backlight/actual_brightness)
 		brillo=$(echo "$brillo * 100 / $brillomax" | bc -l)
@@ -153,6 +145,33 @@ while true; do
 
 		fi
 
+		if [[ ${wifi} ]]; then
+
+			if [[ ${wifi} == "USB" ]]; then
+
+				internet=$(ip link | grep enp0s20u | awk '{print $2}' | tr -c -d '[:alnum:]')
+
+			else
+
+				internet="wlp2s0"
+
+			fi
+
+			if [[ ${internet} ]]; then
+
+				speed=$(bash ~/.config/i3/speed.sh ${internet})
+
+			fi
+
+			up=true
+			upsonido=true
+
+		else
+
+			up=false
+
+		fi
+
 		volumen=$(amixer get Master | grep Right: | awk '{print $5}' | tr -d "[]%");
 
 		disco1=$(df | grep sdb3 | awk '{print $5}')
@@ -162,9 +181,22 @@ while true; do
 
 	else # if desktop
 
-		if [[ ${unMinuto} == true || ! ${ip} ]]; then
+		if [[ ${cincoMinutos} == true || ! ${ip} ]]; then
 
 			ip=$(ip r | grep default | cut -d ' ' -f 3)
+
+		fi
+
+		if ping -q -w 1 -c 1 "${ip}" > /dev/null; then
+
+			speed=$(bash ~/.config/i3/speed.sh "eno1")
+
+			up=true
+			upsonido=true
+
+		else
+
+			up=false
 
 		fi
 
@@ -182,7 +214,7 @@ while true; do
 
 		fi
 
-		if [[ ${unMinuto} == true || ! ${disco1} || ! ${disco2} ]]; then
+		if [[ ${cincoMinutos} == true || ! ${disco1} || ! ${disco2} ]]; then
 
 			disco1=$(df | grep sdb1 | awk '{print $5}')
 			disco2=$(df | grep sda1 | awk '{print $5}')
@@ -193,11 +225,38 @@ while true; do
 
 	fi
 
+	## inbox
+	if [[ ${cincoMinutos} == true && ${up} != false && "${rssLink}" && "${rssFecha}" ]]; then
+
+		rss=$(rsstail "${rssLink}" -e 1 -w "${rssFecha}" --pubdate | grep -v "${rssFecha}" | awk '{print $2" "$3}')
+
+		if [[ "${rss}" ]]; then
+
+			echo "${rss}" | head -n 1 > ${HOME}/.rssFecha
+
+			newInbox=$(echo "${rss}" | wc -l)
+
+			notify-send 'Inbox!'
+
+		fi
+
+	fi
+
+	### Empiezo a Imprimir ###
+
 	echo -e "["
 
 	if [[ (${player} && ${title}) || ${headphones} == true ]]; then
 
 		s=$(tail -n1 .config/i3/config | tr -d "\t")
+
+	fi
+
+	### Inbox ###
+
+	if [[ ${newInbox} -gt 0 ]]; then
+
+		imprimir "#FF7500" "   ${newInbox} " 1 0
 
 	fi
 
@@ -245,37 +304,13 @@ while true; do
 
 	fi
 
-	### Inbox ###
-
-	if [[ ${newInbox} == true ]]; then
-
-		imprimir "#FF7500" "   " 1 0
-
-	fi
-
 	### Internet ###
 
-	if [[ ${laptop} ]]; then
+	if [[ ${up} == true ]]; then
 
-		if [[ ${wifi} ]]; then
+		if [[ ${laptop} == true ]]; then
 
-			if [[ ${wifi} == "USB" ]]; then
-
-				internet=$(ip link | grep enp0s20u | awk '{print $2}' | tr -c -d '[:alnum:]')
-
-			else
-
-				internet="wlp2s0"
-
-			fi
-
-			if [[ ${internet} ]]; then
-
-				speed=$(bash ~/.config/i3/speed.sh ${internet})
-
-			fi
-
-			if [[ $speed == "0 K↓ 0 K↑" ]]; then
+			if [[ "${speed}" == "0 K↓ 0 K↑" ]]; then
 
 				text="   ${wifi} "
 
@@ -287,20 +322,7 @@ while true; do
 
 			imprimir "#FFFFFF" " ${text} " 1 0
 
-			up=true
-			upsonido=true
-
 		else
-
-			up=false
-
-		fi
-
-	else # desktop
-
-		if ping -q -w 1 -c 1 "${ip}" > /dev/null; then
-
-			speed=$(bash ~/.config/i3/speed.sh "eno1")
 
 			if [[ "${speed}" != '0 K↓ 0 K↑' ]]; then
 
@@ -308,18 +330,9 @@ while true; do
 
 			fi
 
-			up=true
-			upsonido=true
-
-		else
-
-			up=false
-
 		fi
 
-	fi
-
-	if [[ ${up} == false ]]; then
+	else
 
 		time=$(awk '{print $0/60;}' /proc/uptime)
 

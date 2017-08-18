@@ -46,7 +46,7 @@ yt-audio() {
 	fi
 
 	if [[ $url ]]; then
-		youtube-dl -e --get-description --get-format "${url}"
+		youtube-dl -e --get-description --no-playlist --flat-playlist --get-format "${url}"
 		mpv --no-video "${url}"
 	else
 		echo "Sin url :/"
@@ -132,7 +132,7 @@ yt() {
 	fi
 
 	if [[ $url ]]; then
-		youtube-dl -e --get-description --get-format "${url}"
+		youtube-dl -e --get-description --no-playlist --flat-playlist --get-format "${url}"
 		youtube-dl -g --format "bestvideo[height<=${1:-1080}]+bestaudio/best[height<=${1:-1080}]/best" "${url}"
 	fi
 }

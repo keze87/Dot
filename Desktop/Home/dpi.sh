@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 cd /etc/X11/ || exit
 

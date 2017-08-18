@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ACTION=$(zenity --width=90 --height=244 --list --radiolist --text="Que hago vieja?" \
 --title="Salir" --column "Eleccion" --column "" \

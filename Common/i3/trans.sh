@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 VALUE=$(zenity --scale --text="Cuan opaco?" --value=100)
 

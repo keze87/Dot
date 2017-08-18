@@ -60,3 +60,5 @@ for file in ${files}; do
 	ln -s "${dir}"/mpv/"${file}" ~/.config/mpv/"${file}"
 
 done
+
+echo "2017/07/03 23:57:14" > ${HOME}/.rssFecha

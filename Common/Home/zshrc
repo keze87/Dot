@@ -43,7 +43,7 @@ alias logcat='
 alias pop2='
 	bash ${HOME}/.pop.sh&;
 	sleep 30;
-	audacious /tmp/POP/*
+	mpv /tmp/POP/*
 		'
 
 sortfile() {
@@ -111,7 +111,7 @@ yt() {
 	fi
 
 	if [[ $url ]]; then
-		youtube-dl -e --get-description --get-format "${url}"
+		youtube-dl -e --get-description --no-playlist --flat-playlist --get-format "${url}"
 		mpv --ytdl-format="bestvideo[height<=${1:-1080}]+bestaudio/best[height<=${1:-1080}]/best" "${url}"
 	else
 		echo "Sin url :/"
@@ -128,7 +128,7 @@ yt-audio() {
 	fi
 
 	if [[ $url ]]; then
-		youtube-dl -e --get-description --get-format "${url}"
+		youtube-dl -e --get-description --no-playlist --flat-playlist --get-format "${url}"
 		mpv --no-video "${url}"
 	else
 		echo "Sin url :/"
@@ -163,7 +163,7 @@ twitch() {
 	fi
 
 	if [[ ${url} ]]; then
-		youtube-dl -e --get-description --get-format "${url}"
+		youtube-dl -e --get-description --no-playlist --flat-playlist --get-format "${url}"
 		if [[ ${tiempo} ]]; then
 			mpv --vf="" --hwdec=auto "${tiempo}" "${url}"
 		else
@@ -178,7 +178,7 @@ twitch() {
 	fi
 }
 
-alias yt720='yt 720'
+alias yt720='yt 900'
 
 alias aria='
 	echo `xclip -o`;

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if which xclip; then
 

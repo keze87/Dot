@@ -19,7 +19,7 @@ if [[ $2 ]]; then
 
 	link=$2;
 
-	if [[ $1 = *[[:digit:]]* && $1 -le 9999 ]]; then #$1 numero?
+	if [[ $1 == *[[:digit:]]* && $1 -le 9999 ]]; then #$1 numero?
 
 		maxres=$1;
 
@@ -33,7 +33,7 @@ else
 
 	if [[ $1 ]]; then
 
-		if [[ $1 = *[[:digit:]]* && $1 -le 9999 ]]; then #$1 numero?
+		if [[ $1 == *[[:digit:]]* && $1 -le 9999 ]]; then #$1 numero?
 
 			maxres=$1;
 
@@ -54,6 +54,12 @@ else
 		maxres=1080
 
 	fi
+
+fi
+
+if [[ ! "${link}" ]]; then
+
+	exit 2
 
 fi
 
@@ -176,7 +182,7 @@ if [[ $? == 0 || ${maxres} == "1000" ]]; then
 
 	vapour=""
 
-	if [[ ${maxres} == "1000" ]]; then
+	if [[ ${maxres} == "1000" ]]; then #nerfed
 
 		vapour="--profile=vapour"
 
@@ -184,11 +190,11 @@ if [[ $? == 0 || ${maxres} == "1000" ]]; then
 
 	if [[ ${sub} ]]; then
 
-		mpv "${vapour}" "${wid}" --sub-file="${sub}" "${title}"
+		mpv ${wid} --sub-file="${sub}" "${title}"
 
 	else
 
-		mpv "${vapour}" "${wid}" "${title}"
+		mpv ${wid} "${title}"
 
 	fi
 

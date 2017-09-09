@@ -40,7 +40,6 @@ bindsym $mod+g exec $1 geany
 bindsym $mod+s exec $1 sh /usr/bin/spotify
 bindsym $alt+s exec $1 ~/.ss.sh
 bindsym $mod+q exec $1 ~/.config/i3/apagar.sh
-#bindsym $alt+q exec xset -dpms && xset s off
 bindsym $mod+n exec --no-startup-id bash ~/.config/i3/invert.sh
 bindsym $alt+Tab exec --no-startup-id bash ~/.config/i3/tab.sh
 bindsym $mod+t exec --no-startup-id compton-trans $(zenity --scale --text="Cuan opaco?" --value=80)

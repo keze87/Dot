@@ -125,7 +125,7 @@ while true; do
 
 			if [[ ${color} == 'Transparente' ]]; then
 
-				color="Negro"
+				color='Negro'
 
 			fi
 
@@ -133,7 +133,7 @@ while true; do
 
 		if [[ ! ${color} ]]; then
 
-			color="Negro"
+			color='Negro'
 
 		fi
 
@@ -150,6 +150,16 @@ while true; do
 		fi
 
 	fi
+
+	case ${color} in
+
+		geany|chromium|pcmanfm|atril)
+
+			color='appTheme'
+
+		;;
+
+	esac
 
 	if [[ ${color} != "${currentcolor}" ]]; then
 
@@ -211,7 +221,7 @@ while true; do
 
 			;;
 
-			geany|chromium|pcmanfm|atril)
+			 appTheme)
 
 				echo '
 					colors {

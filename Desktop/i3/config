@@ -15,7 +15,6 @@ for_window [class="hl2_linux"] focus
 
 exec --no-startup-id numlockx
 #exec_always --no-startup-id xset -dpms; xset s off
-#exec_always --no-startup-id gsettings reset org.gnome.desktop.wm.preferences button-layout
 
 #1664 936
 bindsym $alt+0 fullscreen disable; floating enable; resize set 1664 936; move absolute position center

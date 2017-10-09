@@ -14,7 +14,7 @@ fi
 config=~/.config/i3/config
 currentcolor='#nerfed'
 
-known=( 'spotify' 'geany' 'terminator' 'chromium' 'pcmanfm' 'atril' )
+known=( 'spotify' 'geany' 'terminator' 'chromium' 'pcmanfm' 'atril' 'Navigator' )
 
 ### tamaño pantalla
 xChico=1200
@@ -153,7 +153,7 @@ while true; do
 
 	case ${color} in
 
-		geany|chromium|pcmanfm|atril)
+		geany|chromium|pcmanfm|atril|Navigator)
 
 			color='appTheme'
 

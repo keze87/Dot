@@ -32,6 +32,7 @@ alias yt-dialog='bash ~/.yt-dialog.sh'
 alias open='gio open'
 alias ls='ls --color=auto -lah'
 alias col='colorize'
+alias zcalc='autoload -Uz zcalc && zcalc'
 alias orion='xset -dpms && xset s off && orion -d; xset +dpms; xset s on'
 
 alias logcat='
@@ -45,6 +46,18 @@ alias pop2='
 	sleep 30;
 	mpv /tmp/POP/*
 		'
+
+editar() {
+	if [ "$#" -lt 2 ]; then
+		echo 'editar $EDITOR $archivo'
+
+		return 1
+	fi
+
+	EDITOR=$1 sudoedit $2
+
+	return $?
+}
 
 sortfile() {
 	find . -type f -size +${1:-100}M -exec du -h {} + | sort -r -h | head -n 100 | less -S

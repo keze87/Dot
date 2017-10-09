@@ -33,8 +33,8 @@ bindsym $alt+Home exec --no-startup-id playerctl previous
 bindsym $alt+End exec --no-startup-id playerctl next
 
 bindsym $mod+w exec chromium
-bindsym $alt+w exec $1 firefox
-bindsym $mod+l exec $1 ~/.config/i3/lariza.sh
+bindsym $alt+w exec $1 firefox-nightly
+bindsym $mod+l exec $1 epiphany
 bindsym $mod+e exec $1 pcmanfm
 bindsym $mod+g exec $1 geany
 bindsym $mod+s exec $1 sh /usr/bin/spotify

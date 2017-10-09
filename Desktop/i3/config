@@ -2,7 +2,7 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-font pango:Cantarell Regular, FontAwesome 9.5
+font pango:Noto Sans UI Regular, FontAwesome 9.5
 
 gaps inner 4
 gaps outer 4

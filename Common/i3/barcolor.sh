@@ -164,6 +164,7 @@ while true; do
 	if [[ ${color} != "${currentcolor}" ]]; then
 
 		rm .barconfig
+		rm "${config}"
 
 		cat .Dot/${host}/i3/config .Dot/Common/i3/config > .barconfig
 
@@ -265,10 +266,10 @@ while true; do
 
 				echo '
 					colors {
-						separator #D76C9C
+						separator #5DC632
 						background #00000000
 						statusline #ffffff
-						focused_workspace #D76C9C #D76C9C #ffffff
+						focused_workspace #5DC632 #5DC632 #ffffff
 						active_workspace #454749 #454749 #ffffff
 						inactive_workspace #00000000 #00000000 #ffffff
 						urgent_workspace #900000 #900000 #ffffff
@@ -277,7 +278,7 @@ while true; do
 				client.focused #16A085 #16A085 #ffffff #16A085
 				client.focused_inactive #353638 #353638 #ffffff #454749
 				client.unfocused #454749 #454749 #ffffff #454749
-				#D76C9C'	>> "${config}"
+				#5DC632'	>> "${config}"
 
 			;;
 

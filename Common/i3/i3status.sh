@@ -202,15 +202,17 @@ while true; do
 
 		nvidia=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
 
-		volumen=$(amixer get Master | grep "Front Right:" | awk '{print $5}' | tr -d "[]%")
+		volumen=$(pamixer --get-volume)
 
-		if ! amixer get Master | grep -q "Rear"; then
+#		volumen=$(amixer get Master | grep "Front Right:" | awk '{print $5}' | tr -d "[]%")
 
-			headphones=true;
+		if pamixer --list-sources | grep -q 5.1; then
+
+			headphones=false;
 
 		else
 
-			headphones=false;
+			headphones=true;
 
 		fi
 

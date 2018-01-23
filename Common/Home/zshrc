@@ -25,7 +25,7 @@ sort) <(pacman -Qqg base base-devel | sort)) | sort -r -n | less -S'
 alias orphan='expac -HM "%-20n\t%10d" $( comm -23 <(pacman -Qqt | \
 sort) <(pacman -Qqg base base-devel|sort) ) | less -S'
 alias cpu='watch grep \"cpu MHz\" /proc/cpuinfo'
-alias actualizar='pacaur -Syu'
+alias actualizar='trizen -Syu'
 #alias dpi='sudo sh ~/.dpi.sh'
 alias yt-aria='bash ~/.yt.sh'
 alias yt-dialog='bash ~/.yt-dialog.sh'
@@ -124,7 +124,7 @@ yt() {
 	fi
 
 	if [[ $url ]]; then
-		youtube-dl -e --get-description --no-playlist --flat-playlist --get-format "${url}"
+		youtube-dl -e --get-description --no-playlist --flat-playlist --get-format "${url}" &
 		mpv --ytdl-format="bestvideo[height<=${1:-1080}]+bestaudio/best[height<=${1:-1080}]/best" "${url}"
 	else
 		echo "Sin url :/"
@@ -141,7 +141,7 @@ yt-audio() {
 	fi
 
 	if [[ $url ]]; then
-		youtube-dl -e --get-description --no-playlist --flat-playlist --get-format "${url}"
+		youtube-dl -e --get-description --no-playlist --flat-playlist --get-format "${url}" &
 		mpv --no-video "${url}"
 	else
 		echo "Sin url :/"
@@ -176,7 +176,7 @@ twitch() {
 	fi
 
 	if [[ ${url} ]]; then
-		youtube-dl -e --get-description --no-playlist --flat-playlist --get-format "${url}"
+		youtube-dl -e --get-description --no-playlist --flat-playlist --get-format "${url}" &
 		if [[ ${tiempo} ]]; then
 			mpv --vf="" --hwdec=auto "${tiempo}" "${url}"
 		else
@@ -198,3 +198,7 @@ alias aria='
 	aria2c --allow-overwrite=true -c --file-allocation=none --log-level=error \
 	-m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=60 -t5 `xclip -o`
 		'
+
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+		source /etc/profile.d/vte.sh
+fi

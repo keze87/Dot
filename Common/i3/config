@@ -13,6 +13,7 @@ for_window [class="Main.py"] floating enable
 for_window [class="wplotsp.exe"] floating enable
 for_window [class="Pavucontrol"] floating enable
 for_window [class="etcher"] floating enable
+for_window [class="XTerm"] floating enable
 for_window [title="Steam Keyboard"] floating enable
 for_window [title="Nitrogen"] floating enable
 #for_window [class="mpv"] floating enable
@@ -20,10 +21,17 @@ for_window [title="Nitrogen"] floating enable
 #exec --no-startup-id conky
 exec --no-startup-id chromium --no-startup-window
 exec --no-startup-id albert
-exec --no-startup-id guake
+exec --no-startup-id guake --hide
 exec --no-startup-id compton
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec_always --no-startup-id nitrogen --restore
+
+#exec --no-startup-id sh -c "while true; do terminator --title='flotando'; sleep; done"
+#for_window [class="Terminator" title="flotando"] move scratchpad, resize set 1366 768, move absolute position center
+#bindsym F12 [class="Terminator"] scratchpad show;
+
+#bindsym $mod+Shift+minus move scratchpad
+#bindsym $mod+minus scratchpad show
 
 bindsym $alt+Up exec --no-startup-id $1 ~/.config/i3/volumen.sh
 bindsym $alt+Down exec --no-startup-id $1 ~/.config/i3/volumen.sh
@@ -150,7 +158,7 @@ bar {
 	i3bar_command i3bar -t
 	position top
 	separator_symbol "|"
-	tray_output primary
+	#tray_output primary
 	#font pango:DejaVu Sans Mono Regular 9.5
 
 	bindsym button3 exec --no-startup-id bash ~/.config/i3/work.sh

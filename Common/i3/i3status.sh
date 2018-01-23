@@ -46,7 +46,7 @@ echo -e '
 [
 	{
 		"color":"#000000",
-		"full_text":"I"
+		"full_text":"Iniciando"
 	}
 ],'
 
@@ -446,7 +446,7 @@ while true; do
 
 		fi
 
-		imprimir "${color}" "   ${nvidia} °C " 1 0
+		imprimir "${color}" "   ${nvidia}°C " 1 0
 
 	fi
 

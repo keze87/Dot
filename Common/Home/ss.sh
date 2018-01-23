@@ -2,12 +2,13 @@
 
 if systemctl is-active --quiet sshd.service; then
 
-	systemctl stop sshd.service && \
-	zenity --warning --text="SSHD inactivo"
+	systemctl stop sshd.service && zenity --warning --text="SSHD inactivo"
 
 else
 
-	systemctl start sshd.service && \
-	zenity --warning --text="SSHD activo\n$(ifconfig | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}")"
+	default_iface=$(awk '$2 == 00000000 { print $1 }' /proc/net/route)
+	ip=$(ip addr show dev "${default_iface}" | awk '$1 == "inet" { sub("/.*", "", $2); print $2 }')
+
+	systemctl start sshd.service && zenity --warning --text="SSHD activo:\n\n${ip}"
 
 fi

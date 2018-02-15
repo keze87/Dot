@@ -16,12 +16,13 @@ for_window [class="etcher"] floating enable
 for_window [class="XTerm"] floating enable
 for_window [title="Steam Keyboard"] floating enable
 for_window [title="Nitrogen"] floating enable
+for_window [title="Qmmp"] sticky enable
 #for_window [class="mpv"] floating enable
 
 #exec --no-startup-id conky
 exec --no-startup-id chromium --no-startup-window
 exec --no-startup-id albert
-exec --no-startup-id guake --hide
+exec --no-startup-id GTK_THEME=Adwaita-dark guake
 exec --no-startup-id compton
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec_always --no-startup-id nitrogen --restore
@@ -41,7 +42,7 @@ bindsym $alt+Home exec --no-startup-id playerctl previous
 bindsym $alt+End exec --no-startup-id playerctl next
 
 bindsym $mod+w exec chromium
-bindsym $alt+w exec $1 firefox-nightly
+bindsym $alt+w exec $1 firefox-developer-edition
 bindsym $mod+l exec $1 epiphany
 bindsym $mod+e exec $1 pcmanfm
 bindsym $mod+g exec $1 geany
@@ -50,7 +51,7 @@ bindsym $alt+s exec $1 ~/.ss.sh
 bindsym $mod+q exec $1 ~/.config/i3/apagar.sh
 bindsym $mod+n exec --no-startup-id bash ~/.config/i3/invert.sh
 bindsym $alt+Tab exec --no-startup-id bash ~/.config/i3/tab.sh
-bindsym $mod+t exec --no-startup-id compton-trans $(zenity --scale --text="Cuan opaco?" --value=80)
+bindsym $mod+t exec --no-startup-id compton-trans $(zenity --scale --text="Cuan opaco?" --value=90)
 bindsym $mod+Return exec $1 /usr/bin/python2 /usr/bin/terminator
 
 bindsym $mod+Tab workspace next

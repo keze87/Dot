@@ -153,7 +153,7 @@ while true; do
 
 	case ${color} in
 
-		geany|chromium|pcmanfm|atril|Navigator)
+		geany|chromium|pcmanfm|atril)
 
 			color='appTheme'
 
@@ -199,6 +199,26 @@ while true; do
 				client.focused_inactive #353638 #353638 #ffffff #2C3133
 				client.unfocused #2C3133 #2C3133 #ffffff #2C3133
 				#4AAEE8'	>> "${config}"
+
+			;;
+
+			Navigator)
+
+				echo '
+					colors {
+						separator #0A84FF
+						background #0C0C0D
+						statusline #ffffff
+						focused_workspace #0A84FF #0A84FF #ffffff
+						active_workspace #2C3133 #2C3133 #ffffff
+						inactive_workspace #0C0C0D #0C0C0D #ffffff
+						urgent_workspace #900000 #900000 #ffffff
+					}
+				}
+				client.focused #0A84FF #0A84FF #ffffff #0A84FF
+				client.focused_inactive #353638 #353638 #ffffff #0C0C0D
+				client.unfocused #0C0C0D #0C0C0D #ffffff #0C0C0D
+				#0A84FF'	>> "${config}"
 
 			;;
 

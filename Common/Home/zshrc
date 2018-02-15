@@ -1,8 +1,8 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/usr/share/oh-my-zsh
+ZSH=/usr/share/oh-my-zsh/
 
 # Set name of the theme to load.
-ZSH_THEME="bira"
+ZSH_THEME="kbira"
 
 DISABLE_AUTO_UPDATE="true"
 
@@ -31,7 +31,7 @@ alias yt-aria='bash ~/.yt.sh'
 alias yt-dialog='bash ~/.yt-dialog.sh'
 alias open='gio open'
 alias ls='ls --color=auto -lah'
-alias col='colorize'
+#alias col='colorize'
 alias zcalc='autoload -Uz zcalc && zcalc'
 alias orion='xset -dpms && xset s off && orion -d; xset +dpms; xset s on'
 
@@ -202,3 +202,12 @@ alias aria='
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
 		source /etc/profile.d/vte.sh
 fi
+
+# Uncomment the following line to enable command auto-correction.
+ENABLE_CORRECTION="true"
+
+ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
+if [[ ! -d $ZSH_CACHE_DIR ]]; then
+  mkdir $ZSH_CACHE_DIR
+fi
+

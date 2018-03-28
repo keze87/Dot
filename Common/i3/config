@@ -17,7 +17,7 @@ for_window [class="XTerm"] floating enable
 for_window [title="Steam Keyboard"] floating enable
 for_window [title="Nitrogen"] floating enable
 for_window [title="Qmmp"] sticky enable
-#for_window [class="mpv"] floating enable
+for_window [title="albert"] sticky enable
 
 #exec --no-startup-id conky
 exec --no-startup-id chromium --no-startup-window
@@ -42,8 +42,7 @@ bindsym $alt+Home exec --no-startup-id playerctl previous
 bindsym $alt+End exec --no-startup-id playerctl next
 
 bindsym $mod+w exec chromium
-bindsym $alt+w exec $1 firefox-developer-edition
-bindsym $mod+l exec $1 epiphany
+bindsym $alt+w exec $1 falkon
 bindsym $mod+e exec $1 pcmanfm
 bindsym $mod+g exec $1 geany
 bindsym $mod+s exec $1 sh /usr/bin/spotify

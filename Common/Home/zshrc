@@ -25,13 +25,13 @@ sort) <(pacman -Qqg base base-devel | sort)) | sort -r -n | less -S'
 alias orphan='expac -HM "%-20n\t%10d" $( comm -23 <(pacman -Qqt | \
 sort) <(pacman -Qqg base base-devel|sort) ) | less -S'
 alias cpu='watch grep \"cpu MHz\" /proc/cpuinfo'
+alias pacui='PAGER="pygmentize -g" pacui'
+alias trizen='PAGER="pygmentize -g" trizen'
 alias actualizar='trizen -Syu'
-#alias dpi='sudo sh ~/.dpi.sh'
 alias yt-aria='bash ~/.yt.sh'
 alias yt-dialog='bash ~/.yt-dialog.sh'
 alias open='gio open'
 alias ls='ls --color=auto -lah'
-#alias col='colorize'
 alias zcalc='autoload -Uz zcalc && zcalc'
 alias orion='xset -dpms && xset s off && orion -d; xset +dpms; xset s on'
 
@@ -95,6 +95,12 @@ radio() {
 		pop)
 
 			url="rtmp://popradio.stweb.tv:1935/popradio/live"
+
+		;;
+
+		rock)
+
+			url="http://blaster.cdn.sion.com:1935/rockandpop/audioweb/playlist.m3u8"
 
 		;;
 
@@ -208,6 +214,8 @@ ENABLE_CORRECTION="true"
 
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
-  mkdir $ZSH_CACHE_DIR
+	mkdir $ZSH_CACHE_DIR
 fi
 
+VISUAL="vi"
+EDITOR="vi"

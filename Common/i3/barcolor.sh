@@ -161,6 +161,16 @@ while true; do
 
 	esac
 
+	if [[ ${cantMonitor} == 2 ]]; then
+
+		if [[ ${color} == 'Transparente' || ${color} == 'EscritorioDesktop' ]]; then
+
+			color='Negro'
+
+		fi
+
+	fi
+
 	if [[ ${color} != "${currentcolor}" ]]; then
 
 		rm .barconfig
@@ -169,16 +179,6 @@ while true; do
 		cat .Dot/${host}/i3/config .Dot/Common/i3/config > .barconfig
 
 		head -n -1 .barconfig > "${config}"
-
-		if [[ ${cantMonitor} == 2 ]]; then
-
-			if [[ ${color} == 'Transparente' || ${color} == 'EscritorioDesktop' ]]; then
-
-				color='Negro'
-
-			fi
-
-		fi
 
 		case ${color} in
 

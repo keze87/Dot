@@ -63,6 +63,8 @@ if [[ ! "${link}" ]]; then
 
 fi
 
+echo "${link}"
+
 tmp=~/.cache
 
 if [[ -f "${tmp}"/ytlog ]]; then
@@ -79,7 +81,8 @@ if [[ ${maxres} == 1000 ]]; then
 
 	while [[ ${aux} != *[[:digit:]]* ]] ; do
 
-		aux=$(moverACursor zenity --entry --text="${link}\nResolucion?" --entry-text="1000")
+		aux=$(kdialog --radiolist "${link}<br>Resolucion?" "600" "SD" off "1000" "HD" off \
+"1100" "FHD" on "9000" "8K" off)
 
 		if [[ $? != 0 ]]; then
 
@@ -110,29 +113,69 @@ fi
 args='--allow-overwrite=true -c --file-allocation=none --log-level=error
 -m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=0 -t5'
 
-text="$(echo "${name}" | tr '&' 'y')\n${maxres}\n"
+text="$(echo "${name}" | tr '&' 'y')"
 
-moverACursor stdbuf -o0 youtube-dl -q --no-playlist -f "bestvideo[height<=?${maxres}]+bestaudio/best[height<=?${maxres}]/bestvideo+bestaudio/best" \
---exec "echo {} > ${tmp}/title" --external-downloader "aria2c" --external-downloader-args "${args}" \
--o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" 2>&1 | tee -a "${tmp}"/ytlog | \
-tee /dev/tty | grep --line-buffered -oP '^\[#.*?\K([0-9.]+\%)' | \
-zenity --progress --title="Yt-dl-aria2c" --text="${text}" --percentage=0 --auto-close --no-cancel
+dbusRef=$(moverACursor kdialog --progressbar "${text}<br>[R:${maxres}]" 100 2>/dev/null)
+dbusRef=${dbusRef%" /ProgressDialog"}
+qdbus "${dbusRef}" /ProgressDialog showCancelButton true &> /dev/null
 
-if [[ $? != 0 ]]; then
+(
 
-	exit 4;
+stdbuf -o0 youtube-dl -q --no-playlist -f \
+"bestvideo[height<=?${maxres}]+bestaudio/best[height<=?${maxres}]/bestvideo+bestaudio/best" \
+--exec "echo {} > ${tmp}/title" --external-downloader "aria2c" \
+--external-downloader-args "${args}" \
+-o "${tmp}/%(title)s-%(id)s.%(ext)s" "${link}" &> "${tmp}"/ytlog
 
-fi
+) &
+
+while jobs %% &> /dev/null; do
+
+	sleep 0.5
+
+	textoProgreso=""
+	progreso=""
+
+	textoProgreso=$(grep -F '[#' "${tmp}"/ytlog | tail -n 1 | awk '{print $2" "$3" "$4" "$5}')
+
+	if [[ ${textoProgreso} ]]; then
+
+		qdbus "${dbusRef}" /ProgressDialog setLabelText "${text}<br>[R:${maxres} ${textoProgreso}" &> /dev/null
+
+		progreso=$(echo "${textoProgreso}" | grep -oP '.*?\K([0-9.]+\%)' | tr -d '%')
+
+		if [[ ${progreso} ]]; then
+
+			qdbus "${dbusRef}" /ProgressDialog Set "" "value" "${progreso}" &> /dev/null
+
+		fi
+
+	fi
+
+	if ! qdbus "${dbusRef}" /ProgressDialog &> /dev/null; then
+
+		#pkill -P $$
+		kill "$(jobs -p)"
+		exit 10
+
+	fi
+
+done
+
+qdbus "${dbusRef}" /ProgressDialog setLabelText "Buscando Subtitulos" &> /dev/null
+qdbus "${dbusRef}" /ProgressDialog Set "" "value" 99 &> /dev/null
 
 youtube-dl --list-subs "${link}" &> "${tmp}/subs"
 
-if grep -q "video doesn't have subtitles" "${tmp}/subs"; then
+if grep -q -E "video doesn't have subtitles|has no subtitles" "${tmp}/subs"; then
 
 	rm "${tmp}/subs"
 
 fi
 
 title=$(cat "${tmp}"/title)
+
+rm "${tmp}/title"
 
 if [[ -f "${tmp}/subs" ]]; then
 
@@ -146,11 +189,11 @@ if [[ -f "${tmp}/subs" ]]; then
 
 fi
 
-rm "${tmp}/title"
+qdbus "${dbusRef}" /ProgressDialog close &> /dev/null
 
 if [[ ${maxres} != "1000" ]]; then
 
-	moverACursor zenity --question --text="Descarga completa. Reproducir?" --ok-label="Yup"
+	moverACursor kdialog --title "Reproducir?" --yesno "Descarga completa. Reproducir?" &> /dev/null
 
 fi
 
@@ -162,7 +205,7 @@ if [[ $? == 0 || ${maxres} == "1000" ]]; then
 
 		if [[ ${maxres} != 1000 ]]; then
 
-			if moverACursor zenity --question --text="Unir a smtube?" --ok-label="Yup"; then
+			if moverACursor kdialog --title "smtube?" --yesno "Unir a smtube?" &> /dev/null; then
 
 				wid="--wid=${wid}"
 
@@ -180,14 +223,6 @@ if [[ $? == 0 || ${maxres} == "1000" ]]; then
 
 	fi
 
-	vapour=""
-
-	if [[ ${maxres} == "1000" ]]; then #nerfed
-
-		vapour="--profile=vapour"
-
-	fi
-
 	if [[ ${sub} ]]; then
 
 		mpv ${wid} --sub-file="${sub}" "${title}"
@@ -200,7 +235,7 @@ if [[ $? == 0 || ${maxres} == "1000" ]]; then
 
 	if [[ ${maxres} != "1000" ]]; then
 
-		moverACursor zenity --question --text="Guardar" --ok-label="Yup"
+		moverACursor kdialog --title "Guardar?" --yesno "Guardar?" &> /dev/null
 
 	fi
 
@@ -222,13 +257,11 @@ fi
 
 if echo "${title: -4}" | grep -q -F "."; then
 
-	ruta=$(moverACursor zenity --file-selection --save --confirm-overwrite \
-	--filename="${name}.${title: -3}");
+	ruta=$(moverACursor kdialog --getsavefilename "${HOME}/${name}.${title: -3}" 2>/dev/null);
 
 else
 
-	ruta=$(moverACursor zenity --file-selection --save --confirm-overwrite \
-	--filename="${name}.${title: -4}");
+	ruta=$(moverACursor kdialog --getsavefilename "${HOME}/${name}.${title: -4}" 2>/dev/null);
 
 fi
 

@@ -5,19 +5,12 @@ function pidtree() {
 	tp=( $(pgrep -P "$1") )
 
 	for i in "${tp[@]}"; do
-
 		if [ -z "${i}" ]; then
-
 			exit
-
 		else
-
 			echo "${i}"
-
 			pidtree "${i}"
-
 		fi
-
 	done
 
 }
@@ -31,13 +24,9 @@ fi
 for i in "$@"; do
 
 	if [[ ${args} ]]; then
-
 		args="${args} ${i}"
-
 	else
-
 		args="${i}"
-
 	fi
 
 done
@@ -55,21 +44,15 @@ if [[ ${id} ]]; then
 	ids=( ${id} $(pidtree "${id}") )
 
 	for id in "${ids[@]}"; do
-
 		windowid=$(wmctrl -l -p | grep "${id}" | awk '{print $1}')
 
 		if [[ ${windowid} ]]; then
-
-			i3-msg "[id=\"${windowid}\"] focus"
-
+			wmctrl -i -a ${windowid}
 			exit $?
-
 		fi
-
 	done
 
 fi
 
-i3-msg exec "${args}"
-
-exit $?
+eval "${args}" &
+disown

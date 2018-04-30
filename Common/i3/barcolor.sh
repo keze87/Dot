@@ -14,7 +14,7 @@ fi
 config=~/.config/i3/config
 currentcolor='#nerfed'
 
-known=( 'spotify' 'geany' 'terminator' 'chromium' 'pcmanfm' 'atril' 'Navigator' )
+known=( 'spotify' 'geany' 'terminator' 'konsole' 'kitty' 'chromium' 'okular' 'Navigator' 'lximageqt' 'libreoffice' 'Falkon' 'atom' 'pcmanfm' )
 
 ### tamaño pantalla
 xChico=1200
@@ -153,7 +153,7 @@ while true; do
 
 	case ${color} in
 
-		geany|chromium|pcmanfm|atril)
+		geany|chromium|okular|lximageqt|libreoffice|Falkon|pcmanfm)
 
 			color='appTheme'
 
@@ -163,11 +163,7 @@ while true; do
 
 	if [[ ${cantMonitor} == 2 ]]; then
 
-		if [[ ${color} == 'Transparente' || ${color} == 'EscritorioDesktop' ]]; then
-
-			color='Negro'
-
-		fi
+		color='Negro'
 
 	fi
 
@@ -199,6 +195,26 @@ while true; do
 				client.focused_inactive #353638 #353638 #ffffff #2C3133
 				client.unfocused #2C3133 #2C3133 #ffffff #2C3133
 				#4AAEE8'	>> "${config}"
+
+			;;
+
+			atom)
+
+				echo '
+					colors {
+						separator #B07745
+						background #393344
+						statusline #F1EBFF
+						focused_workspace #302A39 #302A39 #F1EBFF
+						active_workspace #302A39 #302A39 #F1EBFF
+						inactive_workspace #393344 #393344 #F1EBFF
+						urgent_workspace #900000 #900000 #F1EBFF
+					}
+				}
+				client.focused #302A39 #302A39 #F1EBFF #302A39
+				client.focused_inactive #302A39 #302A39 #F1EBFF #302A39
+				client.unfocused #393344 #393344 #F1EBFF #393344
+				#B07745'	>> "${config}"
 
 			;;
 
@@ -246,23 +262,23 @@ while true; do
 
 				echo '
 					colors {
-						separator #2466AB
-						background #33393B
+						separator #3DAEE9
+						background #31363B
 						statusline #ffffff
-						focused_workspace #33393B #33393B #2466AB
-						active_workspace #33393B #33393B #2466AB
-						inactive_workspace #33393B #33393B #ffffff
+						focused_workspace #31363B #31363B #3DAEE9
+						active_workspace #31363B #31363B #3DAEE9
+						inactive_workspace #31363B #31363B #ffffff
 						urgent_workspace #900000 #900000 #ffffff
 					}
 				}
-				client.focused #2466AB #2466AB #ffffff #2466AB
-				client.focused_inactive #353638 #353638 #ffffff #33393B
-				client.unfocused #33393B #33393B #ffffff #33393B
-				#2466AB'	>> "${config}"
+				client.focused #3DAEE9 #3DAEE9 #ffffff #3DAEE9
+				client.focused_inactive #353638 #353638 #ffffff #31363B
+				client.unfocused #31363B #31363B #ffffff #31363B
+				#3DAEE9'	>> "${config}"
 
 			;;
 
-			terminator)
+			terminator | konsole | kitty)
 
 				echo '
 					colors {
@@ -326,19 +342,19 @@ while true; do
 
 				echo '
 					colors {
-						separator #215D9C
+						separator #3DAEE9
 						background #00000000
 						statusline #ffffff
-						focused_workspace #215D9C #215D9C #ffffff
+						focused_workspace #3DAEE9 #3DAEE9 #ffffff
 						active_workspace #454749 #454749 #ffffff
 						inactive_workspace #00000000 #00000000 #ffffff
 						urgent_workspace #900000 #900000 #ffffff
 					}
 				}
-				client.focused #215D9C #215D9C #ffffff #215D9C
+				client.focused #3DAEE9 #3DAEE9 #ffffff #3DAEE9
 				client.focused_inactive #353638 #353638 #ffffff #454749
 				client.unfocused #454749 #454749 #ffffff #454749
-				#215D9C'	>> "${config}"
+				#3DAEE9'	>> "${config}"
 
 			;;
 
@@ -348,7 +364,11 @@ while true; do
 
 		i3-msg reload
 
-		sleep 2
+		if [[ ${cantMonitor} == 2 ]]; then
+
+			exit
+
+		fi
 
 	fi
 

@@ -34,6 +34,7 @@ alias open='gio open'
 alias ls='ls --color=auto -lah'
 alias zcalc='autoload -Uz zcalc && zcalc'
 alias orion='xset -dpms && xset s off && orion -d; xset +dpms; xset s on'
+alias micro='TERM=xterm-256color micro'
 
 alias logcat='
 	while true; do
@@ -48,10 +49,12 @@ alias pop2='
 		'
 
 editar() {
-	if [ "$#" -lt 2 ]; then
-		echo 'editar $EDITOR $archivo'
+	if [ "$#" = 1 ]; then
+		#echo 'editar $EDITOR $archivo'
 
-		return 1
+		EDITOR=vi sudoedit $1
+
+		return $?
 	fi
 
 	EDITOR=$1 sudoedit $2
@@ -219,3 +222,5 @@ fi
 
 VISUAL="vi"
 EDITOR="vi"
+
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

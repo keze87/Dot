@@ -10,26 +10,28 @@ smart_borders on
 for_window [class="^.*"] border pixel 1
 
 for_window [class="Main.py"] floating enable
+for_window [class="yakuake"] floating enable
 for_window [class="wplotsp.exe"] floating enable
 for_window [class="Pavucontrol"] floating enable
 for_window [class="etcher"] floating enable
 for_window [class="XTerm"] floating enable
+for_window [class="Gnome-calculator"] floating enable
+for_window [class="Audacious"] sticky enable
 for_window [title="Steam Keyboard"] floating enable
 for_window [title="Nitrogen"] floating enable
 for_window [title="Qmmp"] sticky enable
 for_window [title="albert"] sticky enable
 
-#exec --no-startup-id conky
-exec --no-startup-id chromium --no-startup-window
+exec --no-startup-id yakuake
+#exec --no-startup-id chromium --no-startup-window
 exec --no-startup-id albert
-exec --no-startup-id GTK_THEME=Adwaita-dark guake
 exec --no-startup-id compton
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1
 exec_always --no-startup-id nitrogen --restore
 
-#exec --no-startup-id sh -c "while true; do terminator --title='flotando'; sleep; done"
-#for_window [class="Terminator" title="flotando"] move scratchpad, resize set 1366 768, move absolute position center
-#bindsym F12 [class="Terminator"] scratchpad show;
+#exec --no-startup-id sh -c "while true; do kitty --title='flotando'; sleep; done"
+#for_window [class="kitty" title="flotando"] move scratchpad, resize set 1366 768, move absolute position center
+#bindsym F12 [class="kitty"] scratchpad show;
 
 #bindsym $mod+Shift+minus move scratchpad
 #bindsym $mod+minus scratchpad show
@@ -51,7 +53,8 @@ bindsym $mod+q exec $1 ~/.config/i3/apagar.sh
 bindsym $mod+n exec --no-startup-id bash ~/.config/i3/invert.sh
 bindsym $alt+Tab exec --no-startup-id bash ~/.config/i3/tab.sh
 bindsym $mod+t exec --no-startup-id compton-trans $(zenity --scale --text="Cuan opaco?" --value=90)
-bindsym $mod+Return exec $1 /usr/bin/python2 /usr/bin/terminator
+bindsym $mod+Return exec $1 kitty
+bindsym Print exec $1 spectacle
 
 bindsym $mod+Tab workspace next
 
@@ -155,6 +158,8 @@ bindsym $mod+b bar mode toggle
 
 bar {
 
+	#verbose yes
+
 	i3bar_command i3bar -t
 	position top
 	separator_symbol "|"
@@ -164,6 +169,7 @@ bar {
 	bindsym button3 exec --no-startup-id bash ~/.config/i3/work.sh
 	bindsym button2 kill
 
-	status_command bash ~/.config/i3/i3status.sh
+	status_command .config/i3/i3status.sh
+	#status_command i3status
 
 }

@@ -74,31 +74,15 @@ while true; do
 
 	player=""
 
-	if playerctl status 2>&1 | grep -q Playing; then
+	if playerctl status | grep -q "Playing"; then
 
-		if playerctl -p spotify status | grep -q Playing; then
+		player=$(playerctl -l | sort | tail -n 1)
 
-			player="spotify"
+		artist=$(playerctl metadata artist | iconv -f UTF-8 -t ASCII//TRANSLIT | cut -c1-100 | tr '"' "'")
 
-		else
+		album=$(playerctl metadata album | iconv -f UTF-8 -t ASCII//TRANSLIT | cut -c1-100 | tr '"' "'")
 
-			if playerctl -p audacious status | grep -q Playing; then
-
-				player="audacious"
-
-			fi
-
-		fi
-
-	fi
-
-	if [[ ${player} ]]; then
-
-		artist=$(playerctl -p ${player} metadata artist | tr '"' "'")
-
-		album=$(playerctl -p ${player} metadata album | tr '"' "'")
-
-		title=$(playerctl -p ${player} metadata title | tr '"' "'")
+		title=$(playerctl metadata title | iconv -f UTF-8 -t ASCII//TRANSLIT | cut -c1-100 | tr '"' "'")
 
 	fi
 

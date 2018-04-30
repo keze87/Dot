@@ -2,7 +2,7 @@
 
 # dialog rsync pygmentize expac rtmpdump
 # youtube-dl aria2c mpv wmctrl FontAwesome rsstail
-# xdotool
+# xdotool pamixer
 
 dir=~/.Dot
 olddir=~/Dot_Old

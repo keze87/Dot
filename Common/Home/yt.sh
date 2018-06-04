@@ -81,8 +81,8 @@ if [[ ${maxres} == 1000 ]]; then
 
 	while [[ ${aux} != *[[:digit:]]* ]] ; do
 
-		aux=$(kdialog --radiolist "${link}<br>Resolucion?" "600" "SD" off "1000" "HD" off \
-"1100" "FHD" on "9000" "8K" off)
+		aux=$(kdialog --radiolist "${link}<br>Resolucion?" "600" "SD" off "1000" "HD" on \
+"1100" "FHD" off "9000" "8K" off)
 
 		if [[ $? != 0 ]]; then
 
@@ -110,8 +110,8 @@ if [[ $? != 0 ]]; then
 
 fi
 
-args='--allow-overwrite=true -c --file-allocation=none --log-level=error
--m2 -x8 --max-file-not-found=5 -k5M --no-conf -Rtrue --summary-interval=0 -t5'
+args='--allow-overwrite=true -c --file-allocation=none -m2 -x8
+--max-file-not-found=5 --no-conf -Rtrue --summary-interval=0 -t5'
 
 text="$(echo "${name}" | tr '&' 'y')"
 

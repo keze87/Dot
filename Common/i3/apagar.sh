@@ -1,8 +1,8 @@
 #!/bin/bash
 
-ACTION=$(kdialog --radiolist "Que hago vieja?" "Apagar" "Apagar" on "Cerrar Seccion" "Cerrar Seccion" \
-off "Reiniciar" "Reiniciar" off "Suspender" "Suspender" off "Apagar monitor" "Apagar monitor" off)
-
+ACTION=$(zenity --width=200 --height=230 --list --radiolist --hide-header --text="Que hago vieja?" \
+--title="Salir" --column "Eleccion" --column "" \
+TRUE Apagar FALSE Cerrar\ Seccion FALSE Reiniciar FALSE Suspender FALSE Apagar\ monitor)
 if [ -n "${ACTION}" ];then
 
 	case $ACTION in

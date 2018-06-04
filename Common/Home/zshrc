@@ -34,7 +34,6 @@ alias open='gio open'
 alias ls='ls --color=auto -lah'
 alias zcalc='autoload -Uz zcalc && zcalc'
 alias orion='xset -dpms && xset s off && orion -d; xset +dpms; xset s on'
-alias micro='TERM=xterm-256color micro'
 
 alias logcat='
 	while true; do
@@ -118,7 +117,8 @@ radio() {
 	esac
 
 	while [[ "${url}" ]]; do
-		mpv --no-config --force-seekable=yes --cache-initial=240 --cache-pause "${url}";
+		#mpv --no-config --force-seekable=yes --cache-initial=240 --cache-pause "${url}";
+		audacious "${url}";
 		sleep 1;
 	done
 }

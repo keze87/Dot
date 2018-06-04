@@ -1,4 +1,7 @@
 #!/bin/bash
+
+#set -x
+
 # Public Domain
 # (someone claimed the next lines would be useful for…
 #  people. So here goes: © 2012 Stefan Breunig
@@ -48,8 +51,8 @@ if [[ "${time_diff}" -gt 0 ]]; then
   tx_rate=$(( $tx_diff / $time_diff ))
 
   # shift by 10 bytes to get KiB/s. If the value is larger than
-  # 1024^2 = 1048576, then display MiB/s instead (simply cut off  
-  # the last two digits of KiB/s). Since the values only give an  
+  # 1024^2 = 1048576, then display MiB/s instead (simply cut off
+  # the last two digits of KiB/s). Since the values only give an
   # rough estimate anyway, this improper rounding is negligible.
 
   # incoming

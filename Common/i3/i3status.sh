@@ -79,10 +79,15 @@ while true; do
 		player=$(playerctl -l | sort | tail -n 1)
 
 		artist=$(playerctl metadata artist | iconv -f UTF-8 -t ASCII//TRANSLIT | cut -c1-100 | tr '"' "'")
+		album=$( playerctl metadata album  | iconv -f UTF-8 -t ASCII//TRANSLIT | cut -c1-100 | tr '"' "'")
+		title=$( playerctl metadata title  | iconv -f UTF-8 -t ASCII//TRANSLIT | cut -c1-100 | tr '"' "'")
 
-		album=$(playerctl metadata album | iconv -f UTF-8 -t ASCII//TRANSLIT | cut -c1-100 | tr '"' "'")
+		if [[ "${album}" == "blaster.cdn.sion.com" ]]; then
 
-		title=$(playerctl metadata title | iconv -f UTF-8 -t ASCII//TRANSLIT | cut -c1-100 | tr '"' "'")
+			album=""
+			title="Rock&Pop"
+
+		fi
 
 	fi
 
@@ -190,7 +195,7 @@ while true; do
 
 #		volumen=$(amixer get Master | grep "Front Right:" | awk '{print $5}' | tr -d "[]%")
 
-		if pamixer --list-sources | grep -q 5.1; then
+		if pamixer --list-sources | grep -q 41.monitor; then
 
 			headphones=false;
 
@@ -356,7 +361,7 @@ while true; do
 
 		color=$(grep '#' < ~/memo | grep -v ':' | tr -c -d '[:alnum:]')
 
-		if ! echo "${color}" | grep -q '^[0-9A-F]\{6\}$'; then
+		if ! echo "${color}" | grep -q '^[0-9A-F]\{6\}$'; then # Solo mayusculas
 
 			color='FFFFFF'
 

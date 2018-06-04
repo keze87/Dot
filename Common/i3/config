@@ -10,23 +10,24 @@ smart_borders on
 for_window [class="^.*"] border pixel 1
 
 for_window [class="Main.py"] floating enable
-for_window [class="yakuake"] floating enable
+for_window [class="guake"] floating enable
 for_window [class="wplotsp.exe"] floating enable
 for_window [class="Pavucontrol"] floating enable
 for_window [class="etcher"] floating enable
 for_window [class="XTerm"] floating enable
-for_window [class="Gnome-calculator"] floating enable
+for_window [class="SpeedCrunch"] floating enable
 for_window [class="Audacious"] sticky enable
 for_window [title="Steam Keyboard"] floating enable
 for_window [title="Nitrogen"] floating enable
 for_window [title="Qmmp"] sticky enable
 for_window [title="albert"] sticky enable
 
-exec --no-startup-id yakuake
+exec --no-startup-id guake
 #exec --no-startup-id chromium --no-startup-window
 exec --no-startup-id albert
 exec --no-startup-id compton
-exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1
+exec --no-startup-id /usr/lib/mate-polkit/polkit-mate-authentication-agent-1
+exec --no-startup-id redshift
 exec_always --no-startup-id nitrogen --restore
 
 #exec --no-startup-id sh -c "while true; do kitty --title='flotando'; sleep; done"
@@ -39,13 +40,13 @@ exec_always --no-startup-id nitrogen --restore
 bindsym $alt+Up exec --no-startup-id $1 ~/.config/i3/volumen.sh
 bindsym $alt+Down exec --no-startup-id $1 ~/.config/i3/volumen.sh
 
-bindsym $alt+Pause exec --no-startup-id playerctl play-pause
+bindsym Pause exec --no-startup-id playerctl play-pause
 bindsym $alt+Home exec --no-startup-id playerctl previous
 bindsym $alt+End exec --no-startup-id playerctl next
 
 bindsym $mod+w exec chromium
-bindsym $alt+w exec $1 falkon
-bindsym $mod+e exec $1 pcmanfm
+bindsym $alt+w exec $1 firefox
+bindsym $mod+e exec $1 caja
 bindsym $mod+g exec $1 geany
 bindsym $mod+s exec $1 sh /usr/bin/spotify
 bindsym $alt+s exec $1 ~/.ss.sh
@@ -53,8 +54,8 @@ bindsym $mod+q exec $1 ~/.config/i3/apagar.sh
 bindsym $mod+n exec --no-startup-id bash ~/.config/i3/invert.sh
 bindsym $alt+Tab exec --no-startup-id bash ~/.config/i3/tab.sh
 bindsym $mod+t exec --no-startup-id compton-trans $(zenity --scale --text="Cuan opaco?" --value=90)
-bindsym $mod+Return exec $1 kitty
-bindsym Print exec $1 spectacle
+bindsym $mod+Return exec $1 terminator
+bindsym Print exec $1 mate-screenshot
 
 bindsym $mod+Tab workspace next
 

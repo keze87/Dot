@@ -1,6 +1,8 @@
 #!/bin/bash
 #vim set lang spanglish
 
+#set -x
+
 if [[ -f ~/.dotlaptop ]]; then
 
 	host='Laptop';
@@ -14,7 +16,8 @@ fi
 config=~/.config/i3/config
 currentcolor='#nerfed'
 
-known=( 'spotify' 'geany' 'terminator' 'konsole' 'kitty' 'chromium' 'okular' 'Navigator' 'lximageqt' 'libreoffice' 'Falkon' 'atom' 'pcmanfm' )
+known=( 'spotify' 'geany' 'terminator' 'chromium' 'atril' 'Navigator' 'libreoffice' 'atom' 'caja' 'eom' \
+		'wxmaxima' 'qbittorrent' )
 
 ### tamaño pantalla
 xChico=1200
@@ -143,9 +146,8 @@ while true; do
 
 			color="Escritorio${host}"
 
-		else
-
-			color='Transparente'
+#		else
+#			color='Transparente'
 
 		fi
 
@@ -153,11 +155,15 @@ while true; do
 
 	case ${color} in
 
-		geany|chromium|okular|lximageqt|libreoffice|Falkon|pcmanfm)
+		geany|chromium|libreoffice|caja|wxmaxima|qbittorrent|atril|eom)
 
 			color='appTheme'
 
 		;;
+
+#		evince|eog)
+#			color='appTheme2'
+#		;;
 
 	esac
 
@@ -182,19 +188,19 @@ while true; do
 
 				echo '
 					colors {
-						separator #4AAEE8
+						separator #3DAEE9
 						background #000000
-						statusline #ffffff
-						focused_workspace #4AAEE8 #4AAEE8 #ffffff
-						active_workspace #2C3133 #2C3133 #ffffff
-						inactive_workspace #000000 #000000 #ffffff
-						urgent_workspace #900000 #900000 #ffffff
+						statusline #FFFFFF
+						focused_workspace #3DAEE9 #3DAEE9 #FFFFFF
+						active_workspace #33393B #33393B #FFFFFF
+						inactive_workspace #000000 #000000 #FFFFFF
+						urgent_workspace #215D9C #215D9C #FFFFFF
 					}
 				}
-				client.focused #4AAEE8 #4AAEE8 #ffffff #4AAEE8
-				client.focused_inactive #353638 #353638 #ffffff #2C3133
-				client.unfocused #2C3133 #2C3133 #ffffff #2C3133
-				#4AAEE8'	>> "${config}"
+				client.focused #3DAEE9 #3DAEE9 #FFFFFF #3DAEE9
+				client.focused_inactive #215F80 #215F80 #FFFFFF #33393B
+				client.unfocused #33393B #33393B #FFFFFF #33393B
+				#3DAEE9'	>> "${config}"
 
 			;;
 
@@ -208,7 +214,7 @@ while true; do
 						focused_workspace #302A39 #302A39 #F1EBFF
 						active_workspace #302A39 #302A39 #F1EBFF
 						inactive_workspace #393344 #393344 #F1EBFF
-						urgent_workspace #900000 #900000 #F1EBFF
+						urgent_workspace #215D9C #215D9C #F1EBFF
 					}
 				}
 				client.focused #302A39 #302A39 #F1EBFF #302A39
@@ -224,16 +230,16 @@ while true; do
 					colors {
 						separator #0A84FF
 						background #0C0C0D
-						statusline #ffffff
-						focused_workspace #0A84FF #0A84FF #ffffff
-						active_workspace #2C3133 #2C3133 #ffffff
-						inactive_workspace #0C0C0D #0C0C0D #ffffff
-						urgent_workspace #900000 #900000 #ffffff
+						statusline #FFFFFF
+						focused_workspace #0A84FF #0A84FF #FFFFFF
+						active_workspace #2C3133 #2C3133 #FFFFFF
+						inactive_workspace #0C0C0D #0C0C0D #FFFFFF
+						urgent_workspace #215D9C #215D9C #FFFFFF
 					}
 				}
-				client.focused #0A84FF #0A84FF #ffffff #0A84FF
-				client.focused_inactive #353638 #353638 #ffffff #0C0C0D
-				client.unfocused #0C0C0D #0C0C0D #ffffff #0C0C0D
+				client.focused #0A84FF #0A84FF #FFFFFF #0A84FF
+				client.focused_inactive #353638 #353638 #FFFFFF #0C0C0D
+				client.unfocused #0C0C0D #0C0C0D #FFFFFF #0C0C0D
 				#0A84FF'	>> "${config}"
 
 			;;
@@ -244,16 +250,16 @@ while true; do
 					colors {
 						separator #1DB954
 						background #121212
-						statusline #ffffff
-						focused_workspace #1DB954 #1DB954 #ffffff
-						active_workspace #454749 #454749 #ffffff
-						inactive_workspace #121212 #121212 #ffffff
-						urgent_workspace #900000 #900000 #ffffff
+						statusline #FFFFFF
+						focused_workspace #1DB954 #1DB954 #FFFFFF
+						active_workspace #454749 #454749 #FFFFFF
+						inactive_workspace #121212 #121212 #FFFFFF
+						urgent_workspace #215D9C #215D9C #FFFFFF
 					}
 				}
-				client.focused #1DB954 #1DB954 #ffffff #1DB954
-				client.focused_inactive #353638 #353638 #ffffff #454749
-				client.unfocused #121212 #121212 #ffffff #454749
+				client.focused #1DB954 #1DB954 #FFFFFF #1DB954
+				client.focused_inactive #353638 #353638 #FFFFFF #454749
+				client.unfocused #121212 #121212 #FFFFFF #454749
 				#1ED660'	>> "${config}"
 
 			;;
@@ -263,58 +269,58 @@ while true; do
 				echo '
 					colors {
 						separator #3DAEE9
-						background #31363B
-						statusline #ffffff
-						focused_workspace #31363B #31363B #3DAEE9
-						active_workspace #31363B #31363B #3DAEE9
-						inactive_workspace #31363B #31363B #ffffff
-						urgent_workspace #900000 #900000 #ffffff
+						background #33393B
+						statusline #FFFFFF
+						focused_workspace #33393B #33393B #3DAEE9
+						active_workspace #33393B #33393B #3DAEE9
+						inactive_workspace #33393B #33393B #FFFFFF
+						urgent_workspace #215D9C #215D9C #FFFFFF
 					}
 				}
-				client.focused #3DAEE9 #3DAEE9 #ffffff #3DAEE9
-				client.focused_inactive #353638 #353638 #ffffff #31363B
-				client.unfocused #31363B #31363B #ffffff #31363B
+				client.focused #3DAEE9 #3DAEE9 #FFFFFF #3DAEE9
+				client.focused_inactive #353638 #353638 #FFFFFF #33393B
+				client.unfocused #33393B #33393B #FFFFFF #33393B
 				#3DAEE9'	>> "${config}"
 
 			;;
 
-			terminator | konsole | kitty)
+			appTheme2)
+
+				echo '
+					colors {
+						separator #3DAEE9
+						background #2C3133
+						statusline #FFFFFF
+						focused_workspace #2C3133 #2C3133 #3DAEE9
+						active_workspace #2C3133 #2C3133 #3DAEE9
+						inactive_workspace #2C3133 #2C3133 #FFFFFF
+						urgent_workspace #215D9C #215D9C #FFFFFF
+					}
+				}
+				client.focused #3DAEE9 #3DAEE9 #FFFFFF #3DAEE9
+				client.focused_inactive #353638 #353638 #FFFFFF #2C3133
+				client.unfocused #2C3133 #2C3133 #FFFFFF #2C3133
+				#3DAEE9'	>> "${config}"
+
+			;;
+
+			terminator)
 
 				echo '
 					colors {
 						separator #8AE234
 						background #000000CC
-						statusline #ffffff
-						focused_workspace #8AE234 #8AE234 #ffffff
-						active_workspace #454749 #454749 #ffffff
-						inactive_workspace #000000CC #000000CC #ffffff
-						urgent_workspace #900000 #900000 #ffffff
+						statusline #FFFFFF
+						focused_workspace #8AE234 #8AE234 #FFFFFF
+						active_workspace #454749 #454749 #FFFFFF
+						inactive_workspace #000000CC #000000CC #FFFFFF
+						urgent_workspace #215D9C #215D9C #FFFFFF
 					}
 				}
-				client.focused #8AE234 #8AE234 #ffffff #8AE234
-				client.focused_inactive #353638 #353638 #ffffff #454749
-				client.unfocused #454749 #454749 #ffffff #454749
+				client.focused #3DAEE9 #3DAEE9 #FFFFFF #3DAEE9
+				client.focused_inactive #353638 #353638 #FFFFFF #454749
+				client.unfocused #454749 #454749 #FFFFFF #454749
 				#8AE234'	>> "${config}"
-
-			;;
-
-			EscritorioDesktop)
-
-				echo '
-					colors {
-						separator #5DC632
-						background #00000000
-						statusline #ffffff
-						focused_workspace #5DC632 #5DC632 #ffffff
-						active_workspace #454749 #454749 #ffffff
-						inactive_workspace #00000000 #00000000 #ffffff
-						urgent_workspace #900000 #900000 #ffffff
-					}
-				}
-				client.focused #16A085 #16A085 #ffffff #16A085
-				client.focused_inactive #353638 #353638 #ffffff #454749
-				client.unfocused #454749 #454749 #ffffff #454749
-				#5DC632'	>> "${config}"
 
 			;;
 
@@ -324,37 +330,37 @@ while true; do
 					colors {
 						separator #FB574D
 						background #00000000
-						statusline #ffffff
-						focused_workspace #FB574D #FB574D #ffffff
-						active_workspace #454749 #454749 #ffffff
-						inactive_workspace #00000000 #00000000 #ffffff
-						urgent_workspace #900000 #900000 #ffffff
+						statusline #FFFFFF
+						focused_workspace #FB574D #FB574D #FFFFFF
+						active_workspace #454749 #454749 #FFFFFF
+						inactive_workspace #00000000 #00000000 #FFFFFF
+						urgent_workspace #215D9C #215D9C #FFFFFF
 					}
 				}
-				client.focused #16A085 #16A085 #ffffff #16A085
-				client.focused_inactive #353638 #353638 #ffffff #454749
-				client.unfocused #454749 #454749 #ffffff #454749
+				client.focused #3DAEE9 #3DAEE9 #FFFFFF #3DAEE9
+				client.focused_inactive #353638 #353638 #FFFFFF #454749
+				client.unfocused #454749 #454749 #FFFFFF #454749
 				#FB574D'	>> "${config}"
 
 			;;
 
-			*) # Transparente
+			*) #Escritorio desktop & transparente
 
 				echo '
 					colors {
-						separator #3DAEE9
+						separator #A02619
 						background #00000000
-						statusline #ffffff
-						focused_workspace #3DAEE9 #3DAEE9 #ffffff
-						active_workspace #454749 #454749 #ffffff
-						inactive_workspace #00000000 #00000000 #ffffff
-						urgent_workspace #900000 #900000 #ffffff
+						statusline #FFFFFF
+						focused_workspace #A02619 #A02619 #FFFFFF
+						active_workspace #454749 #454749 #FFFFFF
+						inactive_workspace #00000000 #00000000 #FFFFFF
+						urgent_workspace #215D9C #215D9C #FFFFFF
 					}
 				}
-				client.focused #3DAEE9 #3DAEE9 #ffffff #3DAEE9
-				client.focused_inactive #353638 #353638 #ffffff #454749
-				client.unfocused #454749 #454749 #ffffff #454749
-				#3DAEE9'	>> "${config}"
+				client.focused #3DAEE9 #3DAEE9 #FFFFFF #3DAEE9
+				client.focused_inactive #353638 #353638 #FFFFFF #454749
+				client.unfocused #454749 #454749 #FFFFFF #454749
+				#A02619'	>> "${config}"
 
 			;;
 
